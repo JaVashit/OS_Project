@@ -46,8 +46,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\kr001\Downloads\SFML-2.4.0-windows-vc11-32-bit\SFML-2.4.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\kr001\Downloads\SFML-2.4.0-windows-vc11-32-bit\SFML-2.4.0\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SFML_DIR)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SFML_DIR)\lib;$(LibraryPath)</LibraryPath>
     <EmbedManifest>true</EmbedManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
