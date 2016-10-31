@@ -2,6 +2,7 @@
 #include <vector>
 #include "character.hpp"
 
+
 Character::Character(int player){
     
     if (player == 1) {
