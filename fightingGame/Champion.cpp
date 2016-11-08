@@ -1,7 +1,6 @@
-#include "Champion.h"
+#include "Champion.hpp"
 
-template <typename T>
-Champion<T>::Champion(int player, int m_number){
+Champion::Champion(int player, int m_number){
 	this->player = player;
 	this->modelNumber = m_number;
 
@@ -14,69 +13,118 @@ Champion<T>::Champion(int player, int m_number){
 
 	hp = 100;
 	mp = 0;
+	speed = 1.0;
 
 	attack = false;
 	barrier = false;
+
+	selectSkin = false;
 }
 
-template <typename T>
-sf::Vector2<T> Champion<T>::getPosition(){
+Champion::~Champion(){};
+
+sf::Vector2<float> Champion::getPosition(){
 	return this->pos;
 }
 
-template <typename T>
-void Champion<T>::setPosition(float _x, float _y){
+void Champion::setPosition(float _x, float _y){
 	pos.x = _x;
 	pos.y = _y;
 }
 
-template <typename T>
-int Champion<T>::getHp(){
+int Champion::getHp(){
 	return this->hp;
 }
 
-template <typename T>
-void Champion<T>::setHp(int _hp){
+
+void Champion::setHp(int _hp){
 	this->hp = _hp;
 }
 
-template <typename T>
-int Champion<T>::getMp(){
+
+int Champion::getMp(){
 	return this->mp;
 }
 
-template <typename T>
-void Champion<T>::setMp(int _mp){
+
+void Champion::setMp(int _mp){
 	this->mp = _mp;
 }
 
-template <typename T>
-bool Champion<T>::isAttacking(){
+
+bool Champion::isAttacking(){
 	return attack;
 }
 
-template <typename T>
-bool Champion<T>::isBarrier(){
+
+bool Champion::isBarrier(){
 	return barrier;
 }
 
-template <typename T>
-void Champion<T>::setAttack(bool a){
+
+void Champion::setAttack(bool a){
 	attack = a;
 }
 
-template <typename T>
-void Champion<T>::setBarrier(bool b){
+
+void Champion::setBarrier(bool b){
 	barrier = b;
 }
 
-template <typename T>
-void Champion<T>::drawChampion(){
+
+void Champion::drawChampion(){
 	//draw champion
 }
 
-template <typename T>
-bool Champion<T>::isDeath(){
+
+bool Champion::isDeath(){
 	if(hp<=0) return true;
 	else return false;
+}
+
+
+bool Champion::isGrounded(){
+	return grounded;
+}
+
+
+void Champion::setGrounded(bool g){
+	grounded = g;
+}
+
+
+float Champion::getSpeed(){
+	return speed;
+}
+
+
+void Champion::setSpeed(float s){
+	speed = s;
+}
+
+void Champion::loadCharacter(sf::Sprite &player){
+    
+    player.setTextureRect(sf::IntRect(spr.x, spr.y,32,32));
+    player.scale(2.f, 2.f);
+    player.setOrigin(16,16);
+}
+
+void Champion::calculateSpritePos(int step){
+	spr.x = (modelNumber-1)%4*96+32+32*step;
+    spr.y = (modelNumber-1)/4*128+32+32*facing;
+}
+
+void Champion::calculateSpritePunch(){
+    spr.x = (modelNumber-1)%4*96+32+32*facing;
+    spr.y = (modelNumber-1)/4*128;
+}
+
+void Champion::calculateSpriteBlock(){
+    spr.x = (modelNumber-1)%4*96+32+32*facing;
+    spr.y = (modelNumber-1)/4*128+96;
+}
+
+void Champion::nextSkin(){
+    modelNumber = modelNumber%8+1;
+	calculateSpritePos(0);  
 }
