@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <vector>
-#include "character.hpp"
+//#include "character.hpp"
 #include "game.hpp"
 #include "Champion.hpp"
 
@@ -32,9 +32,6 @@ int Game::Run()
 	ay = 600;
     damage = 10;
     
-    
-    Character character1(1);
-    Character character2(2);
 	Champion c1 = Champion(1, 0, w_width, w_height);
 	Champion c2 = Champion(0, 0, w_width, w_height);
     
