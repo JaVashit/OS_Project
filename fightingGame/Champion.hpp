@@ -6,9 +6,11 @@ class Champion{
 private:
 	sf::Vector2 <float> pos;
 	sf::Vector2 <float> spr;
-	bool facing;
+	int facing;
 	int player;
 	float speed;
+	float ay;
+	float vy;
 
 	int hp;
 	int mp;
@@ -16,11 +18,15 @@ private:
 	bool attack;
 	bool barrier;
 	bool grounded;
+	bool dash;
 
 	int modelNumber;
 
 public:
-	Champion(int p, int m_number);
+	int w_Width;
+	int w_Height;
+
+	Champion(int p, int m_number, int width, int height);
 	~Champion();
 	
 	bool selectSkin;
@@ -33,10 +39,18 @@ public:
 
 	void setPosition(float, float);
 	sf::Vector2<float> getPosition();
-	
-	void setAttack(bool);
-	void setBarrier(bool);
-	void setGrounded(bool);
+	void setSpr(float, float);
+	sf::Vector2<float> getSpr();
+
+	void move(float left, float right, float jump);
+	void caculatePosY();
+
+	void setAttack(bool attacking);
+	void setBarrier(bool barriering);
+	void setGrounded(bool grounded);
+	void setFacing(int facing);
+	void setDash(bool);
+	bool isDash();
 	bool isAttacking();
 	bool isBarrier();
 	bool isGrounded();

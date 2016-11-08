@@ -12,6 +12,8 @@ Game::Game(sf::RenderWindow *window): _myWindow(window){
     damage = 10;
     hell = 0;
     dmgred = 0.8;
+	w_width = _myWindow->getSize().x;
+	w_height = _myWindow->getSize().y;
 }
 
 int Game::Run()
@@ -37,8 +39,8 @@ int Game::Run()
     
     Character character1(1);
     Character character2(2);
-	Champion c1 = Champion(1, 0);
-	Champion c2 = Champion(0, 0);
+	Champion c1 = Champion(1, 0, w_width, w_height);
+	Champion c2 = Champion(0, 0, w_width, w_height);
     
     //Create and load player 1 arguments
     sf::Sprite player1;
@@ -58,7 +60,12 @@ int Game::Run()
     HpBar2.setFillColor(sf::Color(50,100,50));
     HpBar2.setPosition(775.f,25.f);
     HpBar2.setScale(-1.f,1.f);
-    
+	sf::RectangleShape MpBar1(sf::Vector2f(350.f,10.f)), MpBar2(sf::Vector2f(350.f,10.f));
+    MpBar1.setFillColor(sf::Color(255,255,0));
+    MpBar1.setPosition(25.f,45.f);
+    MpBar2.setFillColor(sf::Color(255,255,0));
+    MpBar2.setPosition(775.f,45.f);
+    MpBar2.setScale(-1.f,1.f);
     
     sf::Music music;
     if (hell){
@@ -70,11 +77,8 @@ int Game::Run()
     
     //Other variables
     
-    sf::Clock deltaClock;
-    
     while (_myWindow->isOpen())
     {
-        
         sf::Event event;
         while (_myWindow->pollEvent(event))
         {
@@ -87,65 +91,113 @@ int Game::Run()
         }
         
         //Player 1 movement
-		if (c1.isGrounded() && ! sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				c1.move(0, 5, 0);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            }
+				c1.move(5, 0, 0);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && c1.isGrounded()) {
+				c1.move(0, 0, -5);
+			}
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            } 
+				c1.move(0, 0, 0);
+				c1.setBarrier(true);
+				c1.calculateSpriteBlock();
+				//player1.setTextureRect(sf::IntRect(c1.getSpr().x,c1.getSpr().y,32,32));
+			} 
+			else{
+				c1.setBarrier(false);
+			}
         }
         //Player 1 actions
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            
-           
-            player1.setTextureRect(sf::IntRect(character1.spr.x,character1.spr.y,32,32));
+			c1.setAttack(true);
+            c1.calculateSpritePunch();
+            //player1.setTextureRect(sf::IntRect(c1.getSpr().x,c1.getSpr().y,32,32));
         }
+		else{
+			c1.setAttack(false);
+			//c1.calculateSpritePos(0);
+		}
         
         //Player 2 movement
-        if (! sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)){
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				c2.move(0, 5, 0);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				c2.move(5, 0, 0);
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up )&& c2.isGrounded()) {
+				c2.move(0, 0, -5);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                
-                
-                player2.setTextureRect(sf::IntRect(character2.spr.x,character2.spr.y,32,32));
-            } 
+				c2.move(0, 0, 0);
+				c2.setBarrier(true);
+				c2.calculateSpriteBlock();
+				//player2.setTextureRect(sf::IntRect(c2.getSpr().x,c2.getSpr().y,32,32));
+			} 
+			else{
+				c2.setBarrier(false);
+			}
         }
         //Player 2 actions
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)) {
-            //Player 1      Player 2 
-            
-            //Player 2      Player 1
+            c2.setAttack(true);
+            c2.calculateSpritePunch();
+			//player2.setTextureRect(sf::IntRect(c2.getSpr().x,c2.getSpr().y,32,32));
         }
-        else if (! sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)){
-            character2.CalculateSpritePos(0);
-        }
- 
+		else{
+			c2.setAttack(false);
+			//c2.calculateSpritePos(0);
+		}
+
+		if(c1.getPosition().x > c2.getPosition().x){
+			c1.setFacing(0);
+			c2.setFacing(1);
+		}
+		else{
+			c1.setFacing(1);
+			c2.setFacing(0);
+		}
+
         //Sprite update
-        
-        //Character position update
-            
-        //HP bars update
-            HpBar1.setScale(character1.hp/100*1.f,1.f);
-            HpBar2.setScale(-character2.hp/100*1.f,1.f);
-            if (character1.hp <= 0) {
-                return 1;
-            }
-            if (character2.hp <= 0) {
-                return 0;
-            }
-            
+		if(!c1.isAttacking() && !c1.isBarrier()){
+			c1.calculateSpritePos(0);
+		}
+		if(!c2.isAttacking() && !c2.isBarrier()){
+			c2.calculateSpritePos(0);
+		}
+		player1.setTextureRect(sf::IntRect(c1.getSpr().x, c1.getSpr().y, 32, 32));
+        player2.setTextureRect(sf::IntRect(c2.getSpr().x, c2.getSpr().y, 32, 32));
+		
+		//Character position update
+		c1.caculatePosY();
+		c2.caculatePosY();
+		player1.setPosition(c1.getPosition());
+		player2.setPosition(c2.getPosition());
+		
+		//HP, MP bars update
+		HpBar1.setScale(c1.getHp()/100*1.f,1.f);
+		HpBar2.setScale(-c2.getHp()/100*1.f,1.f);
+		MpBar1.setScale(c1.getMp()/100*1.f,1.f);
+		MpBar2.setScale(-c2.getMp()/100*1.f,1.f);
+		
+		if (c1.getHp() <= 0) {
+			return 1;
+		}
+		if (c2.getHp() <= 0) {
+			return 0;
+		}
+
         _myWindow->clear();
         _myWindow->draw(background);
         _myWindow->draw(HpBar1);
         _myWindow->draw(HpBar2);
+		_myWindow->draw(MpBar1);
+        _myWindow->draw(MpBar2);
         _myWindow->draw(player2);
         _myWindow->draw(player1);
         _myWindow->display();
