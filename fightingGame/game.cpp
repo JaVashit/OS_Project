@@ -10,7 +10,7 @@
 Game::Game(sf::RenderWindow *window): _myWindow(window){
     ay = 600;
     damage = 10;
-    hell = 0;
+    
     dmgred = 0.8;
 	w_width = _myWindow->getSize().x;
 	w_height = _myWindow->getSize().y;
@@ -28,14 +28,10 @@ int Game::Run()
     if (!backgroundTexture.loadFromFile("./images/FightGameBG.png")) std::cout << "Error loading citybg" << std::endl;
     sf::RectangleShape background(sf::Vector2f(800.f,500.f));
     background.setTexture(&backgroundTexture);
-    if (hell) {
-        background.setFillColor(sf::Color::Red);
-        ay = 3000;
-        damage = 20;
-    } else {
-        ay = 600;
-        damage = 10;
-    }
+    
+	ay = 600;
+    damage = 10;
+    
     
     Character character1(1);
     Character character2(2);
@@ -68,11 +64,8 @@ int Game::Run()
     MpBar2.setScale(-1.f,1.f);
     
     sf::Music music;
-    if (hell){
-        if (!music.openFromFile("./music/HellMusic.ogg")) std::cout << "Error loading Hell music" << std:: endl;
-    } else {
-        if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
-    }
+   if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
+    
     music.play();
     
     //Other variables
@@ -206,11 +199,7 @@ int Game::Run()
     return 0;
 }
 
-void Game::Hell(){
-    
-    hell = (!hell);
-    
-}
+
 
 int Game::setScore(bool player,int scoreValue){
     if (!player){

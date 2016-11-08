@@ -57,14 +57,7 @@ int main()
     score2.setCharacterSize(50);
     score2.setColor(sf::Color::Black);
     
-    sf::Text egg;
-    egg.setFont(font);
-    egg.setPosition(400,470);
-    egg.setOrigin(130,12);
-    egg.setCharacterSize(25);
-    egg.setColor(sf::Color::Red);
-    egg.setString("Welcome to hell");
-    
+  
     sf::Music music;
     if (!music.openFromFile("./music/MenuMusic.ogg")) std::cout << "Error loading music" << std::endl;
     music.play();
@@ -81,7 +74,7 @@ int main()
     deathsound.setVolume(50);
     
     
-    bool hell = 0, helltoggle = false, fxtime = false;
+    bool fxtime = false;
     
     while (window.isOpen()){
         sf::Event event;
@@ -145,7 +138,7 @@ int main()
                             deathsound.play();
                             music.play();
                             if (a==0 || a==1) {
-                                game.setScore(a,game.getScore(a)+1+1*hell);
+                                game.setScore(a,game.getScore(a)+1+1*1);
                                 if (game.getScore(1) == 10) score2.setPosition(700,25);
                                 std::cout << "player " << a+1 << " won" << std::endl;
                             }
@@ -160,13 +153,7 @@ int main()
                     }
                 }
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::H) && !helltoggle){
-                game.Hell();
-                hell = (!hell);
-                helltoggle = true;
-            } else if (! sf::Keyboard::isKeyPressed(sf::Keyboard::H) && helltoggle){
-                helltoggle = false;
-            }
+            
         }
         
         
@@ -178,7 +165,7 @@ int main()
         window.draw(button3);
         window.draw(score1);
         window.draw(score2);
-        if (hell) window.draw(egg);
+     
 
         window.display();
     
