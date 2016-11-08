@@ -89,7 +89,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Champion.h" />
+    <ClInclude Include="Champion.hpp" />
     <ClInclude Include="character.hpp" />
     <ClInclude Include="game.hpp" />
   </ItemGroup>
