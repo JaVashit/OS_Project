@@ -160,8 +160,8 @@ int Game::Run()
 		if(!c2.isAttacking() && !c2.isBarrier()){
 			c2.calculateSpritePos(0);
 		}
-		player1.setTextureRect(sf::IntRect(c1.getSpr().x, c1.getSpr().y, 32, 32));
-        player2.setTextureRect(sf::IntRect(c2.getSpr().x, c2.getSpr().y, 32, 32));
+		player1.setTextureRect(sf::IntRect((int)c1.getSpr().x, (int)c1.getSpr().y, 32, 32));
+        player2.setTextureRect(sf::IntRect((int)c2.getSpr().x, (int)c2.getSpr().y, 32, 32));
 		
 		//Character position update
 		c1.caculatePosY();

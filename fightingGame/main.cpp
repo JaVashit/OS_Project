@@ -11,7 +11,6 @@ int main()
     sf::Texture backgroundTexture;    
     if (!backgroundTexture.loadFromFile("./images/FightGameMenu.png")) std::cout << "Error loading citybg" << std::endl;
     
-    
     sf::Texture button1H;    
     if (!button1H.loadFromFile("./images/MenuButton1Hover.png")) std::cout << "Error loading b1h" << std::endl;
     sf::Texture button1NH;    
