@@ -86,7 +86,7 @@
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="Jang.cpp" />
+    <ClCompile Include="GPL.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
   </ItemGroup>
@@ -94,7 +94,7 @@
     <ClInclude Include="Champion.hpp" />
     <ClInclude Include="character.hpp" />
     <ClInclude Include="game.hpp" />
-    <ClInclude Include="Jang.h" />
+    <ClInclude Include="GPL.hpp" />
     <ClInclude Include="menu.hpp" />
   </ItemGroup>
   <ItemGroup>
