@@ -1,7 +1,7 @@
 #include "Champion.hpp"
 
-# define MIN_DIST_X 40
-# define MIN_DIST_Y 440
+const int MIN_DIST_X = 60;
+const int MIN_DIST_Y = 400;
 
 Champion::Champion(int player, int m_number, int width, int height){
 	this->player = player;
@@ -12,13 +12,13 @@ Champion::Champion(int player, int m_number, int width, int height){
 
 	if(player == 1){
 		facing = 1;
-		setPosition(50.0, MIN_DIST_Y);
-		setSpr(0, 64);
+		setPosition(MIN_DIST_X, MIN_DIST_Y);
+		setSpr(0, 0);
 		modelNumber = 1;
 	}
 	else{
 		facing = 0;
-		setPosition(750.0, MIN_DIST_Y);
+		setPosition(w_Width-MIN_DIST_X, MIN_DIST_Y);
 		setSpr(96, 32);
 		modelNumber = 2;
 	}
@@ -33,6 +33,7 @@ Champion::Champion(int player, int m_number, int width, int height){
 	barrier = false;
 
 	selectSkin = false;
+	isStun = true;
 }
 
 Champion::~Champion(){};
@@ -168,30 +169,30 @@ void Champion::setSpeed(float s){
 	speed = s;
 }
 
-void Champion::loadCharacter(sf::Sprite &player){
+void Champion::loadCharacter(sf::Sprite &player, int n){
     player.setTextureRect(sf::IntRect(spr.x, spr.y,32,32));
     player.scale(2.f, 2.f);
     player.setOrigin(16,16);
 }
 
-void Champion::calculateSpritePos(int step){
+void Champion::calculateSpritePos(int step, int n){
 	spr.x = (modelNumber-1)%4*96+32+32*step;
     spr.y = (modelNumber-1)/4*128+32+32*facing;
 }
 
-void Champion::calculateSpritePunch(){
+void Champion::calculateSpritePunch(int n){
     spr.x = (modelNumber-1)%4*96+32+32*facing;
     spr.y = (modelNumber-1)/4*128;
 }
 
-void Champion::calculateSpriteBlock(){
+void Champion::calculateSpriteBlock(int n){
     spr.x = (modelNumber-1)%4*96+32+32*facing;
     spr.y = (modelNumber-1)/4*128+96;
 }
 
 void Champion::nextSkin(){
     modelNumber = modelNumber%8+1;
-	calculateSpritePos(0);  
+	calculateSpritePos(0, 0);  
 }
 
 void Champion::setDash(bool d){

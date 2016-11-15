@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -30,6 +31,7 @@ public:
 	~Champion();
 	
 	bool selectSkin;
+	bool isStun;
 
 	void setHp(int);
 	int getHp();
@@ -58,12 +60,14 @@ public:
 	float getSpeed();
 	void setSpeed(float);
 
+	
+
 	void drawChampion();
 
-	void loadCharacter(sf::Sprite&);
-    void calculateSpritePos(int);
-    void calculateSpritePunch();
-    void calculateSpriteBlock();
+	void loadCharacter(sf::Sprite&, int);
+    void calculateSpritePos(int, int);
+    void calculateSpritePunch(int);
+    void calculateSpriteBlock(int);
     void nextSkin();
 
 };
