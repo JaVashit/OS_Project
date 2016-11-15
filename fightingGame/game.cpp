@@ -27,7 +27,7 @@ int Game::Run()
     
     //Background
     sf::Texture backgroundTexture;    
-    if (!backgroundTexture.loadFromFile("./images/FightGameBG.png")) std::cout << "Error loading citybg" << std::endl;
+    if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
     sf::RectangleShape background(sf::Vector2f(800.f,500.f));
     background.setTexture(&backgroundTexture);
     
