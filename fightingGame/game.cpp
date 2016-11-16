@@ -1,11 +1,10 @@
 #include <iostream>
-//#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <vector>
-#include "character.hpp"
 #include "game.hpp"
 #include "Champion.hpp"
+#include "GPL.hpp"
 
 Game::Game(sf::RenderWindow *window): _myWindow(window){
     ay = 600;
@@ -21,23 +20,22 @@ int Game::Run()
     
     //Characters
     sf::Texture characterTexture;
-    if (!characterTexture.loadFromFile("./images/vx_characters.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+
+	sf::Texture characterTexture2;
+    if (!characterTexture2.loadFromFile("./images/vx_characters.png")) std::cout << "Error loading vx_characters" << std::endl;
     
     //Background
     sf::Texture backgroundTexture;    
-    if (!backgroundTexture.loadFromFile("./images/FightGameBG.png")) std::cout << "Error loading citybg" << std::endl;
+    if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
     sf::RectangleShape background(sf::Vector2f(800.f,500.f));
     background.setTexture(&backgroundTexture);
     
 	ay = 600;
     damage = 10;
     
-    
-    Character character1(1);
-    Character character2(2);
-	Champion c1 = Champion(1, 0, w_width, w_height);
+	GPL c1 = GPL(1, 0, w_width, w_height);
 	Champion c2 = Champion(0, 0, w_width, w_height);
-    
     //Create and load player 1 arguments
     sf::Sprite player1;
     player1.setTexture(characterTexture);                       //Load texture to sprite
@@ -45,8 +43,8 @@ int Game::Run()
  
     //Create and load player 2 arguments
     sf::Sprite player2; 
-    player2.setTexture(characterTexture);
-    c2.loadCharacter(player2);
+    player2.setTexture(characterTexture2);
+    c2.loadCharacter(player2, 0);
 
    
     //HP Bars
@@ -69,9 +67,11 @@ int Game::Run()
     music.play();
     
     //Other variables
-    
+    int time = 0;
+	float frameCount = 0;
     while (_myWindow->isOpen())
     {
+		time++;
         sf::Event event;
         while (_myWindow->pollEvent(event))
         {
@@ -105,14 +105,32 @@ int Game::Run()
 			}
         }
         //Player 1 actions
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !c1.isAttacking()) {
 			c1.setAttack(true);
-            c1.calculateSpritePunch();
-            //player1.setTextureRect(sf::IntRect(c1.getSpr().x,c1.getSpr().y,32,32));
+			frameCount = 0;
+			c1.setSkillNumber(0);
+			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
         }
-		else{
-			c1.setAttack(false);
-			//c1.calculateSpritePos(0);
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && !c1.isAttacking()) {
+			c1.setAttack(true);
+			frameCount = 0;
+			c1.setSkillNumber(1);
+			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+        }
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && !c1.isAttacking()) {
+			printf("skill2\n");
+			c1.setAttack(true);
+			frameCount = 0;
+			c1.setSkillNumber(2);
+			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+        }
+		if(c1.isAttacking()){
+			frameCount += 0.02;
+			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+			if(frameCount>c1.getSkillFrameTotal()){
+				c1.setAttack(false);
+				c1.calculateSpritePos(0);
+			}
 		}
         
         //Player 2 movement
@@ -129,7 +147,7 @@ int Game::Run()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				c2.move(0, 0, 0);
 				c2.setBarrier(true);
-				c2.calculateSpriteBlock();
+				c2.calculateSpriteBlock(0);
 				//player2.setTextureRect(sf::IntRect(c2.getSpr().x,c2.getSpr().y,32,32));
 			} 
 			else{
@@ -139,7 +157,8 @@ int Game::Run()
         //Player 2 actions
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)) {
             c2.setAttack(true);
-            c2.calculateSpritePunch();
+			
+           // c2.calculateSpritePunch(0);
 			//player2.setTextureRect(sf::IntRect(c2.getSpr().x,c2.getSpr().y,32,32));
         }
 		else{
@@ -161,10 +180,10 @@ int Game::Run()
 			c1.calculateSpritePos(0);
 		}
 		if(!c2.isAttacking() && !c2.isBarrier()){
-			c2.calculateSpritePos(0);
+			c2.calculateSpritePos(0,0);
 		}
-		player1.setTextureRect(sf::IntRect(c1.getSpr().x, c1.getSpr().y, 32, 32));
-        player2.setTextureRect(sf::IntRect(c2.getSpr().x, c2.getSpr().y, 32, 32));
+		player1.setTextureRect(sf::IntRect((int)c1.getSpr().x, (int)c1.getSpr().y, 170, 100));
+        player2.setTextureRect(sf::IntRect((int)c2.getSpr().x, (int)c2.getSpr().y, 32, 32));
 		
 		//Character position update
 		c1.caculatePosY();
