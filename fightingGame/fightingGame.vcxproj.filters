@@ -45,9 +45,6 @@
     <ClInclude Include="game.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="menu.hpp">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="Champion.hpp">
       <Filter>Champion\Base</Filter>
     </ClInclude>
@@ -56,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="GPL.hpp">
       <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.hpp">
+      <Filter>Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

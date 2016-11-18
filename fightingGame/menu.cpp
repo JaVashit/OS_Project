@@ -161,9 +161,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 					}
 				}
 			}
-
 		}
-
 
 		_windows->clear();
 
@@ -171,9 +169,6 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 		_windows->draw(button1);
 		_windows->draw(button2);
 		_windows->draw(button3);
-		//       window.draw(score1);
-		//        window.draw(score2);
-
 
 		_windows->display();
 

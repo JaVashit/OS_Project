@@ -9,6 +9,7 @@ public:
     
     int setScore(bool,int);
     int getScore(bool);
+	void resetGame(int player1Score, int player2Score);
     
 private:
     int score1;

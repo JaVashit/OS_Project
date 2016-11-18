@@ -23,7 +23,7 @@ int Game::Run()
     if (!characterTexture.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
 
 	sf::Texture characterTexture2;
-    if (!characterTexture2.loadFromFile("./images/vx_characters.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture2.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
     
     //Background
     sf::Texture backgroundTexture;    
@@ -35,7 +35,7 @@ int Game::Run()
     damage = 10;
     
 	GPL c1 = GPL(1, 0, w_width, w_height);
-	Champion c2 = Champion(0, 0, w_width, w_height);
+	GPL c2 = GPL(0, 0, w_width, w_height);
     //Create and load player 1 arguments
     sf::Sprite player1;
     player1.setTexture(characterTexture);                       //Load texture to sprite
@@ -44,7 +44,7 @@ int Game::Run()
     //Create and load player 2 arguments
     sf::Sprite player2; 
     player2.setTexture(characterTexture2);
-    c2.loadCharacter(player2, 0);
+    c2.loadCharacter(player2);
 
    
     //HP Bars
@@ -69,6 +69,7 @@ int Game::Run()
     //Other variables
     int time = 0;
 	float frameCount = 0;
+	float frameCount2 = 0;
     while (_myWindow->isOpen())
     {
 		time++;
@@ -84,7 +85,7 @@ int Game::Run()
         }
         
         //Player 1 movement
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !c1.isStun && !c1.isKnockBack){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 				c1.move(0, 5, 0);
             }
@@ -105,24 +106,32 @@ int Game::Run()
 			}
         }
         //Player 1 actions
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !c1.isAttacking()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !c1.isAttacking() && !c1.isStun && !c1.isKnockBack) {
 			c1.setAttack(true);
 			frameCount = 0;
 			c1.setSkillNumber(0);
 			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+			c1.insertAOList(0);
         }
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && !c1.isAttacking()) {
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && !c1.isAttacking() && !c1.isStun && !c1.isKnockBack) {
 			c1.setAttack(true);
 			frameCount = 0;
 			c1.setSkillNumber(1);
 			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+			c1.insertAOList(1);
         }
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && !c1.isAttacking()) {
-			printf("skill2\n");
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && !c1.isAttacking() && !c1.isStun && !c1.isKnockBack) {
 			c1.setAttack(true);
 			frameCount = 0;
 			c1.setSkillNumber(2);
 			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+			c1.insertAOList(2);
+        }
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) && !c1.isAttacking()) {
+			frameCount = 0;
+			c1.setSkillNumber(3);
+			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
+			c1.insertAOList(3);
         }
 		if(c1.isAttacking()){
 			frameCount += 0.02;
@@ -134,7 +143,7 @@ int Game::Run()
 		}
         
         //Player 2 movement
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)){
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Dash) && !c2.isStun && !c2.isKnockBack){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				c2.move(0, 5, 0);
             }
@@ -147,7 +156,7 @@ int Game::Run()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				c2.move(0, 0, 0);
 				c2.setBarrier(true);
-				c2.calculateSpriteBlock(0);
+				c2.calculateSpriteBlock();
 				//player2.setTextureRect(sf::IntRect(c2.getSpr().x,c2.getSpr().y,32,32));
 			} 
 			else{
@@ -155,15 +164,40 @@ int Game::Run()
 			}
         }
         //Player 2 actions
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)) {
-            c2.setAttack(true);
-			
-           // c2.calculateSpritePunch(0);
-			//player2.setTextureRect(sf::IntRect(c2.getSpr().x,c2.getSpr().y,32,32));
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8) && !c2.isAttacking() && !c2.isStun && !c2.isKnockBack) {
+			c2.setAttack(true);
+			frameCount2 = 0;
+			c2.setSkillNumber(0);
+			c2.useSkill(c2.getSkillNumber(), (int)frameCount2);
+			c2.insertAOList(0);
         }
-		else{
-			c2.setAttack(false);
-			//c2.calculateSpritePos(0);
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9) && !c2.isAttacking() && !c2.isStun && !c2.isKnockBack) {
+			c2.setAttack(true);
+			frameCount2 = 0;
+			c2.setSkillNumber(1);
+			c2.useSkill(c2.getSkillNumber(), (int)frameCount2);
+			c2.insertAOList(1);
+        }
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num0) && !c2.isAttacking() && !c2.isStun && !c2.isKnockBack) {
+			c2.setAttack(true);
+			frameCount2 = 0;
+			c2.setSkillNumber(2);
+			c2.useSkill(c2.getSkillNumber(), (int)frameCount2);
+			c2.insertAOList(2);
+        }
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Dash) && !c2.isAttacking()) {
+			frameCount2 = 0;
+			c2.setSkillNumber(3);
+			c2.useSkill(c2.getSkillNumber(), (int)frameCount2);
+			c2.insertAOList(3);
+        }
+		if(c2.isAttacking()){
+			frameCount2 += 0.02;
+			c2.useSkill(c2.getSkillNumber(), (int)frameCount2);
+			if(frameCount2>c2.getSkillFrameTotal()){
+				c2.setAttack(false);
+				c2.calculateSpritePos(0);
+			}
 		}
 
 		if(c1.getPosition().x > c2.getPosition().x){
@@ -175,19 +209,23 @@ int Game::Run()
 			c2.setFacing(0);
 		}
 
+		c1.crowdControlHit(frameCount);
+		c2.crowdControlHit(frameCount2);
+
         //Sprite update
-		if(!c1.isAttacking() && !c1.isBarrier()){
+		if(!c1.isAttacking() && !c1.isBarrier() && !c1.isKnockBack && !c1.isStun){
 			c1.calculateSpritePos(0);
 		}
-		if(!c2.isAttacking() && !c2.isBarrier()){
-			c2.calculateSpritePos(0,0);
+		if(!c2.isAttacking() && !c2.isBarrier() && !c2.isKnockBack && !c2.isStun){
+			c2.calculateSpritePos(0);
 		}
+		
 		player1.setTextureRect(sf::IntRect((int)c1.getSpr().x, (int)c1.getSpr().y, 170, 100));
-        player2.setTextureRect(sf::IntRect((int)c2.getSpr().x, (int)c2.getSpr().y, 32, 32));
+        player2.setTextureRect(sf::IntRect((int)c2.getSpr().x, (int)c2.getSpr().y, 170, 100));
 		
 		//Character position update
-		c1.caculatePosY();
-		c2.caculatePosY();
+		c1.caculatePosXY();
+		c2.caculatePosXY();
 		player1.setPosition(c1.getPosition());
 		player2.setPosition(c2.getPosition());
 		
@@ -197,22 +235,58 @@ int Game::Run()
 		MpBar1.setScale(c1.getMp()/100*1.f,1.f);
 		MpBar2.setScale(-c2.getMp()/100*1.f,1.f);
 		
-		if (c1.getHp() <= 0) {
-			return 1;
+		if (c1.isDeath()) {
+			c2.playerWin();
 		}
-		if (c2.getHp() <= 0) {
-			return 0;
+		if (c2.isDeath()) {
+			c1.playerWin();
+			
 		}
+		if(c1.getFacing()){
+			player1.setScale(-2.f, 2.f);
+		}
+		else{
+			player1.setScale(2.f, 2.f);
+		}
+		if(c2.getFacing()){
+			player2.setScale(-2.f, 2.f);
+		}
+		else{
+			player2.setScale(2.f, 2.f);
+		}
+		c1.updateAOList();
+		c1.deleteAOList();
+		c1.detectCollision(c2, frameCount2);
+		c2.updateAOList();
+		c2.deleteAOList();
+		c2.detectCollision(c1, frameCount);
 
         _myWindow->clear();
         _myWindow->draw(background);
         _myWindow->draw(HpBar1);
         _myWindow->draw(HpBar2);
 		_myWindow->draw(MpBar1);
-        _myWindow->draw(MpBar2);
-        _myWindow->draw(player2);
-        _myWindow->draw(player1);
-        _myWindow->display();
+		_myWindow->draw(MpBar2);
+
+		for(auto q = c1.attackObjList.begin(); q!= c1.attackObjList.end(); q++){
+			/*sf::RectangleShape a(sf::Vector2f((*q)->range_e.x-(*q)->range_s.x, (*q)->range_e.y-(*q)->range_s.y));
+			a.setFillColor(sf::Color(255,0,0));
+			a.setPosition(sf::Vector2f(((*q)->range_e.x+(*q)->range_s.x)/2, ((*q)->range_e.y+(*q)->range_s.y)/2));
+			_myWindow->draw(a);*/
+			if((*q)->isthrow){
+				_myWindow->draw((*q)->obj);
+			}
+		}
+
+		for(auto q = c2.attackObjList.begin(); q!= c2.attackObjList.end(); q++){
+			if((*q)->isthrow){
+				_myWindow->draw((*q)->obj);
+			}
+		}
+
+		_myWindow->draw(player1);
+		_myWindow->draw(player2);
+		_myWindow->display();
     }
  
     return 0;
@@ -234,4 +308,8 @@ int Game::setScore(bool player,int scoreValue){
 int Game::getScore(bool player){
     if (!player) return score1;
     else return score2;
+}
+
+void Game::resetGame(int player1Score, int player2Score){
+
 }

@@ -1,7 +1,7 @@
 #include "Champion.hpp"
 
 const int MIN_DIST_X = 60;
-const int MIN_DIST_Y = 400;
+const int MIN_DIST_Y = 340;
 
 Champion::Champion(int player, int m_number, int width, int height){
 	this->player = player;
@@ -23,17 +23,21 @@ Champion::Champion(int player, int m_number, int width, int height){
 		modelNumber = 2;
 	}
 
+	winScore = 0;
 	hp = 100;
 	mp = 100;
 	speed = 0.05;
-	ay = 0.001;
+	ay = 0.002;
+	ax = 0.001;
 	vy = 0;
+	vx = 0;
 
 	attack = false;
 	barrier = false;
 
 	selectSkin = false;
-	isStun = true;
+	isStun = false;
+	isKnockBack = false;
 }
 
 Champion::~Champion(){};
@@ -68,10 +72,10 @@ void Champion::move(float left, float right, float jump){
 	else if(pos.x >= w_Width-MIN_DIST_X){
 		pos.x = w_Width - MIN_DIST_X;
 	}
-	vy += (jump*speed*2);
+	vy += (jump*2*speed*2);
 }
 
-void Champion::caculatePosY(){
+void Champion::caculatePosXY(){
 	pos.y += vy;
 	vy += ay;
 	if(pos.y >= MIN_DIST_Y){
@@ -80,9 +84,26 @@ void Champion::caculatePosY(){
 	}
 	if(pos.y == MIN_DIST_Y){
 		grounded = true;
+		vx = 0;
 	}
 	else{
 		grounded = false;
+	}
+	
+	if(abs(vx) > 0.1){
+		pos.x += vx;
+		/*if(vx>0){
+			vx-= 0.1;
+		}
+		else{
+			vx += 0.1;
+		}*/
+		if(pos.x < MIN_DIST_X){
+			pos.x = MIN_DIST_X;
+		}
+		else if(pos.x >= w_Width-MIN_DIST_X){
+			pos.x = w_Width - MIN_DIST_X;
+		}
 	}
 }
 
@@ -95,12 +116,12 @@ void Champion::setSpr(float _x, float _y){
 	spr.y = _y;
 }
 
-int Champion::getHp(){
+float Champion::getHp(){
 	return this->hp;
 }
 
 
-void Champion::setHp(int _hp){
+void Champion::setHp(float _hp){
 	this->hp = _hp;
 }
 
@@ -201,4 +222,12 @@ void Champion::setDash(bool d){
 
 bool Champion::isDash(){
 	return dash;
+}
+
+void Champion::playerWin(){
+	winScore++;
+}
+
+bool Champion::getFacing(){
+	return facing;
 }
