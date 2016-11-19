@@ -17,11 +17,13 @@ struct AttackObject{
 	sf::Vector2f objSpr;			// 투사체 그림 불러올때 좌표
 	float speed;					// 투사체 스피드
 	bool check;						// 적에게 맞았거나 화면에서 벗어났거나, 근접공격일경우 공격이 끝났을 때 체크
+	int hitcount;					// 투사체 적 타격 횟수
 	AttackObject(int skillNumber, int damage, float speed){
 		this->skillNumber = skillNumber;
 		this->damage = damage;
 		this->speed = speed;
 		check = false;
+		int hitcount = 0;
 		frameCount = 0;
 	}
 };
