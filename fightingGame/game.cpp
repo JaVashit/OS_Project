@@ -128,6 +128,7 @@ int Game::Run()
 			c1.insertAOList(2);
         }
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) && !c1.isAttacking()) {
+			c1.setAttack(true);
 			frameCount = 0;
 			c1.setSkillNumber(3);
 			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
