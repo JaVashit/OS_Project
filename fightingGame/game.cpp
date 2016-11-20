@@ -5,6 +5,8 @@
 #include "game.hpp"
 #include "Champion.hpp"
 #include "GPL.hpp"
+#include "BSD.hpp"
+#include "Jang.h"
 
 Game::Game(sf::RenderWindow *window): _myWindow(window){
     ay = 600;
@@ -13,57 +15,36 @@ Game::Game(sf::RenderWindow *window): _myWindow(window){
     dmgred = 0.8;
 	w_width = _myWindow->getSize().x;
 	w_height = _myWindow->getSize().y;
+	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
+
+	 //Characters
+    if (!characterTexture.loadFromFile("./images/character/bsd_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture2.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+
+	 //Background
+ 
+    if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
+
+	//music
+	if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
 }
 
 int Game::Run()
 {
-    
-    //Characters
-    sf::Texture characterTexture;
-    if (!characterTexture.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
-
-	sf::Texture characterTexture2;
-    if (!characterTexture2.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
-    
-    //Background
-    sf::Texture backgroundTexture;    
-    if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
-    sf::RectangleShape background(sf::Vector2f(800.f,500.f));
-    background.setTexture(&backgroundTexture);
-    
-	ay = 600;
-    damage = 10;
-    
-	GPL c1 = GPL(1, 0, w_width, w_height);
+    setObject();
+	BSD c1 = BSD(1, 0, w_width, w_height);
 	GPL c2 = GPL(0, 0, w_width, w_height);
+
+	background.setTexture(&backgroundTexture);
     //Create and load player 1 arguments
-    sf::Sprite player1;
-    player1.setTexture(characterTexture);                       //Load texture to sprite
-    c1.loadCharacter(player1);                    //Select character texture, scale, origin
+   
+    player1_spr.setTexture(characterTexture);                       //Load texture to sprite
+    c1.loadCharacter(player1_spr);                    //Select character texture, scale, origin
  
     //Create and load player 2 arguments
-    sf::Sprite player2; 
-    player2.setTexture(characterTexture2);
-    c2.loadCharacter(player2);
+    player2_spr.setTexture(characterTexture2);
+    c2.loadCharacter(player2_spr);
 
-   
-    //HP Bars
-    sf::RectangleShape HpBar1(sf::Vector2f(350.f,25.f)), HpBar2(sf::Vector2f(350.f,25.f));
-    HpBar1.setFillColor(sf::Color(50,100,50));
-    HpBar1.setPosition(25.f,25.f);
-    HpBar2.setFillColor(sf::Color(50,100,50));
-    HpBar2.setPosition(775.f,25.f);
-    HpBar2.setScale(-1.f,1.f);
-	sf::RectangleShape MpBar1(sf::Vector2f(350.f,10.f)), MpBar2(sf::Vector2f(350.f,10.f));
-    MpBar1.setFillColor(sf::Color(255,255,0));
-    MpBar1.setPosition(25.f,45.f);
-    MpBar2.setFillColor(sf::Color(255,255,0));
-    MpBar2.setPosition(775.f,45.f);
-    MpBar2.setScale(-1.f,1.f);
-    
-    sf::Music music;
-   if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
-    
     music.play();
     
     //Other variables
@@ -93,7 +74,7 @@ int Game::Run()
 				c1.move(5, 0, 0);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && c1.isGrounded()) {
-				c1.move(0, 0, -5);
+				c1.move(0, 0, -4);
 			}
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 				c1.move(0, 0, 0);
@@ -151,7 +132,7 @@ int Game::Run()
 				c2.move(5, 0, 0);
             }
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up )&& c2.isGrounded()) {
-				c2.move(0, 0, -5);
+				c2.move(0, 0, -4);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				c2.move(0, 0, 0);
@@ -220,39 +201,57 @@ int Game::Run()
 			c2.calculateSpritePos(0);
 		}
 		
-		player1.setTextureRect(sf::IntRect((int)c1.getSpr().x, (int)c1.getSpr().y, 170, 100));
-        player2.setTextureRect(sf::IntRect((int)c2.getSpr().x, (int)c2.getSpr().y, 170, 100));
+		player1_spr.setTextureRect(sf::IntRect((int)c1.getSpr().x, (int)c1.getSpr().y, 170, 100));
+        player2_spr.setTextureRect(sf::IntRect((int)c2.getSpr().x, (int)c2.getSpr().y, 170, 100));
 		
 		//Character position update
 		c1.caculatePosXY();
 		c2.caculatePosXY();
-		player1.setPosition(c1.getPosition());
-		player2.setPosition(c2.getPosition());
+		player1_spr.setPosition(c1.getPosition());
+		player2_spr.setPosition(c2.getPosition());
 		
-		//HP, MP bars update
+		//HPbars update
 		HpBar1.setScale(c1.getHp()/100*1.f,1.f);
 		HpBar2.setScale(-c2.getHp()/100*1.f,1.f);
-		MpBar1.setScale(c1.getMp()/100*1.f,1.f);
-		MpBar2.setScale(-c2.getMp()/100*1.f,1.f);
 		
 		if (c1.isDeath()) {
 			c2.playerWin();
+			c2.isKnockBack = true;
+			if(c2.getWinScore() >= 2){
+				music.stop();
+				return 0;
+			}
+			else if(c2.getWinScore() >= 1){
+				p2_WS1.setFillColor(sf::Color(225,225,0));
+			}
+			resetGame(c1, c2);
+			c1.attackObjList.clear();
+			c2.attackObjList.clear();
 		}
 		if (c2.isDeath()) {
 			c1.playerWin();
-			
+			if(c1.getWinScore() >= 2){
+				music.stop();
+				return 0;
+			}
+			else if(c1.getWinScore() >= 1){
+				p1_WS1.setFillColor(sf::Color(225,225,0));
+			}
+			resetGame(c1, c2);
+			c1.attackObjList.clear();
+			c2.attackObjList.clear();
 		}
 		if(c1.getFacing()){
-			player1.setScale(-2.f, 2.f);
+			player1_spr.setScale(-2.f, 2.f);
 		}
 		else{
-			player1.setScale(2.f, 2.f);
+			player1_spr.setScale(2.f, 2.f);
 		}
 		if(c2.getFacing()){
-			player2.setScale(-2.f, 2.f);
+			player2_spr.setScale(-2.f, 2.f);
 		}
 		else{
-			player2.setScale(2.f, 2.f);
+			player2_spr.setScale(2.f, 2.f);
 		}
 		c1.updateAOList();
 		c1.deleteAOList();
@@ -265,8 +264,14 @@ int Game::Run()
         _myWindow->draw(background);
         _myWindow->draw(HpBar1);
         _myWindow->draw(HpBar2);
-		_myWindow->draw(MpBar1);
-		_myWindow->draw(MpBar2);
+		_myWindow->draw(bp1_WS1);
+		_myWindow->draw(bp1_WS2);
+		_myWindow->draw(bp2_WS1);
+		_myWindow->draw(bp2_WS2);
+		_myWindow->draw(p1_WS1);
+		_myWindow->draw(p1_WS2);
+		_myWindow->draw(p2_WS1);
+		_myWindow->draw(p2_WS2);
 
 		for(auto q = c1.attackObjList.begin(); q!= c1.attackObjList.end(); q++){
 			/*sf::RectangleShape a(sf::Vector2f((*q)->range_e.x-(*q)->range_s.x, (*q)->range_e.y-(*q)->range_s.y));
@@ -284,8 +289,8 @@ int Game::Run()
 			}
 		}
 
-		_myWindow->draw(player1);
-		_myWindow->draw(player2);
+		_myWindow->draw(player1_spr);
+		_myWindow->draw(player2_spr);
 		_myWindow->display();
     }
  
@@ -310,6 +315,59 @@ int Game::getScore(bool player){
     else return score2;
 }
 
-void Game::resetGame(int player1Score, int player2Score){
+void Game::resetGame(Champion &player1, Champion &player2){
+	player1.setHp(100);
+	player1.setMp(0);
+	player1.setFacing(1);
+	player1.setPosition(60, 340);
+	player1.setSpr(0, 0);
+	player1.isKnockBack = false;
+	player1.isStun = false;
+	player1.vx = 0;
 
+	player2.setHp(100);
+	player2.setMp(0);
+	player2.setFacing(0);
+	player2.setPosition(w_width-60, 340);
+	player2.setSpr(0, 0);
+	player2.isKnockBack = false;
+	player2.isStun = false;
+	player2.vx = 0;
+}
+
+void Game::setObject(){
+	HpBar1 = sf::RectangleShape(sf::Vector2f(350.f,25.f));
+	HpBar2 = sf::RectangleShape(sf::Vector2f(350.f,25.f));
+
+	HpBar1.setFillColor(sf::Color(50,100,50));
+    HpBar1.setPosition(25.f,25.f);
+    HpBar2.setFillColor(sf::Color(50,100,50));
+    HpBar2.setPosition(775.f,25.f);
+    HpBar2.setScale(-1.f,1.f);
+
+	p1_WS1 = sf::CircleShape(10, 30);
+	p1_WS1.setPosition(25.f, 60.f);
+	p1_WS1.setFillColor(sf::Color(200,200,200));
+	p1_WS2 = sf::CircleShape(10, 30);
+	p1_WS2.setPosition(50.f, 60.f);
+	p1_WS2.setFillColor(sf::Color(200,200,200));
+	p2_WS1 = sf::CircleShape(10, 30);
+	p2_WS1.setPosition(730.f, 60.f);
+	p2_WS1.setFillColor(sf::Color(200,200,200));
+	p2_WS2 = sf::CircleShape(10, 30);
+	p2_WS2.setPosition(755.f, 60.f);
+	p2_WS2.setFillColor(sf::Color(200,200,200));
+
+	bp1_WS1 = sf::CircleShape(13, 30);
+	bp1_WS1.setPosition(25.f-3, 60.f-3);
+	bp1_WS1.setFillColor(sf::Color(0,0,0));
+	bp1_WS2 = sf::CircleShape(13, 30);
+	bp1_WS2.setPosition(50.f-3, 60.f-3);
+	bp1_WS2.setFillColor(sf::Color(0,0,0));
+	bp2_WS1 = sf::CircleShape(13, 30);
+	bp2_WS1.setPosition(730.f-3, 60.f-3);
+	bp2_WS1.setFillColor(sf::Color(0,0,0));
+	bp2_WS2 = sf::CircleShape(13, 30);
+	bp2_WS2.setPosition(755.f-3, 60.f-3);
+	bp2_WS2.setFillColor(sf::Color(0,0,0));
 }
