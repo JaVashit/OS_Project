@@ -88,6 +88,7 @@ public:
 	bool isDeath();
 	bool getFacing();
 	float getSpeed();
+	int getWinScore();
 	void setSpeed(float);
 	void playerWin();
 

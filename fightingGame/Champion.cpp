@@ -231,3 +231,7 @@ void Champion::playerWin(){
 bool Champion::getFacing(){
 	return facing;
 }
+
+int Champion::getWinScore(){
+	return winScore;
+}

@@ -43,6 +43,12 @@
     <ClCompile Include="menu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BSD.cpp">
+      <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="Jang.cpp">
+      <Filter>Champion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.hpp">
@@ -58,10 +64,16 @@
       <Filter>Champion</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
       <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="BSD.hpp">
+      <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="Jang.h">
+      <Filter>Champion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <list>
 #include "Champion.hpp"
@@ -7,6 +8,7 @@ private:
 	int necessaryMana[5];									// 스킬에 필요한 마나 
 	int skillNumber;										// 현재 사용하는 스킬의 번호
 	int skillFrame[5];										// 스킬이 몇개의 동작으로 이루어 졌는지 
+	int playerNumber;
 public:
 	
 	GPL(int p, int m_number, int width, int height) : Champion(p, m_number,width, height){  
@@ -21,7 +23,7 @@ public:
 		skillFrame[3] = 24;
 		skillFrame[4] = 0;
 		skillNumber = 0;
-		
+		playerNumber = p;
 		attackObjList.clear();
 	};
 	~GPL();
@@ -67,4 +69,7 @@ public:
 	void calculateSpriteStun(int frameCount);
 	void calculateSpriteKnockBack(int frameCount);
 	////////////////////////////////////////////////////////// load Motion end
+
+	void resetGame(){
+	}
 };
