@@ -17,12 +17,11 @@ Game::Game(sf::RenderWindow *window): _myWindow(window){
 	w_height = _myWindow->getSize().y;
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
 
-	 //Characters
+	//Characters
     if (!characterTexture.loadFromFile("./images/character/bsd_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
     if (!characterTexture2.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
 
-	 //Background
- 
+	//Background
     if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
 
 	//music

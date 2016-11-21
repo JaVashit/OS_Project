@@ -20,6 +20,9 @@
     <Filter Include="Champion\Base">
       <UniqueIdentifier>{cc1a793f-8e3f-4cc6-9dcd-5eadc4995d00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Opening">
+      <UniqueIdentifier>{bcf2d661-a5e4-476e-97b4-f4ea0d2217d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -48,6 +51,9 @@
     </ClCompile>
     <ClCompile Include="Jang.cpp">
       <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="Opening.cpp">
+      <Filter>Opening</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +131,9 @@
     </None>
     <None Include="music\MenuMusic.ogg">
       <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Opening.hpp">
+      <Filter>Opening</Filter>
     </None>
   </ItemGroup>
 </Project>
