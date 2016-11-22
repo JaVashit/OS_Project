@@ -5,18 +5,18 @@
 
 class GPL : public Champion{
 private:
-	int necessaryMana[5];									// 스킬에 필요한 마나 
+	int canUseSkillCount[5];									// 스킬에 필요한 마나 
 	int skillNumber;										// 현재 사용하는 스킬의 번호
 	int skillFrame[5];										// 스킬이 몇개의 동작으로 이루어 졌는지 
 	int playerNumber;
 public:
 	
 	GPL(int p, int m_number, int width, int height) : Champion(p, m_number,width, height){  
-		necessaryMana[0] = 0;								// Champion class 상속
-		necessaryMana[1] = 0;
-		necessaryMana[2] = 0;
-		necessaryMana[3] = 0;
-		necessaryMana[4] = 0;
+		canUseSkillCount[0] = 9999;								// Champion class 상속
+		canUseSkillCount[1] = 3;
+		canUseSkillCount[2] = 2;
+		canUseSkillCount[3] = 1;
+		canUseSkillCount[4] = 0;
 		skillFrame[0] = 12;
 		skillFrame[1] = 12;
 		skillFrame[2] = 24;
@@ -40,9 +40,8 @@ public:
 
 	void setSkillNumber(int skillNumber);						// 스킬번호 설정 함수
 	int getSkillNumber();										// 스킬번호 반환 함수
-	int getNecessaryMana(int skillNumber);						// 스킬 필요한 마나 반환 함수
+	int getCanUseSkillCount(int skillNumber);					// 스킬 필요한 마나 반환 함수
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
-	
 	////////////////////////////////////////////////////////// GPL skill begin
 	void skill_NormalAttack(int frameCount);					// 기본 공격 (넉백)
 	void skill_FinalAttack(int frameCount);						// 최후의 공격 (무지아픔) - 범위는 적은데 매우 아픔 (넉백)

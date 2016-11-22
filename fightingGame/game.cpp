@@ -9,10 +9,6 @@
 #include "Jang.h"
 
 Game::Game(sf::RenderWindow *window): _myWindow(window){
-    ay = 600;
-    damage = 10;
-    
-    dmgred = 0.8;
 	w_width = _myWindow->getSize().x;
 	w_height = _myWindow->getSize().y;
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));

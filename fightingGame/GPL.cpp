@@ -37,6 +37,7 @@ void GPL::crowdControlHit(float &frameCount){		//cc맞았을때
 }
 
 void GPL::insertAOList(int skillNumber){
+	canUseSkillCount[skillNumber]--;
 	if(skillNumber == 0){
 		AttackObject* ao = new AttackObject(skillNumber, 10, 1);
 		ao->damage = 10;					// 평타 댐지 10
@@ -323,8 +324,8 @@ int GPL::getSkillFrameTotal(){
 	return skillFrame[skillNumber];
 }
 
-int GPL::getNecessaryMana(int skillNumber){
-	return necessaryMana[skillNumber];
+int GPL::getCanUseSkillCount(int skillNumber){
+	return canUseSkillCount[skillNumber];
 }
 void GPL::deleteAOList(){
 	auto iter = attackObjList.begin();

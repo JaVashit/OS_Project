@@ -37,7 +37,6 @@ private:
 	int w_width;
 	int w_height;
    
-    float ay, damage, dmgred;
     sf::RenderWindow * _myWindow;
 };
 #endif
