@@ -1,0 +1,9 @@
+hpbar outline size - 800 * 90
+
+hpbar size - 305 * 20
+
+hp1(left) - x: 25, y: 40
+hp2(right) - x: 460, y: 40
+
+0,0에 hpbar 틀 출력시키면 화면에 딱 맞을 거임
+그 다음 305*20짜리 hpbar를 (25, 40) 이랑 (460, 40)에 출력시키면 맞음
