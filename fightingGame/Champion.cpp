@@ -47,6 +47,32 @@ Champion::Champion(int player, int m_number, int width, int height){  // champio
 	apache	= new Apache();
 	jang	= new Jang();
 	lgpl	= new LGPL();
+
+	if(modelNumber == 0){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = gpl->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 1){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = lgpl->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 2){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = apache->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 3){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = bsd->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 4){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = jang->getCanUseSkillCount(x);
+		}
+	}
 }
 
 Champion::~Champion(){};
@@ -924,4 +950,24 @@ void Champion::detectCollision(Champion &c, float &enemyFrameCount){
 
 int Champion::getModelNumber(){
 	return modelNumber;
+}
+
+void Champion::setCanUseSkillCount(){
+	for(int x=0; x<4; x++){
+		if(modelNumber == 0){ // GPL
+			gpl->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber == 1){ // LGPL
+			lgpl->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber == 2){ // Apache
+			apache->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber == 3){ // BSD
+			bsd->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber ==4){ // P.Jang
+			jang->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+	}
 }

@@ -403,3 +403,7 @@ void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, 
 		}
 	}
 };
+
+void BSD::setCanUseSkillCount(int skillNumber, int maxCount) {
+	canUseSkillCount[skillNumber] = maxCount;
+}

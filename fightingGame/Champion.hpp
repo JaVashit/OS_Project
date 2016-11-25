@@ -40,6 +40,9 @@ private:
 	sf::Vector2 <float> spr;
 	int facing;
 	int player;
+
+	int max_SkillCount[4];
+
 	float speed;
 	float ax;
 	float ay;
@@ -100,6 +103,7 @@ public:
 	void setSpeed(float);
 	void playerWin();
 	int getModelNumber();
+	int getMaxCanUseSkillCount(int skillNumber);
 
 	void crowdControlHit(float &frameCount);
 
@@ -113,6 +117,7 @@ public:
     void calculateSpritePos();
     void calculateSpriteBlock();
 	int getCanUseSkillCount(int skillNumber);
+	void setCanUseSkillCount();
 	void setSkillNumber(int skillNumber);
 	int getSkillFrameTotal();
 	void detectCollision(Champion& champion, float &enemyFrameCount);

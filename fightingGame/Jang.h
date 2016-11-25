@@ -32,6 +32,7 @@ public:
 	int getSkillNumber();										// 스킬번호 반환 함수
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
 	int getCanUseSkillCount(int skillNumber);
+	void setCanUseSkillCount(int skillNumber, int maxCount);
 	////////////////////////////////////////////////////////// Jang skill begin
 	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (넉백)
 	void skill_RotateKick(int frameCount, class Champion &c);						// 특수 공격 '1' - B 돌려차기

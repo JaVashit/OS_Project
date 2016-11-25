@@ -22,10 +22,13 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
 
 	//Background
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
-    if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
+	backgroundTexture.loadFromFile("./images/stage/stage01.png");
 
 	//music
-	if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
+	music.openFromFile("./music/FightMusic.ogg");
+
+	//font
+	font.loadFromFile("./images/OCR_A_Std.ttf");
 
 	player1Number = p1Number;
 	player2Number = p2Number;
@@ -53,6 +56,9 @@ int Game::Run()
     player2_spr.setTexture(characterTexture2);
     c2.loadCharacter(player2_spr);
 
+	setSkillIcon(player1Number, p1_sIcon, p1_SImage, p1_SImageBackground, p1_skillCount, p1_skillCountBackground, p1_skillCountstr, c1, true);
+	setSkillIcon(player2Number, p2_sIcon, p2_SImage, p2_SImageBackground, p2_skillCount, p2_skillCountBackground, p2_skillCountstr, c2, false);
+
     music.play();
     
     //Other variables
@@ -73,9 +79,9 @@ int Game::Run()
 
 		if(!round_start && !fight_start && !gameOver){				// in Game
 			moveCharacter(c1, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W, sf::Keyboard::S);								//Player 1 movement
-			attackCharacter(c1, sf::Keyboard::Q, sf::Keyboard::Num1, sf::Keyboard::Num2, sf::Keyboard::Num3, frameCount);		//Player 1 actions
+			attackCharacter(c1, sf::Keyboard::Q, sf::Keyboard::Num1, sf::Keyboard::Num2, sf::Keyboard::Num3, frameCount, p1_skillCountstr, p1_skillCount);		//Player 1 actions
 			moveCharacter(c2, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up, sf::Keyboard::Down);					//Player 2 movement
-			attackCharacter(c2, sf::Keyboard::Num8, sf::Keyboard::Num9, sf::Keyboard::Num0, sf::Keyboard::Dash, frameCount2);	//Player 2 actions
+			attackCharacter(c2, sf::Keyboard::Num8, sf::Keyboard::Num9, sf::Keyboard::Num0, sf::Keyboard::Dash, frameCount2, p2_skillCountstr, p2_skillCount);	//Player 2 actions
 			
 			setChampionsFacing(c1, c2);									// update champions facing
 			c1.crowdControlHit(frameCount);								// player1 set sprite konck back & stun
@@ -86,6 +92,7 @@ int Game::Run()
 			checkDeath(c1, c2, time, frameCount, frameCount2);			// Death check and restart or gameover
 			detectCollision_Champions(c1, c2, frameCount, frameCount2);	// update AttackObjectList & detectCollision
 		}
+		
 		drawWindow();					// drawObject
 		drawAttackObject(c1, c2);		// drawAttackObject
 		_myWindow->display();			// display
@@ -103,6 +110,7 @@ int Game::Run()
 }
 
 void Game::loadCharacterImage(int pNumber, sf::Texture& texture){
+	sf::Texture sIcon[3];
 	if(pNumber == 1){
 		texture.loadFromFile("./images/character/gpl_sprite.png");
 	}
@@ -117,6 +125,102 @@ void Game::loadCharacterImage(int pNumber, sf::Texture& texture){
 	}
 	else if(pNumber == 5){
 		texture.loadFromFile("./images/character/jang_sprite.png");
+	}
+}
+
+void Game::setSkillIcon(int pNumber, sf::Texture *sIcon, sf::RectangleShape *p_sIcon, sf::RectangleShape *p_sIconB, 
+						sf::Text *p_skillCount, sf::RectangleShape *p_skillCountBackground, std::string* p_skillCountstr, Champion & c, bool player1){
+
+	int icon_X = 50;
+	int icon_Y = 50;
+	int lab = 50;
+	int firstLab = 50;
+	int posY = 440;
+	int textLab = 6;
+	if(pNumber == 1){
+		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+	}
+	else if(pNumber == 2){
+		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+	}
+	else if(pNumber == 3){
+		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+	}
+	else if(pNumber == 4){
+		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+	}
+	else if(pNumber == 5){
+		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+	}
+	for(int x=0; x<3; x++){
+		p_sIcon[x] =  sf::RectangleShape(sf::Vector2f(icon_X,icon_Y));
+		p_sIcon[x].setTexture(&p1_sIcon[x]);
+		p_sIconB[x] = sf::RectangleShape(sf::Vector2f(icon_X,icon_Y));
+		p_sIconB[x].setFillColor(sf::Color::Black);
+		p_skillCountBackground[x] = sf::RectangleShape(sf::Vector2f(icon_X,icon_Y));
+		p_skillCountBackground[x].setFillColor(sf::Color::White);
+	}
+	
+	for(int x=0; x<3; x++){
+		std::stringstream ss;
+		ss << c.getCanUseSkillCount(x+1);
+		ss >> p_skillCountstr[x];
+		p_skillCount[x].setFont(font);
+		p_skillCount[x].setCharacterSize(50);
+		p_skillCount[x].setColor(sf::Color::Black);
+		p_skillCount[x].setString(p_skillCountstr[x]);
+	}
+	if(player1){
+		p_sIcon[0].setPosition(firstLab+(lab+icon_X)*0, posY);
+		p_sIcon[1].setPosition(firstLab+(lab+icon_X)*1, posY);
+		p_sIcon[2].setPosition(firstLab+(lab+icon_X)*2, posY);
+		p_sIconB[0].setPosition(firstLab+(lab+icon_X)*0, posY);
+		p_sIconB[1].setPosition(firstLab+(lab+icon_X)*1, posY);
+		p_sIconB[2].setPosition(firstLab+(lab+icon_X)*2, posY);
+		p_skillCountBackground[0].setPosition(firstLab+(lab+icon_X)*0+icon_X, posY);
+		p_skillCountBackground[1].setPosition(firstLab+(lab+icon_X)*1+icon_X, posY);
+		p_skillCountBackground[2].setPosition(firstLab+(lab+icon_X)*2+icon_X, posY);
+		p_skillCount[0].setPosition(firstLab+(lab+icon_X)*0+icon_X+textLab, posY-5);
+		p_skillCount[1].setPosition(firstLab+(lab+icon_X)*1+icon_X+textLab, posY-5);
+		p_skillCount[2].setPosition(firstLab+(lab+icon_X)*2+icon_X+textLab, posY-5);
+	}
+	else{
+		p_sIcon[0].setPosition(400+firstLab+(lab+icon_X)*0, posY);
+		p_sIcon[1].setPosition(400+firstLab+(lab+icon_X)*1, posY);
+		p_sIcon[2].setPosition(400+firstLab+(lab+icon_X)*2, posY);
+		p_sIconB[0].setPosition(400+firstLab+(lab+icon_X)*0, posY);
+		p_sIconB[1].setPosition(400+firstLab+(lab+icon_X)*1, posY);
+		p_sIconB[2].setPosition(400+firstLab+(lab+icon_X)*2, posY);
+		p_skillCountBackground[0].setPosition(400+firstLab+(lab+icon_X)*0+icon_X, posY);
+		p_skillCountBackground[1].setPosition(400+firstLab+(lab+icon_X)*1+icon_X, posY);
+		p_skillCountBackground[2].setPosition(400+firstLab+(lab+icon_X)*2+icon_X, posY);
+		p_skillCount[0].setPosition(400+firstLab+(lab+icon_X)*0+icon_X+textLab, posY-5);
+		p_skillCount[1].setPosition(400+firstLab+(lab+icon_X)*1+icon_X+textLab, posY-5);
+		p_skillCount[2].setPosition(400+firstLab+(lab+icon_X)*2+icon_X+textLab, posY-5);
+	}
+	
+
+}
+
+void Game::updateSkillCount(Champion &player, std::string * p_skillCountstr, sf::Text *p_skillCount){
+	for(int x=0; x<3; x++){
+			std::stringstream s;
+			s << player.getCanUseSkillCount(x+1);
+			s >> p_skillCountstr[x];
+			p_skillCount[x].setFont(font);
+			p_skillCount[x].setCharacterSize(50);
+			p_skillCount[x].setColor(sf::Color::Black);
+			p_skillCount[x].setString(p_skillCountstr[x]);
 	}
 }
 
@@ -159,6 +263,11 @@ void Game::resetGame(Champion &player1, Champion &player2, int &time, float &fra
 	player2.vx = 0;
 	player2.vy = 0;
 
+	player1.setCanUseSkillCount();
+	player2.setCanUseSkillCount();
+	updateSkillCount(player1, p1_skillCountstr, p1_skillCount);
+	updateSkillCount(player2, p2_skillCountstr, p2_skillCount);
+
 	time = 0;
 
 	frameCount = player1.getSkillFrameTotal();
@@ -189,26 +298,27 @@ void Game::moveCharacter(Champion &c, sf::Keyboard::Key left, sf::Keyboard::Key 
 	}
 }
 
-void Game::operationSkill(Champion &c, int skillNumber, float &frameCount){
+void Game::operationSkill(Champion &c, int skillNumber, float &frameCount, std::string* p_skillCountstr, sf::Text *p_skillCount){
 	c.setAttack(true);
 	frameCount = 0;
 	c.setSkillNumber(skillNumber);
 	c.useSkill((int)frameCount);
 	c.insertAOList(skillNumber);
+	updateSkillCount(c, p_skillCountstr, p_skillCount);
 }
 
-void Game::attackCharacter(Champion& c,  sf::Keyboard::Key normal,  sf::Keyboard::Key skill1,  sf::Keyboard::Key skill2,  sf::Keyboard::Key skill3, float& frameCount){
+void Game::attackCharacter(Champion& c,  sf::Keyboard::Key normal,  sf::Keyboard::Key skill1,  sf::Keyboard::Key skill2,  sf::Keyboard::Key skill3, float& frameCount, std::string* p_skillCountstr, sf::Text *p_skillCount){
 	if (sf::Keyboard::isKeyPressed(normal) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
-		operationSkill(c, 0, frameCount);
+		operationSkill(c, 0, frameCount, p_skillCountstr, p_skillCount);
 	}
-	else if(sf::Keyboard::isKeyPressed(skill1) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
-		operationSkill(c, 1, frameCount);
+	else if(sf::Keyboard::isKeyPressed(skill1) && !c.isAttacking() && !c.isStun && !c.isKnockBack && c.getCanUseSkillCount(1) > 0) {
+		operationSkill(c, 1, frameCount, p_skillCountstr, p_skillCount);
 	}
-	else if(sf::Keyboard::isKeyPressed(skill2) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
-		operationSkill(c, 2, frameCount);
+	else if(sf::Keyboard::isKeyPressed(skill2) && !c.isAttacking() && !c.isStun && !c.isKnockBack && c.getCanUseSkillCount(2) > 0) {
+		operationSkill(c, 2, frameCount, p_skillCountstr, p_skillCount);
 	}
-	else if(sf::Keyboard::isKeyPressed(skill3) && !c.isAttacking()) {
-		operationSkill(c, 3, frameCount);
+	else if(sf::Keyboard::isKeyPressed(skill3) && !c.isAttacking() && c.getCanUseSkillCount(3) > 0) {
+		operationSkill(c, 3, frameCount, p_skillCountstr, p_skillCount);
 	}
 	if(c.isAttacking()){
 		frameCount += FRAMESPEED;
@@ -331,6 +441,18 @@ void Game::drawWindow(){
 		_myWindow->draw(p1_WS[x]);
 		_myWindow->draw(p2_WS[x]);
 	}
+
+	for(int x=0; x<3; x++){
+		_myWindow->draw(p1_SImageBackground[x]);
+		_myWindow->draw(p2_SImageBackground[x]);
+		_myWindow->draw(p1_SImage[x]);
+		_myWindow->draw(p2_SImage[x]);
+		_myWindow->draw(p1_skillCountBackground[x]);
+		_myWindow->draw(p2_skillCountBackground[x]);
+		_myWindow->draw(p1_skillCount[x]);
+		_myWindow->draw(p2_skillCount[x]);
+	}
+	
 
 	_myWindow->draw(player1_spr);
 	_myWindow->draw(player2_spr);

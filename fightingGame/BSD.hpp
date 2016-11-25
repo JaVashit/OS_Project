@@ -32,6 +32,7 @@ public:
 	void setSkillNumber(int skillNumber);						// 스킬번호 설정 함수
 	int getSkillNumber();										// 스킬번호 반환 함수
 	int getCanUseSkillCount(int skillNumber);						// 스킬 필요한 마나 반환 함수
+	void setCanUseSkillCount(int skillNumber, int maxCount);
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
 																////////////////////////////////////////////////////////// BSD skill begin
 	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (근거리, 넉백) - 밀쳐내기용 스킬
