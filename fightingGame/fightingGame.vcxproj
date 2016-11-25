@@ -83,18 +83,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Apache.cpp" />
+    <ClCompile Include="BSD.cpp" />
     <ClCompile Include="Champion.cpp" />
-    <ClCompile Include="character.cpp" />
+    <ClCompile Include="char_select.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GPL.cpp" />
+    <ClCompile Include="Jang.cpp" />
+    <ClCompile Include="LGPL.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="Opening.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apache.hpp" />
+    <ClInclude Include="BSD.hpp" />
     <ClInclude Include="Champion.hpp" />
-    <ClInclude Include="character.hpp" />
+    <ClInclude Include="char_select.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="GPL.hpp" />
+    <ClInclude Include="Jang.h" />
+    <ClInclude Include="LGPL.hpp" />
     <ClInclude Include="menu.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +126,7 @@
     <None Include="music\FightMusic.ogg" />
     <None Include="music\HellMusic.ogg" />
     <None Include="music\MenuMusic.ogg" />
+    <None Include="Opening.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

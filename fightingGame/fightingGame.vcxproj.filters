@@ -20,6 +20,12 @@
     <Filter Include="Champion\Base">
       <UniqueIdentifier>{cc1a793f-8e3f-4cc6-9dcd-5eadc4995d00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Opening">
+      <UniqueIdentifier>{bcf2d661-a5e4-476e-97b4-f4ea0d2217d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Char_Select">
+      <UniqueIdentifier>{f42c0760-79c7-4241-9473-8c371ef20c7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -34,40 +40,61 @@
     <ClCompile Include="Champion.cpp">
       <Filter>Champion\Base</Filter>
     </ClCompile>
-    <ClCompile Include="character.cpp">
-      <Filter>Champion\Base</Filter>
-    </ClCompile>
     <ClCompile Include="GPL.cpp">
       <Filter>Champion</Filter>
     </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BSD.cpp">
+      <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="Opening.cpp">
+      <Filter>Opening</Filter>
+    </ClCompile>
     <ClCompile Include="Jang.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="Apache.cpp">
+      <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="LGPL.cpp">
+      <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="char_select.cpp">
+      <Filter>Char_Select</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="menu.hpp">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="Champion.hpp">
-      <Filter>Champion\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="character.hpp">
       <Filter>Champion\Base</Filter>
     </ClInclude>
     <ClInclude Include="GPL.hpp">
       <Filter>Champion</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.hpp">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="BSD.hpp">
+      <Filter>Champion</Filter>
     </ClInclude>
     <ClInclude Include="Jang.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="Apache.hpp">
+      <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="LGPL.hpp">
+      <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="char_select.hpp">
+      <Filter>Char_Select</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +146,9 @@
     </None>
     <None Include="music\MenuMusic.ogg">
       <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Opening.hpp">
+      <Filter>Opening</Filter>
     </None>
   </ItemGroup>
 </Project>
