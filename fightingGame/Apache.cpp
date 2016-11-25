@@ -235,6 +235,10 @@ int Apache::getCanUseSkillCount(int skillNumber) {
 	return canUseSkillCount[skillNumber];
 }
 
+void Apache::setCanUseSkillCount(int skillNumber, int maxCount) {
+	canUseSkillCount[skillNumber] = maxCount;
+}
+
 void Apache::updateAOList(Champion &c) {
 	for (auto ao = c.attackObjList.begin(); ao != c.attackObjList.end(); ao++) {
 		if ((*ao)->isthrow == false) {								// 투사체가 아닌 것들

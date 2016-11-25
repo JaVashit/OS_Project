@@ -438,3 +438,7 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 	}
 
 };
+
+void Jang::setCanUseSkillCount(int skillNumber, int maxCount) {
+	canUseSkillCount[skillNumber] = maxCount;
+}

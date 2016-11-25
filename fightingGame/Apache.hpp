@@ -31,8 +31,8 @@ public:
 	void setSkillNumber(int skillNumber);						// 스킬번호 설정 함수
 	int getSkillNumber();										// 스킬번호 반환 함수
 	int getCanUseSkillCount(int skillNumber);						// 스킬 필요한 마나 반환 함수
+	void setCanUseSkillCount(int skillNumber, int maxCount);
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
-
 																////////////////////////////////////////////////////////// GPL skill begin
 	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (넉백)
 	void skill_SpinAttack(int frameCount, class Champion &c);						// 최후의 공격 (무지아픔) - 범위는 적은데 매우 아픔 (넉백)
