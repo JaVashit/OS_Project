@@ -4,11 +4,12 @@
 #include <SFML/Audio.hpp>
 #include "menu.hpp"
 #include "game.hpp"
+#include "char_select.hpp"
 
 Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
 	Game game(_windows);
-
+	Char_Select select(_windows);
 	butPos_x = 250;
 	butPos_y = 100;
 
@@ -75,7 +76,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 
 	bool fxtime = false;
 	sf::Vector2u getWindowSize;
-	unsigned int a, b, c, d;
+	unsigned int a, b, c, d;	// 변수 이름 변경필요
 	int culPos_x, culPos_y, culPos_yy;
 	while (_windows->isOpen()) {
 		sf::Event event;
@@ -142,14 +143,14 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 					if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
 						if (mousepos.y >= culPos_y  && mousepos.y <= (culPos_y + culPos_yy)) {
 							music.stop();
-							int run = game.Run();
+							int run = select.selectRun();
 							deathsound.play();
 							music.play();
-							if (run == 0 || run == 1) {
+							/*if (run == 0 || run == 1) {
 								game.setScore(run, game.getScore(run) + 1 + 1 * 1);
 								if (game.getScore(1) == 10) score2.setPosition(700, 25);
 								std::cout << "player " << run + 1 << " won" << std::endl;
-							}
+							}*/
 						}
 						else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
 							//game.setScore(0, 0);
