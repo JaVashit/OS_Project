@@ -191,14 +191,14 @@ void Champion::crowdControlHit(float &frameCount){			// champion is stun or knoc
 		if(modelNumber == 0){ // GPL
 			gpl->hit_stun((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 2){ // BSD
-			bsd->hit_stun((int)frameCount, *s_champion);
-		}
 		else if(modelNumber == 1){ // LGPL
 			lgpl->hit_stun((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 3){ // Apache
+		else if(modelNumber == 2){ // Apache
 			apache->hit_stun((int)frameCount, *s_champion);
+		}
+		else if(modelNumber == 3){ // BSD
+			bsd->hit_stun((int)frameCount, *s_champion);
 		}
 		else if(modelNumber ==4){ // P.Jang
 			jang->hit_stun((int)frameCount, *s_champion);
@@ -210,14 +210,14 @@ void Champion::crowdControlHit(float &frameCount){			// champion is stun or knoc
 		if(modelNumber == 0){ // GPL
 			gpl->hit_KnockBack((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 2){ // BSD
+		else if(modelNumber == 2){ // Apache
+			apache->hit_KnockBack((int)frameCount, *s_champion);
+		}
+		else if(modelNumber == 3){ // BSD
 			bsd->hit_KnockBack((int)frameCount, *s_champion);
 		}
 		else if(modelNumber == 1){ // LGPL
 			lgpl->hit_KnockBack((int)frameCount, *s_champion);
-		}
-		else if(modelNumber == 3){ // Apache
-			apache->hit_KnockBack((int)frameCount, *s_champion);
 		}
 		else if(modelNumber ==4){ // P.Jang
 			jang->hit_KnockBack((int)frameCount, *s_champion);
@@ -303,146 +303,7 @@ void Champion::insertAOList(int skillNumber){
 			attackObjList.push_back(ao);																						// 넣어준다
 		}
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->canUseSkillCount[skillNumber]--;
-		if (skillNumber == 0) {
-			AttackObject* ao = new AttackObject(skillNumber, 5, 1);
-			ao->damage = 5;																									//데미지 5
-			ao->check = false;																								//피격 초기화
-			ao->direct = sf::Vector2f(0, 0);																				//투사체 아니므로 방향 X
-			ao->isthrow = false;																							//투사체 아님
-			if (this->getFacing()) {																						//피격 범위 설정
-				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4 * 3, this->getPosition().y - PIC_SIZE_Y * 2);
-				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 7, this->getPosition().y);
-				ao->enemyDirect = sf::Vector2f(0.7, -0.3);
-			}
-			else {
-				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 7 * 6, this->getPosition().y - PIC_SIZE_Y * 2);
-				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4, this->getPosition().y);
-				ao->enemyDirect = sf::Vector2f(-0.7, -0.3);
-			}
-			attackObjList.push_back(ao);
-		}
-
-		else if (skillNumber == 1) {
-			AttackObject* ao = new AttackObject(skillNumber, 10, 0.15);
-
-			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
-			int random = rand() % 3;																								//gpl, lgpl, apache 중 한 개의 스프라이트 선택 위한 난수
-			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 7);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
-
-				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
-				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
-
-				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
-
-				ao->enemyDirect = sf::Vector2f(0.1, -0.1);
-			}
-			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 6);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
-
-				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
-				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
-
-				ao->direct = sf::Vector2f(-1, 0);																						// 투사체, 왼쪽
-
-				ao->enemyDirect = sf::Vector2f(-0.1, -0.1);
-			}
-
-			// 위치 정해주고
-			ao->damage = 10;																									// 데미지 10
-			ao->check = false;																									// check 초기화
-			ao->isthrow = true;																									// 투사체
-
-			attackObjList.push_back(ao);
-		}
-
-		else if (skillNumber == 1) {
-
-			AttackObject* ao = new AttackObject(skillNumber, 3, 0.05);
-
-			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
-			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 6, PIC_SIZE_Y * 7);															// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
-
-				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
-				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
-
-				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
-
-				ao->enemyDirect = sf::Vector2f(0.5, -0.4);
-			}
-			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 6, PIC_SIZE_Y * 6);															// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
-
-				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
-				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
-
-				ao->direct = sf::Vector2f(-1, 0);																					// 투사체, 왼쪽
-
-				ao->enemyDirect = sf::Vector2f(-0.5, -0.4);
-			}
-
-			// 위치 정해주고
-			ao->damage = 3;																										// 1 HIT 당 3 데미지
-			ao->check = false;																									// check 초기화
-			ao->isthrow = true;																									// 투사체고
-			ao->hitcount = 10;																									// 총 10회 HIT
-
-			attackObjList.push_back(ao);
-		}
-		else if (skillNumber == 3) {			// 궁은 따로 이미지를 입혀야 하기 때문에 색다르게 설정
-			AttackObject* ao = new AttackObject(skillNumber, 15, 0.7);
-
-			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");	// 이미지 불러오고
-			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 1, PIC_SIZE_Y * 8);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																			// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));										// 사각형 범위 정하고
-
-				ao->range_s = sf::Vector2f(this->getPosition().x + PIC_SIZE_X / 3 * 1, this->getPosition().y - PIC_SIZE_Y);
-				ao->range_e = sf::Vector2f(this->getPosition().x + PIC_SIZE_X / 3 * 1, this->getPosition().y + PIC_SIZE_Y);
-
-				ao->direct = sf::Vector2f(1, 0);																				// 투사체, 오른쪽
-
-				ao->enemyDirect = sf::Vector2f(0.8, -0.8);
-			}
-			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 0, PIC_SIZE_Y * 8);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																			// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));										// 사각형 범위 정하고
-
-				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 3 * 1, this->getPosition().y - PIC_SIZE_Y);
-				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 3 * 1, this->getPosition().y + PIC_SIZE_Y);
-
-				ao->direct = sf::Vector2f(-1, 0);																				// 투사체, 왼쪽
-
-				ao->enemyDirect = sf::Vector2f(-0.8, -0.8);
-			}
-
-			ao->obj.scale(2.5f, 2.5f);																							// 크기 키워주기
-			ao->damage = 15;																									// 1 HIT 당 15 데미지
-			ao->check = false;																									// check 초기화
-			ao->isthrow = true;																									// 투사체
-			ao->hitcount = 30;																									// 총 4회 HIT
-
-			attackObjList.push_back(ao);	
-		}// 넣어준다
-	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 2.0);
 
@@ -602,7 +463,7 @@ void Champion::insertAOList(int skillNumber){
 			attackObjList.push_back(ao);
 		}
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->canUseSkillCount[skillNumber]--;
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 1);
@@ -666,6 +527,145 @@ void Champion::insertAOList(int skillNumber){
 			}
 			attackObjList.push_back(ao);
 		}
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->canUseSkillCount[skillNumber]--;
+		if (skillNumber == 0) {
+			AttackObject* ao = new AttackObject(skillNumber, 5, 1);
+			ao->damage = 5;																									//데미지 5
+			ao->check = false;																								//피격 초기화
+			ao->direct = sf::Vector2f(0, 0);																				//투사체 아니므로 방향 X
+			ao->isthrow = false;																							//투사체 아님
+			if (this->getFacing()) {																						//피격 범위 설정
+				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4 * 3, this->getPosition().y - PIC_SIZE_Y * 2);
+				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 7, this->getPosition().y);
+				ao->enemyDirect = sf::Vector2f(0.7, -0.3);
+			}
+			else {
+				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 7 * 6, this->getPosition().y - PIC_SIZE_Y * 2);
+				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4, this->getPosition().y);
+				ao->enemyDirect = sf::Vector2f(-0.7, -0.3);
+			}
+			attackObjList.push_back(ao);
+		}
+
+		else if (skillNumber == 1) {
+			AttackObject* ao = new AttackObject(skillNumber, 10, 0.15);
+
+			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			int random = rand() % 3;																								//gpl, lgpl, apache 중 한 개의 스프라이트 선택 위한 난수
+			if (this->getFacing()) {
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 7);														// 스프라이트 찍어주고
+				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
+				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+
+				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
+				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
+
+				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
+
+				ao->enemyDirect = sf::Vector2f(0.1, -0.1);
+			}
+			else {
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 6);														// 스프라이트 찍어주고
+				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
+				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+
+				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
+				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
+
+				ao->direct = sf::Vector2f(-1, 0);																						// 투사체, 왼쪽
+
+				ao->enemyDirect = sf::Vector2f(-0.1, -0.1);
+			}
+
+			// 위치 정해주고
+			ao->damage = 10;																									// 데미지 10
+			ao->check = false;																									// check 초기화
+			ao->isthrow = true;																									// 투사체
+
+			attackObjList.push_back(ao);
+		}
+
+		else if (skillNumber == 2) {
+
+			AttackObject* ao = new AttackObject(skillNumber, 3, 0.05);
+
+			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			if (this->getFacing()) {
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 6, PIC_SIZE_Y * 7);															// 스프라이트 찍어주고
+				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
+				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+
+				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
+				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
+
+				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
+
+				ao->enemyDirect = sf::Vector2f(0.5, -0.4);
+			}
+			else {
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 6, PIC_SIZE_Y * 6);															// 스프라이트 찍어주고
+				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
+				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+
+				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
+				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
+
+				ao->direct = sf::Vector2f(-1, 0);																					// 투사체, 왼쪽
+
+				ao->enemyDirect = sf::Vector2f(-0.5, -0.4);
+			}
+
+			// 위치 정해주고
+			ao->damage = 3;																										// 1 HIT 당 3 데미지
+			ao->check = false;																									// check 초기화
+			ao->isthrow = true;																									// 투사체고
+			ao->hitcount = 10;																									// 총 10회 HIT
+
+			attackObjList.push_back(ao);
+		}
+		else if (skillNumber == 3) {			// 궁은 따로 이미지를 입혀야 하기 때문에 색다르게 설정
+			AttackObject* ao = new AttackObject(skillNumber, 15, 0.7);
+
+			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");	// 이미지 불러오고
+			if (this->getFacing()) {
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 1, PIC_SIZE_Y * 8);														// 스프라이트 찍어주고
+				ao->obj.setTexture(ao->throwTexture);																			// 텍스쳐 넣어주고
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));										// 사각형 범위 정하고
+
+				ao->range_s = sf::Vector2f(this->getPosition().x + PIC_SIZE_X / 3 * 1, this->getPosition().y - PIC_SIZE_Y);
+				ao->range_e = sf::Vector2f(this->getPosition().x + PIC_SIZE_X / 3 * 1, this->getPosition().y + PIC_SIZE_Y);
+
+				ao->direct = sf::Vector2f(1, 0);																				// 투사체, 오른쪽
+
+				ao->enemyDirect = sf::Vector2f(0.8, -0.8);
+			}
+			else {
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 0, PIC_SIZE_Y * 8);														// 스프라이트 찍어주고
+				ao->obj.setTexture(ao->throwTexture);																			// 텍스쳐 넣어주고
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));										// 사각형 범위 정하고
+
+				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 3 * 1, this->getPosition().y - PIC_SIZE_Y);
+				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 3 * 1, this->getPosition().y + PIC_SIZE_Y);
+
+				ao->direct = sf::Vector2f(-1, 0);																				// 투사체, 왼쪽
+
+				ao->enemyDirect = sf::Vector2f(-0.8, -0.8);
+			}
+
+			ao->obj.scale(2.5f, 2.5f);																							// 크기 키워주기
+			ao->damage = 15;																									// 1 HIT 당 15 데미지
+			ao->check = false;																									// check 초기화
+			ao->isthrow = true;																									// 투사체
+			ao->hitcount = 30;																									// 총 4회 HIT
+
+			attackObjList.push_back(ao);	
+		}// 넣어준다
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->canUseSkillCount[skillNumber]--;
@@ -748,14 +748,14 @@ void Champion::updateAOList(){					// update Attack Objcect List
 	if(modelNumber == 0){ // GPL
 		gpl->updateAOList(*s_champion);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->updateAOList(*s_champion);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->updateAOList(*s_champion);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->updateAOList(*s_champion);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->updateAOList(*s_champion);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->updateAOList(*s_champion);
@@ -777,14 +777,14 @@ void Champion::useSkill(int frameCount){				// champion use skill
 	if(modelNumber == 0){ // GPL
 		gpl->useSkill(skillNumber, frameCount, *s_champion);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->useSkill(skillNumber, frameCount, *s_champion);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->useSkill(skillNumber, frameCount, *s_champion);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->useSkill(skillNumber, frameCount, *s_champion);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->useSkill(skillNumber, frameCount, *s_champion);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->useSkill(skillNumber, frameCount, *s_champion);
@@ -795,14 +795,14 @@ void Champion::calculateSpriteBlock(){					// champion barrier
 	if(modelNumber == 0){ // GPL
 		gpl->calculateSpriteBlock(*s_champion);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->calculateSpriteBlock(*s_champion);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->calculateSpriteBlock(*s_champion);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->calculateSpriteBlock(*s_champion);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->calculateSpriteBlock(*s_champion);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->calculateSpriteBlock(*s_champion);
@@ -813,14 +813,14 @@ int Champion::getCanUseSkillCount(int skillNumber){			// return champion can use
 	if(modelNumber == 0){ // GPL
 		gpl->getCanUseSkillCount(skillNumber);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->getCanUseSkillCount(skillNumber);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->getCanUseSkillCount(skillNumber);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->getCanUseSkillCount(skillNumber);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->getCanUseSkillCount(skillNumber);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->getCanUseSkillCount(skillNumber);
@@ -831,14 +831,14 @@ void Champion::loadCharacter(sf::Sprite& s){				// load character sprite
 	if(modelNumber == 0){ // GPL
 		gpl->loadCharacter(s, *s_champion);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->loadCharacter(s, *s_champion);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->loadCharacter(s, *s_champion);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->loadCharacter(s, *s_champion);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->loadCharacter(s, *s_champion);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->loadCharacter(s, *s_champion);
@@ -850,14 +850,14 @@ void Champion::setSkillNumber(int skillNumber){				// set skill number
 	if(modelNumber == 0){ // GPL
 		gpl->setSkillNumber(skillNumber);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->setSkillNumber(skillNumber);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->setSkillNumber(skillNumber);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->setSkillNumber(skillNumber);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->setSkillNumber(skillNumber);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->setSkillNumber(skillNumber);
@@ -869,14 +869,14 @@ int Champion::getSkillFrameTotal(){						// return total skill frame
 	if(modelNumber == 0){ // GPL
 		ret = gpl->getSkillFrameTotal();
 	}
-	else if(modelNumber == 2){ // BSD
-		ret = bsd->getSkillFrameTotal();
-	}
 	else if(modelNumber == 1){ // LGPL
 		ret = lgpl->getSkillFrameTotal();
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		ret = apache->getSkillFrameTotal();
+	}
+	else if(modelNumber == 3){ // BSD
+		ret = bsd->getSkillFrameTotal();
 	}
 	else if(modelNumber ==4){ // P.Jang
 		ret = jang->getSkillFrameTotal();
@@ -888,14 +888,14 @@ void Champion::calculateSpritePos(){					// calculate sprite pos
 	if(modelNumber == 0){ // GPL
 		gpl->calculateSpritePos(*s_champion);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->calculateSpritePos(*s_champion);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->calculateSpritePos(*s_champion);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->calculateSpritePos(*s_champion);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->calculateSpritePos(*s_champion);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->calculateSpritePos(*s_champion);
@@ -906,14 +906,14 @@ void Champion::detectCollision(Champion &c, float &enemyFrameCount){
 	if(modelNumber == 0){ // GPL
 		gpl->detectCollision(c, this->attackObjList, enemyFrameCount);
 	}
-	else if(modelNumber == 2){ // BSD
-		bsd->detectCollision(c, this->attackObjList, enemyFrameCount);
-	}
 	else if(modelNumber == 1){ // LGPL
 		lgpl->detectCollision(c, this->attackObjList, enemyFrameCount);
 	}
-	else if(modelNumber == 3){ // Apache
+	else if(modelNumber == 2){ // Apache
 		apache->detectCollision(c, this->attackObjList, enemyFrameCount);
+	}
+	else if(modelNumber == 3){ // BSD
+		bsd->detectCollision(c, this->attackObjList, enemyFrameCount);
 	}
 	else if(modelNumber ==4){ // P.Jang
 		jang->detectCollision(c, this->attackObjList, enemyFrameCount);

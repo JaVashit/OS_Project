@@ -23,7 +23,7 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
 
 	//music
 	if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
-	printf("p1 : %d\tp2: %d\n", p1Number, p2Number);
+
 	player1Number = p1Number;
 	player2Number = p2Number;
 }
@@ -42,7 +42,7 @@ int Game::Run()
 	background.setTexture(&backgroundTexture);
     //Create and load player 1 arguments
    
-    player1_spr.setTexture(characterTexture);                       //Load texture to sprite
+    player1_spr.setTexture(characterTexture);         //Load texture to sprite
     c1.loadCharacter(player1_spr);                    //Select character texture, scale, origin
  
     //Create and load player 2 arguments
@@ -106,10 +106,10 @@ void Game::loadCharacterImage(int pNumber, sf::Texture& texture){
 		texture.loadFromFile("./images/character/lgpl_sprite.png");
 	}
 	else if(pNumber == 3){
-		texture.loadFromFile("./images/character/bsd_sprite.png");
+		texture.loadFromFile("./images/character/apache_sprite.png");
 	}
 	else if(pNumber == 4){
-		texture.loadFromFile("./images/character/apache_sprite.png");
+		texture.loadFromFile("./images/character/bsd_sprite.png");
 	}
 	else if(pNumber == 5){
 		texture.loadFromFile("./images/character/jang_sprite.png");
@@ -419,14 +419,14 @@ void Game::setWinPanel(){
 	winPanel_ax = 0.001;
 
 	winPanelTexture[0].loadFromFile("./images/character_win/gpl_win_bigimage.png");
-	winPanelTexture[1].loadFromFile("./images/character_win/bsd_win_bigimage.png");
-	winPanelTexture[2].loadFromFile("./images/character_win/lgpl_win_bigimage.png");
-	winPanelTexture[3].loadFromFile("./images/character_win/apache_win_bigimage.png");
+	winPanelTexture[1].loadFromFile("./images/character_win/lgpl_win_bigimage.png");
+	winPanelTexture[2].loadFromFile("./images/character_win/apache_win_bigimage.png");
+	winPanelTexture[3].loadFromFile("./images/character_win/bsd_win_bigimage.png");
 	winPanelTexture[4].loadFromFile("./images/character_win/jang_win_bigimage.png");
 	winPanelTextTexture[0].loadFromFile("./images/character_win/gpl_win_text.png");
-	winPanelTextTexture[1].loadFromFile("./images/character_win/bsd_win_text.png");
-	winPanelTextTexture[2].loadFromFile("./images/character_win/lgpl_win_text.png");
-	winPanelTextTexture[3].loadFromFile("./images/character_win/apache_win_text.png");
+	winPanelTextTexture[1].loadFromFile("./images/character_win/lgpl_win_text.png");
+	winPanelTextTexture[2].loadFromFile("./images/character_win/apache_win_text.png");
+	winPanelTextTexture[3].loadFromFile("./images/character_win/bsd_win_text.png");
 	winPanelTextTexture[4].loadFromFile("./images/character_win/jang_win_text.png");
 	winPanel[0] = sf::RectangleShape(sf::Vector2f(800, 500));
 	winPanel[0].setTexture(&winPanelTexture[0]);
@@ -454,17 +454,17 @@ void Game::setWinPanel(){
 	winPanelText[0].setTexture(&winPanelTextTexture[0]);
 	winPanelText[0].setTextureRect(sf::IntRect(0, 0, 248, 45));
 	winPanelText[0].setPosition(winPanelPosX+reverse,winPanelPosY);
-	winPanelText[1] = sf::RectangleShape(sf::Vector2f(400, 70));
+	winPanelText[1] = sf::RectangleShape(sf::Vector2f(200, 200));
 	winPanelText[1].setTexture(&winPanelTextTexture[1]);
-	winPanelText[1].setTextureRect(sf::IntRect(0, 0, 201, 37));
+	winPanelText[1].setTextureRect(sf::IntRect(0, 0, 124, 121));
 	winPanelText[1].setPosition(winPanelPosX+reverse,winPanelPosY);
-	winPanelText[2] = sf::RectangleShape(sf::Vector2f(200, 200));
+	winPanelText[2] = sf::RectangleShape(sf::Vector2f(400, 70));
 	winPanelText[2].setTexture(&winPanelTextTexture[2]);
-	winPanelText[2].setTextureRect(sf::IntRect(0, 0, 124, 121));
+	winPanelText[2].setTextureRect(sf::IntRect(0, 0, 178, 31));
 	winPanelText[2].setPosition(winPanelPosX+reverse,winPanelPosY);
 	winPanelText[3] = sf::RectangleShape(sf::Vector2f(400, 70));
 	winPanelText[3].setTexture(&winPanelTextTexture[3]);
-	winPanelText[3].setTextureRect(sf::IntRect(0, 0, 178, 31));
+	winPanelText[3].setTextureRect(sf::IntRect(0, 0, 201, 37));
 	winPanelText[3].setPosition(winPanelPosX+reverse,winPanelPosY);
 	winPanelText[4] = sf::RectangleShape(sf::Vector2f(400, 80));
 	winPanelText[4].setTexture(&winPanelTextTexture[4]);
