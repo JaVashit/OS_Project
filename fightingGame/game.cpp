@@ -12,13 +12,16 @@ const float FRAMESPEED = 0.02;
 Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(window){
 	w_width = _myWindow->getSize().x;
 	w_height = _myWindow->getSize().y;
-	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
 	
 	//Characters
 	loadCharacterImage(p1Number, characterTexture);
 	loadCharacterImage(p2Number, characterTexture2);
 
+	hpBarBackground = sf::RectangleShape(sf::Vector2f(800.f,90));
+	hpBarBackgroundTexture.loadFromFile("./images/other/hpbar.png");
+
 	//Background
+	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
     if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
 
 	//music
@@ -40,6 +43,7 @@ int Game::Run()
 	Champion c2 = Champion(0, player2Number-1, w_width, w_height);
 
 	background.setTexture(&backgroundTexture);
+	hpBarBackground.setTexture(&hpBarBackgroundTexture);
     //Create and load player 1 arguments
    
     player1_spr.setTexture(characterTexture);         //Load texture to sprite
@@ -268,40 +272,47 @@ void Game::detectCollision_Champions(class Champion &p1, class Champion &p2, flo
 }
 
 void Game::setObject(){
-	HpBar[0] = sf::RectangleShape(sf::Vector2f(350.f,25.f));
-	HpBar[1] = sf::RectangleShape(sf::Vector2f(350.f,25.f));
+	HpBar[0] = sf::RectangleShape(sf::Vector2f(305,20.f));
+	HpBar[1] = sf::RectangleShape(sf::Vector2f(305,20.f));
 		 
 	HpBar[0].setFillColor(sf::Color(50,100,50));
-    HpBar[0].setPosition(25.f,25.f);
+    HpBar[0].setPosition(25,40);
     HpBar[1].setFillColor(sf::Color(50,100,50));
-    HpBar[1].setPosition(775.f,25.f);
+    HpBar[1].setPosition(765,40);
     HpBar[1].setScale(-1.f,1.f);
 
-	p1_WS[0] = sf::CircleShape(10, 30);
-	p1_WS[0].setPosition(25.f, 60.f);
-	p1_WS[0].setFillColor(sf::Color(200,200,200));
-	p1_WS[1] = sf::CircleShape(10, 30);
-	p1_WS[1].setPosition(50.f, 60.f);
-	p1_WS[1].setFillColor(sf::Color(200,200,200));
-	p2_WS[0] = sf::CircleShape(10, 30);
-	p2_WS[0].setPosition(730.f, 60.f);
-	p2_WS[0].setFillColor(sf::Color(200,200,200));
-	p2_WS[1] = sf::CircleShape(10, 30);
-	p2_WS[1].setPosition(755.f, 60.f);
-	p2_WS[1].setFillColor(sf::Color(200,200,200));
+	float circleY = 95;
+	float circleX = 25;
+	float lab = 3;
+	float radius = 10;
+	float pointCount = 30;
+	sf::Color gray = sf::Color(150,125,125);
+	sf::Color black = sf::Color(0,0,0);
+	p1_WS[0] = sf::CircleShape(radius, pointCount);
+	p1_WS[0].setPosition(circleX, circleY);
+	p1_WS[0].setFillColor(gray);
+	p1_WS[1] = sf::CircleShape(radius, pointCount);
+	p1_WS[1].setPosition(circleX*2, circleY);
+	p1_WS[1].setFillColor(gray);
+	p2_WS[0] = sf::CircleShape(radius, pointCount);
+	p2_WS[0].setPosition(w_width-circleX*3+5, circleY);
+	p2_WS[0].setFillColor(gray);
+	p2_WS[1] = sf::CircleShape(radius, pointCount);
+	p2_WS[1].setPosition(w_width-circleX*2+5, circleY);
+	p2_WS[1].setFillColor(gray);
 
-	bp1_WS[0] = sf::CircleShape(13, 30);
-	bp1_WS[0].setPosition(25.f-3, 60.f-3);
-	bp1_WS[0].setFillColor(sf::Color(0,0,0));
-	bp1_WS[1] = sf::CircleShape(13, 30);
-	bp1_WS[1].setPosition(50.f-3, 60.f-3);
-	bp1_WS[1].setFillColor(sf::Color(0,0,0));
-	bp2_WS[0] = sf::CircleShape(13, 30);
-	bp2_WS[0].setPosition(730.f-3, 60.f-3);
-	bp2_WS[0].setFillColor(sf::Color(0,0,0));
-	bp2_WS[1] = sf::CircleShape(13, 30);
-	bp2_WS[1].setPosition(755.f-3, 60.f-3);
-	bp2_WS[1].setFillColor(sf::Color(0,0,0));
+	bp1_WS[0] = sf::CircleShape(radius+lab, pointCount);
+	bp1_WS[0].setPosition(circleX-lab, circleY-lab);
+	bp1_WS[0].setFillColor(black);
+	bp1_WS[1] = sf::CircleShape(radius+lab, pointCount);
+	bp1_WS[1].setPosition(circleX*2-lab, circleY-lab);
+	bp1_WS[1].setFillColor(black);
+	bp2_WS[0] = sf::CircleShape(radius+lab, pointCount);
+	bp2_WS[0].setPosition(w_width-circleX*3+5-lab, circleY-lab);
+	bp2_WS[0].setFillColor(black);
+	bp2_WS[1] = sf::CircleShape(radius+lab, pointCount);
+	bp2_WS[1].setPosition(w_width-circleX*2+5-lab, circleY-lab);
+	bp2_WS[1].setFillColor(black);
 
 	round_start = false;
 	fight_start = false;
@@ -312,6 +323,7 @@ void Game::setObject(){
 void Game::drawWindow(){
 	_myWindow->clear();
 	_myWindow->draw(background);
+	_myWindow->draw(hpBarBackground);
 	for(int x=0; x<2; x++){
 		_myWindow->draw(HpBar[x]);
 		_myWindow->draw(bp1_WS[x]);

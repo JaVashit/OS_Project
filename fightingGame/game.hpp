@@ -30,6 +30,8 @@ public:
 	sf::Sprite player1_spr;
 	sf::Sprite player2_spr;
 
+	sf::RectangleShape hpBarBackground;
+	sf::Texture hpBarBackgroundTexture;
 	sf::RectangleShape HpBar[2];
 
 	sf::CircleShape p1_WS[2], p2_WS[2]; 
