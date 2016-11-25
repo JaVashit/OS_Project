@@ -15,6 +15,7 @@ public:
 	sf::RectangleShape p2;
 	int selectRun();
 	int newCharactor(int flag);
+
 private:
 	int pos1P_x, pos1P_y, pos2P_x, pos2P_y;
 	int selectedP1, selectedP2;

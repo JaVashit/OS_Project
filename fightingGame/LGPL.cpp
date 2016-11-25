@@ -47,9 +47,9 @@ void LGPL::hit_stun(int frameCount, Champion &c) {
 }
 
 void LGPL::loadCharacter(sf::Sprite &player, Champion &c) {
-	player.setTextureRect(sf::IntRect(c.getSpr().x, c.getSpr().y, 170, 100));
+	player.setTextureRect(sf::IntRect(c.getSpr().x, c.getSpr().y, PIC_SIZE_X, PIC_SIZE_Y));
 	player.scale(2.0f, 2.0f);
-	player.setOrigin(85, 50);
+	player.setOrigin(PIC_SIZE_X/2, PIC_SIZE_Y/2);
 }
 
 void LGPL::calculateSpritePos(Champion &c) {

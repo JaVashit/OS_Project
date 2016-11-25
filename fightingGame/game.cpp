@@ -15,8 +15,8 @@ Game::Game(sf::RenderWindow *window): _myWindow(window){
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
 	
 	//Characters
-    if (!characterTexture.loadFromFile("./images/character/lgpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
-    if (!characterTexture2.loadFromFile("./images/character/jang_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture2.loadFromFile("./images/character/bsd_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
 
 	//Background
     if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
@@ -33,9 +33,8 @@ int Game::Run()
 	setRoundPanel();
 	setWinPanel();
 	
-
-	Champion c1 = Champion(1, 2, w_width, w_height);
-	Champion c2 = Champion(0, 4, w_width, w_height);
+	Champion c1 = Champion(1, 0, w_width, w_height);
+	Champion c2 = Champion(0, 1, w_width, w_height);
 
 	background.setTexture(&backgroundTexture);
     //Create and load player 1 arguments
@@ -99,12 +98,16 @@ int Game::Run()
 void Game::setChampionSprite(Champion &c, sf::Sprite &s){
 	c.caculatePosXY();
 	s.setPosition(c.getPosition());
+	if(!c.isAttacking() && !c.isBarrier() && !c.isKnockBack && !c.isStun){
+		c.calculateSpritePos();
+	}
 	if(c.getFacing()){
 		s.setScale(-2.f, 2.f);
 	}
 	else{
 		s.setScale(2.f, 2.f);
 	}
+	s.setTextureRect(sf::IntRect((int)c.getSpr().x, (int)c.getSpr().y, PIC_SIZE_X, PIC_SIZE_Y));
 }
 
 void Game::updateHpBar(Champion p1, Champion p2){
@@ -154,7 +157,6 @@ void Game::moveCharacter(Champion &c, sf::Keyboard::Key left, sf::Keyboard::Key 
 			c.move(0, 0, 0);
 			c.setBarrier(true);
 			c.calculateSpriteBlock();
-			//player1.setTextureRect(sf::IntRect(c1.getSpr().x,c1.getSpr().y,32,32));
 		} 
 		else{
 			c.setBarrier(false);
@@ -174,18 +176,18 @@ void Game::attackCharacter(Champion& c,  sf::Keyboard::Key normal,  sf::Keyboard
 	if (sf::Keyboard::isKeyPressed(normal) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
 		operationSkill(c, 0, frameCount);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
+	else if(sf::Keyboard::isKeyPressed(skill1) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
 		operationSkill(c, 1, frameCount);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
+	else if(sf::Keyboard::isKeyPressed(skill2) && !c.isAttacking() && !c.isStun && !c.isKnockBack) {
 		operationSkill(c, 2, frameCount);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) && !c.isAttacking()) {
+	else if(sf::Keyboard::isKeyPressed(skill3) && !c.isAttacking()) {
 		operationSkill(c, 3, frameCount);
 	}
 	if(c.isAttacking()){
 		frameCount += FRAMESPEED;
-		c.useSkill((int)frameCount);
+		c.useSkill(frameCount);
 		if(frameCount>c.getSkillFrameTotal()){
 			c.setAttack(false);
 			c.calculateSpritePos();

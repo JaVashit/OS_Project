@@ -86,6 +86,7 @@
     <ClCompile Include="Apache.cpp" />
     <ClCompile Include="BSD.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="char_select.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GPL.cpp" />
     <ClCompile Include="Jang.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Apache.hpp" />
     <ClInclude Include="BSD.hpp" />
     <ClInclude Include="Champion.hpp" />
+    <ClInclude Include="char_select.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="GPL.hpp" />
     <ClInclude Include="Jang.h" />

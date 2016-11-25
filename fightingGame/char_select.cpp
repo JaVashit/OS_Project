@@ -3,7 +3,6 @@
 
 Char_Select::Char_Select(sf::RenderWindow *window) :_windows(window)
 {
-
 	pos1P_x = 270;	pos1P_y = 85;
 	pos2P_x = 455;	pos2P_y = 85;
 	background = sf::RectangleShape(sf::Vector2f(800.f, 500.f));

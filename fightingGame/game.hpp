@@ -1,4 +1,6 @@
 #include "Champion.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #ifndef GAME_H
 #define GAME_H
@@ -8,6 +10,8 @@ class Game
 public:
     Game(sf::RenderWindow* window);
     int Run();
+
+	sf::Music music;
 
 	sf::Texture characterTexture;		// 캐릭터 텍스쳐
 	sf::Texture characterTexture2;
@@ -30,8 +34,6 @@ public:
 
 	sf::CircleShape p1_WS[2], p2_WS[2]; 
 	sf::CircleShape bp1_WS[2], bp2_WS[2]; 
-
-	sf::Music music;
 
 	sf::RectangleShape p1_SImage[4];
 	sf::RectangleShape p2_SImage[4];
