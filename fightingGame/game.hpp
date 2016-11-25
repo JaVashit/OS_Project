@@ -55,13 +55,16 @@ public:
 	sf::RectangleShape p1_skillCountBackground[3];
 	sf::RectangleShape p2_skillCountBackground[3];
 
+	sf::Texture hitTexture;
+	sf::RectangleShape hit;
+
 	void loadCharacterImage(int pNumber, sf::Texture& texture);
 	void setSkillIcon(int pNumber, sf::Texture *sIcon, sf::RectangleShape *p_sIcon, sf::RectangleShape *p_sIconB, 
-		sf::Text *p_skillCount, sf::RectangleShape *p_skillCountBackground, std::string* p_skillCountstr, Champion & c, bool player1);
-	void updateSkillCount(Champion &player, std::string* p_skillCountstr, sf::Text *p_skillCount);
+		sf::Text *p_skillCount, sf::RectangleShape *p_skillCountBackground, std::string* p_skillCountstr, class Champion & c, bool player1);
+	void updateSkillCount(class Champion &player, std::string* p_skillCountstr, sf::Text *p_skillCount);
 	void drawWindow();
 	void drawRound();
-	void resetGame(Champion &player1, Champion &player2, int &time, float &frameCount, float &frameCount2);
+	void resetGame(class Champion &player1, class Champion &player2, int &time, float &frameCount, float &frameCount2);
 	void setObject();
 	void setRoundPanel();
 	void setWinPanel();
@@ -73,8 +76,9 @@ public:
 	void setChampionSprite(class Champion &c, sf::Sprite &s);
 	void updateHpBar(class Champion p1, class Champion p2);
 	void checkDeath(class Champion &p1, class Champion &p2, int &time, float &frameCount, float &frameCount2);
-	void detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2);
+	void detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2, int time);
 	void drawAttackObject(class Champion &p1, class Champion &p2);
+	void drawHit(class Champion &p1, class Champion &p2);
 
 private:
 	int w_width;

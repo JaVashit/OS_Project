@@ -33,6 +33,22 @@ struct AttackObject{
 	}
 };
 
+struct hitImage{
+	sf::Vector2f pos;
+	float frameCount;
+	sf::Texture hitTexture;
+	sf::RectangleShape hit;
+	hitImage(sf::Vector2f position){
+		int random1 = rand()%50 - 25;
+		int random2 = rand()%50 - 25;
+		pos = sf::Vector2f(position.x-50+random1, position.y-50+random2);
+		frameCount = 100;
+		//hit = sf::RectangleShape(sf::Vector2f(50,50));
+		//hit.setTexture(&hitTexture);
+		//hit.setPosition(position);
+	}
+};
+
 class Champion {
 private:
 	Champion *s_champion;
@@ -108,6 +124,7 @@ public:
 	void crowdControlHit(float &frameCount);
 
 	std::list <AttackObject*> attackObjList;					// 스킬을 사용하면 공격 오브젝트 생성
+	std::list <hitImage*> hitList;
 	void insertAOList(int skillNumber);							// 공격을 했을 때, attackObject를 생성하는 함수 (이거는 각 캐릭터의 스킬마다 설정해주어야 함)
 	void updateAOList();
 	void useSkill(int frameCount);
@@ -120,5 +137,5 @@ public:
 	void setCanUseSkillCount();
 	void setSkillNumber(int skillNumber);
 	int getSkillFrameTotal();
-	void detectCollision(Champion& champion, float &enemyFrameCount);
+	void detectCollision(Champion& champion, float &enemyFrameCount, int time);
 };

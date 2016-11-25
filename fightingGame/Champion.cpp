@@ -48,6 +48,9 @@ Champion::Champion(int player, int m_number, int width, int height){  // champio
 	jang	= new Jang();
 	lgpl	= new LGPL();
 
+	hitList.clear();
+	attackObjList.clear();
+
 	if(modelNumber == 0){
 		for(int x=0; x<4; x++){
 			max_SkillCount[x] = gpl->getCanUseSkillCount(x);
@@ -931,21 +934,21 @@ void Champion::calculateSpritePos(){					// calculate sprite pos
 	}
 }
 
-void Champion::detectCollision(Champion &c, float &enemyFrameCount){
+void Champion::detectCollision(Champion &c, float &enemyFrameCount, int time){
 	if(modelNumber == 0){ // GPL
-		gpl->detectCollision(c, this->attackObjList, enemyFrameCount);
+		gpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber == 1){ // LGPL
-		lgpl->detectCollision(c, this->attackObjList, enemyFrameCount);
+		lgpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber == 2){ // Apache
-		apache->detectCollision(c, this->attackObjList, enemyFrameCount);
+		apache->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber == 3){ // BSD
-		bsd->detectCollision(c, this->attackObjList, enemyFrameCount);
+		bsd->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber ==4){ // P.Jang
-		jang->detectCollision(c, this->attackObjList, enemyFrameCount);
+		jang->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 }
 

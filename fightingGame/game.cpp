@@ -24,6 +24,8 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
 	backgroundTexture.loadFromFile("./images/stage/stage01.png");
 
+
+	if(hitTexture.loadFromFile("./images/hit_effect.png")) printf("ok");
 	//music
 	music.openFromFile("./music/FightMusic.ogg");
 
@@ -47,8 +49,9 @@ int Game::Run()
 
 	background.setTexture(&backgroundTexture);
 	hpBarBackground.setTexture(&hpBarBackgroundTexture);
+	hit.setTexture(&hitTexture);
+
     //Create and load player 1 arguments
-   
     player1_spr.setTexture(characterTexture);         //Load texture to sprite
     c1.loadCharacter(player1_spr);                    //Select character texture, scale, origin
  
@@ -90,11 +93,12 @@ int Game::Run()
 			setChampionSprite(c2, player2_spr);
 			updateHpBar(c1, c2);										// HPbars update
 			checkDeath(c1, c2, time, frameCount, frameCount2);			// Death check and restart or gameover
-			detectCollision_Champions(c1, c2, frameCount, frameCount2);	// update AttackObjectList & detectCollision
+			detectCollision_Champions(c1, c2, frameCount, frameCount2, time);	// update AttackObjectList & detectCollision
 		}
 		
 		drawWindow();					// drawObject
 		drawAttackObject(c1, c2);		// drawAttackObject
+		drawHit(c1, c2);
 		_myWindow->display();			// display
 
 		if(time==1){					// draw roundPanel & fightPanel
@@ -372,13 +376,13 @@ void Game::setChampionsFacing(Champion &p1, Champion &p2){
 	}
 }
 
-void Game::detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2){
+void Game::detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2, int time){
 	p1.updateAOList();
 	p1.deleteAOList();
-	p1.detectCollision(p2, frameCount2);
+	p1.detectCollision(p2, frameCount2, time);
 	p2.updateAOList();
 	p2.deleteAOList();
-	p2.detectCollision(p1, frameCount);
+	p2.detectCollision(p1, frameCount, time);
 }
 
 void Game::setObject(){
@@ -515,6 +519,38 @@ void Game::drawAttackObject(Champion &p1, Champion &p2){
 	for(auto ao = p2.attackObjList.begin(); ao!= p2.attackObjList.end(); ao++){
 		if((*ao)->isthrow){
 			_myWindow->draw((*ao)->obj);
+		}
+	}
+}
+
+void Game::drawHit(Champion &p1, Champion &p2){
+	auto h = p1.hitList.begin();
+	auto h2 = h;
+	for(h; h != p1.hitList.end(); h = h2){
+		h2++;
+		if((*h)->frameCount-- > 0){
+			hit =  sf::RectangleShape(sf::Vector2f(100,100));
+			hit.setTexture(&hitTexture);
+			hit.setPosition((*h)->pos.x, (*h)->pos.y);
+			_myWindow->draw(hit);
+		}
+		else{
+			p1.hitList.erase(h);
+		}
+	}
+
+	h = p2.hitList.begin();
+	h2 = h;
+	for(h; h != p2.hitList.end(); h = h2){
+		h2++;
+		if((*h)->frameCount-- > 0){
+			hit =  sf::RectangleShape(sf::Vector2f(100,100));
+			hit.setTexture(&hitTexture);
+			hit.setPosition((*h)->pos.x, (*h)->pos.y);
+			_myWindow->draw(hit);
+		}
+		else{
+			p2.hitList.erase(h);
 		}
 	}
 }

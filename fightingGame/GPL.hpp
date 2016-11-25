@@ -25,7 +25,7 @@ public:
 	void useSkill(int skillnumber, int frameCount, class Champion &c);		// 스킬을 사용하면 사용하는 함수
 	void updateAOList(class Champion& c);										// attackObject를 상대가 맞았거나 화면 밖으로 나갔을 때 check를 true로 바꿔주고
 																		// 투사체의 포지션을 업데이트 해줌
-	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, float &enemyFrameCount);			// 내 attackObject 리스트에 상대 정보를 비교하여 맞으면 효과가 발동 하도록하는 함수
+	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time);			// 내 attackObject 리스트에 상대 정보를 비교하여 맞으면 효과가 발동 하도록하는 함수
 
 	void setSkillNumber(int skillNumber);								// 스킬번호 설정 함수
 	int getSkillNumber();												// 스킬번호 반환 함수
