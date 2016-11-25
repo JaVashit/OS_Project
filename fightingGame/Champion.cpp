@@ -330,6 +330,7 @@ void Champion::insertAOList(int skillNumber){
 		}
 	}
 	else if(modelNumber == 1){ // LGPL
+		lgpl->canUseSkillCount[skillNumber]--;
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 2.0);
 

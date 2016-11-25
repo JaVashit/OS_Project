@@ -138,24 +138,24 @@ void Game::setSkillIcon(int pNumber, sf::Texture *sIcon, sf::RectangleShape *p_s
 	int posY = 440;
 	int textLab = 6;
 	if(pNumber == 1){
-		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
-		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
-		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+		sIcon[0].loadFromFile("./images/skillicon/gpl_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/gpl_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/gpl_3.png");
 	}
 	else if(pNumber == 2){
-		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
-		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
-		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+		sIcon[0].loadFromFile("./images/skillicon/lgpl_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/lgpl_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/lgpl_3.png");
 	}
 	else if(pNumber == 3){
-		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
-		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
-		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+		sIcon[0].loadFromFile("./images/skillicon/apache_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/apache_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/apache_3.png");
 	}
 	else if(pNumber == 4){
-		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
-		sIcon[1].loadFromFile("./images/skillicon/jang_2.png");
-		sIcon[2].loadFromFile("./images/skillicon/jang_3.png");
+		sIcon[0].loadFromFile("./images/skillicon/bsd_1.png");
+		sIcon[1].loadFromFile("./images/skillicon/bsd_2.png");
+		sIcon[2].loadFromFile("./images/skillicon/bsd_3.png");
 	}
 	else if(pNumber == 5){
 		sIcon[0].loadFromFile("./images/skillicon/jang_1.png");
@@ -164,11 +164,11 @@ void Game::setSkillIcon(int pNumber, sf::Texture *sIcon, sf::RectangleShape *p_s
 	}
 	for(int x=0; x<3; x++){
 		p_sIcon[x] =  sf::RectangleShape(sf::Vector2f(icon_X,icon_Y));
-		p_sIcon[x].setTexture(&p1_sIcon[x]);
+		p_sIcon[x].setTexture(&sIcon[x]);
 		p_sIconB[x] = sf::RectangleShape(sf::Vector2f(icon_X,icon_Y));
-		p_sIconB[x].setFillColor(sf::Color::Black);
+		p_sIconB[x].setFillColor(sf::Color(80,0,80));
 		p_skillCountBackground[x] = sf::RectangleShape(sf::Vector2f(icon_X,icon_Y));
-		p_skillCountBackground[x].setFillColor(sf::Color::White);
+		p_skillCountBackground[x].setFillColor(sf::Color(125,200,0));
 	}
 	
 	for(int x=0; x<3; x++){
