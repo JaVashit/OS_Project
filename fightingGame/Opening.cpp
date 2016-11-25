@@ -6,7 +6,6 @@
 
 Opening::Opening(sf::RenderWindow *window):_windows(window)
 {
-
 	sf::Texture backgroundTexture;
 	if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
 	sf::Texture BSD;
@@ -70,12 +69,8 @@ Opening::Opening(sf::RenderWindow *window):_windows(window)
 	apa_spr.setPosition(800+maxFrame,250);
 	apa_spr.scale(-1, 1);
 
-
-
 	sf::Font font;
 	if (!font.loadFromFile("./images/OCR_A_Std.ttf")) std::cout << "Error loading font" << std::endl;
-
-
 
 	sf::Music music;
 	if (!music.openFromFile("./music/MenuMusic.ogg")) std::cout << "Error loading music" << std::endl;

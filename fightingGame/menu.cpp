@@ -145,11 +145,6 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 							int run = game.Run();
 							deathsound.play();
 							music.play();
-							if (run == 0 || run == 1) {
-								game.setScore(run, game.getScore(run) + 1 + 1 * 1);
-								if (game.getScore(1) == 10) score2.setPosition(700, 25);
-								std::cout << "player " << run + 1 << " won" << std::endl;
-							}
 						}
 						else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
 							//game.setScore(0, 0);

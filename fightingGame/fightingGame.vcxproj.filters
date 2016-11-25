@@ -37,9 +37,6 @@
     <ClCompile Include="Champion.cpp">
       <Filter>Champion\Base</Filter>
     </ClCompile>
-    <ClCompile Include="character.cpp">
-      <Filter>Champion\Base</Filter>
-    </ClCompile>
     <ClCompile Include="GPL.cpp">
       <Filter>Champion</Filter>
     </ClCompile>
@@ -49,11 +46,17 @@
     <ClCompile Include="BSD.cpp">
       <Filter>Champion</Filter>
     </ClCompile>
+    <ClCompile Include="Opening.cpp">
+      <Filter>Opening</Filter>
+    </ClCompile>
     <ClCompile Include="Jang.cpp">
       <Filter>Champion</Filter>
     </ClCompile>
-    <ClCompile Include="Opening.cpp">
-      <Filter>Opening</Filter>
+    <ClCompile Include="Apache.cpp">
+      <Filter>Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="LGPL.cpp">
+      <Filter>Champion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,9 +64,6 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Champion.hpp">
-      <Filter>Champion\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="character.hpp">
       <Filter>Champion\Base</Filter>
     </ClInclude>
     <ClInclude Include="GPL.hpp">
@@ -79,6 +79,12 @@
       <Filter>Champion</Filter>
     </ClInclude>
     <ClInclude Include="Jang.h">
+      <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="Apache.hpp">
+      <Filter>Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="LGPL.hpp">
       <Filter>Champion</Filter>
     </ClInclude>
   </ItemGroup>

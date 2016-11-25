@@ -1,6 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "GPL.hpp"
+#include "BSD.hpp"
+#include "Apache.hpp"
+#include "Jang.h"
+#include "LGPL.hpp"
 
 struct AttackObject{
 	float damage;
@@ -28,8 +33,9 @@ struct AttackObject{
 	}
 };
 
-class Champion{
+class Champion {
 private:
+	Champion *s_champion;
 	sf::Vector2 <float> pos;
 	sf::Vector2 <float> spr;
 	int facing;
@@ -39,7 +45,6 @@ private:
 	float ay;
 
 	float hp;
-	int mp;
 
 	bool attack;
 	bool barrier;
@@ -48,11 +53,17 @@ private:
 
 	int modelNumber;
 	int winScore;
+	int skillNumber;
 
 public:
+	
 	int w_Width;											// 화면 가로 크기
 	int w_Height;											// 화면 세로 크기
-
+	class GPL		*gpl;
+	class BSD		*bsd;
+	class Apache	*apache;
+	class Jang		*jang;
+	class LGPL		*lgpl;
 	Champion(int p, int m_number, int width, int height);	
 	~Champion();
 	
@@ -64,9 +75,6 @@ public:
 		
 	void setHp(float);										// hp설정 반환
 	float getHp();
-
-	void setMp(int);										// mp설정 반환
-	int getMp();
 
 	void setPosition(float, float);							// position설정 반환
 	sf::Vector2<float> getPosition();
@@ -91,13 +99,21 @@ public:
 	int getWinScore();
 	void setSpeed(float);
 	void playerWin();
+	int getModelNumber();
 
-	void drawChampion();
+	void crowdControlHit(float &frameCount);
 
-	void loadCharacter(sf::Sprite&, int);					// 이거 밑으로는 삭제 예정 (각 캐릭터에 넣어질거임)
-    void calculateSpritePos(int, int);
-    void calculateSpritePunch(int);
-    void calculateSpriteBlock(int);
-    void nextSkin();
+	std::list <AttackObject*> attackObjList;					// 스킬을 사용하면 공격 오브젝트 생성
+	void insertAOList(int skillNumber);							// 공격을 했을 때, attackObject를 생성하는 함수 (이거는 각 캐릭터의 스킬마다 설정해주어야 함)
+	void updateAOList();
+	void useSkill(int frameCount);
+	void deleteAOList();
 
+	void loadCharacter(sf::Sprite&);
+    void calculateSpritePos();
+    void calculateSpriteBlock();
+	int getCanUseSkillCount(int skillNumber);
+	void setSkillNumber(int skillNumber);
+	int getSkillFrameTotal();
+	void detectCollision(Champion& champion, float &enemyFrameCount);
 };

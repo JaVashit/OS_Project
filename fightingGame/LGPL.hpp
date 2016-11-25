@@ -3,25 +3,24 @@
 #include <list>
 #include "Champion.hpp"
 
-class BSD{
+class LGPL{
 private:
-										// 스킬에 필요한 마나 
 	int skillNumber;										// 현재 사용하는 스킬의 번호
-	int skillFrame[4];										// 스킬이 몇개의 동작으로 이루어 졌는지 
+	int skillFrame[5];										// 스킬이 몇개의 동작으로 이루어 졌는지 
 public:
 
-	BSD(){
+	LGPL(){
 		canUseSkillCount[0] = 9999;								// Champion class 상속
 		canUseSkillCount[1] = 3;
 		canUseSkillCount[2] = 2;
 		canUseSkillCount[3] = 1;
-		skillFrame[0] = 13;
+		skillFrame[0] = 5;
 		skillFrame[1] = 13;
-		skillFrame[2] = 13;
+		skillFrame[2] = 5;
 		skillFrame[3] = 13;
 		skillNumber = 0;
-	}
-	~BSD();
+	};
+	~LGPL();
 
 	int canUseSkillCount[4];
 	void useSkill(int skillnumber, int frameCount, class Champion &c);				// 스킬을 사용하면 사용하는 함수
@@ -33,28 +32,29 @@ public:
 	int getSkillNumber();										// 스킬번호 반환 함수
 	int getCanUseSkillCount(int skillNumber);						// 스킬 필요한 마나 반환 함수
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
-																////////////////////////////////////////////////////////// BSD skill begin
-	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (근거리, 넉백) - 밀쳐내기용 스킬
-	void skill_EnergyAttack(int frameCount, class Champion &c);					// 에너지 발사 공격 (투사체)
-	void skill_BSDHead(int frameCount, class Champion &c);							// BSD 머리 공격 (느린 투사체, 다중 HIT, 넉백)
-	void skill_BSDPunch(int frameCount, class Champion &c);						// BSD 펀치 공격 (넓은 범위, 4회 HIT 후 넉백)
-																////////////////////////////////////////////////////////// BSD skill end
 
-																////////////////////////////////////////////////////////// BSD hit begin
-	void hit_KnockBack(int frameCount, class Champion &c);							// 넉백
+																////////////////////////////////////////////////////////// LGPL skill begin
+	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (근거리, 넉백) - 밀쳐내기용 스킬
+	void skill_Boombaya(int frameCount, class Champion &c);						// 에너지 발사 공격 (투사체)
+	void skill_Magnetic(int frameCount, class Champion &c);						// LGPL 머리 공격 (느린 투사체, 다중 HIT, 넉백)
+	void skill_ResserBim(int frameCount, class Champion &c);						// LGPL 펀치 공격 (넓은 범위, 4회 HIT 후 넉백)
+																////////////////////////////////////////////////////////// LGPL skill end
+
+																////////////////////////////////////////////////////////// LGPL hit begin
+	void hit_KnockBack(int frameCount,  class Champion &c);							// 넉백
 	void hit_stun(int frameCount, class Champion &c);								// 스턴
-																////////////////////////////////////////////////////////// BSD hit end
+																////////////////////////////////////////////////////////// LGPL hit end
 
 																////////////////////////////////////////////////////////// load Motion begin
-	void loadCharacter(sf::Sprite&, Champion &c);
-	void calculateSpritePos(Champion &c);
-	void calculateSpriteBlock(Champion &c);
+	void loadCharacter(sf::Sprite&, class Champion &c);
+	void calculateSpritePos(class Champion &c);
+	void calculateSpriteBlock(class Champion &c);
 
-	void calculateSpriteNormalAttack(int frameCount, Champion &c);			// 각각 스프라이트 좌표 찍어 주는 함수
-	void calculateSpriteEnergyAttack(int frameCount, Champion &c);
-	void calculateSpriteBSDHead(int frameCount, Champion &c);
-	void calculateSpriteBSDPunch(int frameCount, Champion &c);
-	void calculateSpriteStun(int frameCount, Champion &c);
-	void calculateSpriteKnockBack(int frameCount, Champion &c);
+	void calculateSpriteNormalAttack(int frameCount, class Champion &c);			// 각각 스프라이트 좌표 찍어 주는 함수
+	void calculateSpriteBoombaya(int frameCount, class Champion &c);
+	void calculateSpriteResserBim(int frameCount, class Champion &c);
+	void calculateSpriteMagnetic(int frameCount, class Champion &c);
+	void calculateSpriteStun(int frameCount, class Champion &c);
+	void calculateSpriteKnockBack(int frameCount, class Champion &c);
 	////////////////////////////////////////////////////////// load Motion end
 };
