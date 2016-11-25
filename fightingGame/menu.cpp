@@ -8,7 +8,6 @@
 
 Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
-	Game game(_windows);
 	Char_Select select(_windows);
 	butPos_x = 250;
 	butPos_y = 100;

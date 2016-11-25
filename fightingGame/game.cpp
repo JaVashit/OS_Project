@@ -9,20 +9,23 @@ const int PIC_SIZE_X = 170;
 const int PIC_SIZE_Y = 100;
 const float FRAMESPEED = 0.02;
 
-Game::Game(sf::RenderWindow *window): _myWindow(window){
+Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(window){
 	w_width = _myWindow->getSize().x;
 	w_height = _myWindow->getSize().y;
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
 	
 	//Characters
-    if (!characterTexture.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
-    if (!characterTexture2.loadFromFile("./images/character/bsd_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+	loadCharacterImage(p1Number, characterTexture);
+	loadCharacterImage(p2Number, characterTexture2);
 
 	//Background
     if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
 
 	//music
 	if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
+	printf("p1 : %d\tp2: %d\n", p1Number, p2Number);
+	player1Number = p1Number;
+	player2Number = p2Number;
 }
 
 int Game::Run()
@@ -33,8 +36,8 @@ int Game::Run()
 	setRoundPanel();
 	setWinPanel();
 	
-	Champion c1 = Champion(1, 0, w_width, w_height);
-	Champion c2 = Champion(0, 1, w_width, w_height);
+	Champion c1 = Champion(1, player1Number-1, w_width, w_height);
+	Champion c2 = Champion(0, player2Number-1, w_width, w_height);
 
 	background.setTexture(&backgroundTexture);
     //Create and load player 1 arguments
@@ -93,6 +96,24 @@ int Game::Run()
     }
 	
 	return 0;
+}
+
+void Game::loadCharacterImage(int pNumber, sf::Texture& texture){
+	if(pNumber == 1){
+		texture.loadFromFile("./images/character/gpl_sprite.png");
+	}
+	else if(pNumber == 2){
+		texture.loadFromFile("./images/character/lgpl_sprite.png");
+	}
+	else if(pNumber == 3){
+		texture.loadFromFile("./images/character/bsd_sprite.png");
+	}
+	else if(pNumber == 4){
+		texture.loadFromFile("./images/character/apache_sprite.png");
+	}
+	else if(pNumber == 5){
+		texture.loadFromFile("./images/character/jang_sprite.png");
+	}
 }
 
 void Game::setChampionSprite(Champion &c, sf::Sprite &s){

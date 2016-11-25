@@ -191,10 +191,10 @@ void Champion::crowdControlHit(float &frameCount){			// champion is stun or knoc
 		if(modelNumber == 0){ // GPL
 			gpl->hit_stun((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 1){ // BSD
+		else if(modelNumber == 2){ // BSD
 			bsd->hit_stun((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 2){ // LGPL
+		else if(modelNumber == 1){ // LGPL
 			lgpl->hit_stun((int)frameCount, *s_champion);
 		}
 		else if(modelNumber == 3){ // Apache
@@ -210,10 +210,10 @@ void Champion::crowdControlHit(float &frameCount){			// champion is stun or knoc
 		if(modelNumber == 0){ // GPL
 			gpl->hit_KnockBack((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 1){ // BSD
+		else if(modelNumber == 2){ // BSD
 			bsd->hit_KnockBack((int)frameCount, *s_champion);
 		}
-		else if(modelNumber == 2){ // LGPL
+		else if(modelNumber == 1){ // LGPL
 			lgpl->hit_KnockBack((int)frameCount, *s_champion);
 		}
 		else if(modelNumber == 3){ // Apache
@@ -303,7 +303,7 @@ void Champion::insertAOList(int skillNumber){
 			attackObjList.push_back(ao);																						// 넣어준다
 		}
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->canUseSkillCount[skillNumber]--;
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 5, 1);
@@ -364,7 +364,7 @@ void Champion::insertAOList(int skillNumber){
 			attackObjList.push_back(ao);
 		}
 
-		else if (skillNumber == 2) {
+		else if (skillNumber == 1) {
 
 			AttackObject* ao = new AttackObject(skillNumber, 3, 0.05);
 
@@ -748,10 +748,10 @@ void Champion::updateAOList(){					// update Attack Objcect List
 	if(modelNumber == 0){ // GPL
 		gpl->updateAOList(*s_champion);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->updateAOList(*s_champion);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->updateAOList(*s_champion);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -777,10 +777,10 @@ void Champion::useSkill(int frameCount){				// champion use skill
 	if(modelNumber == 0){ // GPL
 		gpl->useSkill(skillNumber, frameCount, *s_champion);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->useSkill(skillNumber, frameCount, *s_champion);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->useSkill(skillNumber, frameCount, *s_champion);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -795,10 +795,10 @@ void Champion::calculateSpriteBlock(){					// champion barrier
 	if(modelNumber == 0){ // GPL
 		gpl->calculateSpriteBlock(*s_champion);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->calculateSpriteBlock(*s_champion);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->calculateSpriteBlock(*s_champion);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -813,10 +813,10 @@ int Champion::getCanUseSkillCount(int skillNumber){			// return champion can use
 	if(modelNumber == 0){ // GPL
 		gpl->getCanUseSkillCount(skillNumber);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->getCanUseSkillCount(skillNumber);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->getCanUseSkillCount(skillNumber);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -831,10 +831,10 @@ void Champion::loadCharacter(sf::Sprite& s){				// load character sprite
 	if(modelNumber == 0){ // GPL
 		gpl->loadCharacter(s, *s_champion);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->loadCharacter(s, *s_champion);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->loadCharacter(s, *s_champion);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -850,10 +850,10 @@ void Champion::setSkillNumber(int skillNumber){				// set skill number
 	if(modelNumber == 0){ // GPL
 		gpl->setSkillNumber(skillNumber);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->setSkillNumber(skillNumber);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->setSkillNumber(skillNumber);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -869,10 +869,10 @@ int Champion::getSkillFrameTotal(){						// return total skill frame
 	if(modelNumber == 0){ // GPL
 		ret = gpl->getSkillFrameTotal();
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		ret = bsd->getSkillFrameTotal();
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		ret = lgpl->getSkillFrameTotal();
 	}
 	else if(modelNumber == 3){ // Apache
@@ -888,10 +888,10 @@ void Champion::calculateSpritePos(){					// calculate sprite pos
 	if(modelNumber == 0){ // GPL
 		gpl->calculateSpritePos(*s_champion);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->calculateSpritePos(*s_champion);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->calculateSpritePos(*s_champion);
 	}
 	else if(modelNumber == 3){ // Apache
@@ -906,10 +906,10 @@ void Champion::detectCollision(Champion &c, float &enemyFrameCount){
 	if(modelNumber == 0){ // GPL
 		gpl->detectCollision(c, this->attackObjList, enemyFrameCount);
 	}
-	else if(modelNumber == 1){ // BSD
+	else if(modelNumber == 2){ // BSD
 		bsd->detectCollision(c, this->attackObjList, enemyFrameCount);
 	}
-	else if(modelNumber == 2){ // LGPL
+	else if(modelNumber == 1){ // LGPL
 		lgpl->detectCollision(c, this->attackObjList, enemyFrameCount);
 	}
 	else if(modelNumber == 3){ // Apache

@@ -8,7 +8,7 @@
 class Game
 {
 public:
-    Game(sf::RenderWindow* window);
+    Game(sf::RenderWindow* window, int p1Number, int p2Number);
     int Run();
 
 	sf::Music music;
@@ -38,6 +38,8 @@ public:
 	sf::RectangleShape p1_SImage[4];
 	sf::RectangleShape p2_SImage[4];
 
+
+	void loadCharacterImage(int pNumber, sf::Texture& texture);
 	void drawWindow();
 	void drawRound();
 	void resetGame(Champion &player1, Champion &player2, int &time, float &frameCount, float &frameCount2);
@@ -56,11 +58,12 @@ public:
 	void drawAttackObject(class Champion &p1, class Champion &p2);
 
 private:
-    int score1;
-    int score2;
 	int w_width;
 	int w_height;
 	int roundCount;
+
+	int player1Number;
+	int player2Number;
 
 	float roundPanelPosX;
 	float roundPanelPosY;
