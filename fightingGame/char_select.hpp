@@ -26,6 +26,7 @@ public:
 
 	void setPlayerRect();
 	void setPlayerSelect(sf::RectangleShape &p_rect, int number);
+	void setObject();
 	void updatePlayerFrameCount();
 
 private:

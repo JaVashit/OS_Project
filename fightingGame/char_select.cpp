@@ -15,8 +15,6 @@ Char_Select::Char_Select(sf::RenderWindow *window) :_windows(window)
 	p1 = sf::RectangleShape(sf::Vector2f(80.f, 50.f));
 	p2 = sf::RectangleShape(sf::Vector2f(80.f, 50.f));
 
-	player1FrameCount = 0;
-	player2FrameCount = 0;
 	setPlayerRect();
 }
 // 캐릭터 선택을 위한 flag형식으로 만든 함수
@@ -42,13 +40,7 @@ int Char_Select::newCharactor(int flag, int &selectChar)
 int Char_Select::selectRun()
 {
 	int tmpArr[2] = {1};
-	selectedChar[0] = 1;
-	selectedChar[1] = 1;
-	selectedP1 = 1;
-	selectedP2 = 1;
-	isPlayer1Selected = false;
-	isPlayer2Selected = false;
-
+	setObject();
 	background.setTexture(&backgroundTexture);
 
 	p1.setTexture(&p1Pointer);
@@ -181,5 +173,16 @@ void Char_Select::updatePlayerFrameCount(){
 	}
 	player1_Rect.setPosition(player1FrameCount,80);
 	player2_Rect.setPosition(800-player2FrameCount,80);
+}
+
+void Char_Select::setObject(){
+	selectedChar[0] = 1;
+	selectedChar[1] = 1;
+	selectedP1 = 1;
+	selectedP2 = 1;
+	isPlayer1Selected = false;
+	isPlayer2Selected = false;
+	player1FrameCount = 0;
+	player2FrameCount = 0;
 }
 

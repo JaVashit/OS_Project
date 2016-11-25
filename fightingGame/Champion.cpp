@@ -810,21 +810,23 @@ void Champion::calculateSpriteBlock(){					// champion barrier
 }
 
 int Champion::getCanUseSkillCount(int skillNumber){			// return champion can use skill count of skill number
+	int ret = 0;
 	if(modelNumber == 0){ // GPL
-		gpl->getCanUseSkillCount(skillNumber);
+		ret = gpl->getCanUseSkillCount(skillNumber);
 	}
 	else if(modelNumber == 1){ // LGPL
-		lgpl->getCanUseSkillCount(skillNumber);
+		ret = lgpl->getCanUseSkillCount(skillNumber);
 	}
 	else if(modelNumber == 2){ // Apache
-		apache->getCanUseSkillCount(skillNumber);
+		ret = apache->getCanUseSkillCount(skillNumber);
 	}
 	else if(modelNumber == 3){ // BSD
-		bsd->getCanUseSkillCount(skillNumber);
+		ret = bsd->getCanUseSkillCount(skillNumber);
 	}
 	else if(modelNumber ==4){ // P.Jang
-		jang->getCanUseSkillCount(skillNumber);
+		ret = jang->getCanUseSkillCount(skillNumber);
 	}
+	return ret;
 }
 
 void Champion::loadCharacter(sf::Sprite& s){				// load character sprite
