@@ -223,6 +223,8 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
+						mLGPL.openFromFile("./SE/Shock.ogg");
+						mLGPL.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -235,6 +237,8 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
+						mLGPL.openFromFile("./SE/Swip2.ogg");
+						mLGPL.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -246,12 +250,17 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 				else if ((*ao)->skillNumber == 2 ||(*ao)->skillNumber == 3) { // LGPL 머리 맞으면 다음과 같이 됨
 					if (champion.isBarrier())
 					{
-						if ((*ao)->hitcount == 0) 	(*ao)->check = true;				// 정해진 횟수만큼 HIT했을 경우 투사체 소멸
+						if ((*ao)->hitcount == 0) 
+						{
+							(*ao)->check = true;				// 정해진 횟수만큼 HIT했을 경우 투사체 소멸
+						}
 						else {
 							if (enemyFrameCount > 1) {									// FrameCount가 1을 넘어가면 한 번 피격 체크
 								(*ao)->hitcount--;										// 정해진 HIT 횟수 감소
 								champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 								enemyFrameCount = 0;									// FrameCount 초기화
+								mLGPL.openFromFile("./SE/Critical.ogg");
+								mLGPL.play();
 							}
 							else	enemyFrameCount += 0.02;							// FrameCount 증가
 
@@ -273,7 +282,8 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 								champion.vx = (*ao)->enemyDirect.x / 7.0;
 								champion.vy = (*ao)->enemyDirect.y / 7.0;
 								enemyFrameCount = 0;									// FrameCount 초기화
-
+								mLGPL.openFromFile("./SE/Critical.ogg");
+								mLGPL.play();
 							}
 							else	champion.isStun = true;								// FrameCount 도는 동안 스턴 상태
 						}

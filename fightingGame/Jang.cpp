@@ -52,7 +52,7 @@ void Jang::hit_stun(int frameCount, Champion &c){
 void Jang::loadCharacter(sf::Sprite &player, Champion &c){
 	player.setTextureRect(sf::IntRect(c.getSpr().x, c.getSpr().y,PIC_SIZE_X,PIC_SIZE_Y));
 	player.scale(2.0f, 2.0f);
-    player.setOrigin(PIC_SIZE_X/2,PIC_SIZE_Y/2);
+	player.setOrigin(PIC_SIZE_X/2,PIC_SIZE_Y/2);
 }
 
 // 캐릭터 스프라이트의 위치 계산하는 부분
@@ -118,6 +118,8 @@ void Jang::calculateSpritedoubleComboAttack(int frameCount, Champion &c){
 		c.setPosition(c.getPosition().x, c.getPosition().y-0.6);
 	}
 	else if(frameCount == 6){
+		mJang.openFromFile("./SE/AttackDamage.ogg");
+		mJang.play();
 		c.setSpr(PIC_SIZE_X * 5, PIC_SIZE_Y * 4);
 		c.setPosition(c.getPosition().x, c.getPosition().y-0.4);
 	}
@@ -272,6 +274,8 @@ void Jang::updateAOList(Champion &c){
 		else{
 			if((*ao)->skillNumber == 3){			// 특수 공격 스프라이트
 				if((*ao)->frameCount < 2){
+					mJang.openFromFile("./SE/SteadyDamage.ogg");
+					mJang.play();
 					(*ao)->objSpr = sf::Vector2f(PIC_SIZE_X * 1, PIC_SIZE_Y * 6);
 				}
 				else if((*ao)->frameCount < 4){
@@ -390,6 +394,8 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 					(*ao)->check = true;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
+						mJang.openFromFile("./SE/Attack1.ogg");
+						mJang.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);
@@ -402,6 +408,8 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 					(*ao)->check = true;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
+						mJang.openFromFile("./SE/Attack2.ogg");
+						mJang.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);

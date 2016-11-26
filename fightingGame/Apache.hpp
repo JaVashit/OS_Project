@@ -5,6 +5,7 @@
 
 class Apache{
 private:
+	sf::Music mApache;
 	int skillNumber;
 	int skillFrame[4];
 public:

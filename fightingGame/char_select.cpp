@@ -65,18 +65,24 @@ int Char_Select::selectRun()
 		if(!isPlayer1Selected){
 			if (GetAsyncKeyState('S') & 0x0001)      // if "S" key is pressed   : Go Down
 			{
+				sChar.openFromFile("./SE/Arrow.ogg");
+				sChar.play();
 				p1Pos += 1;
 				if (p1Pos > 5) p1Pos = 1;
 				p1.setPosition(sf::Vector2f(p1.getPosition().x, newCharactor(p1Pos, selectedChar[0])));
 			}
 			if (GetAsyncKeyState('W') & 0x0001)      // if "W" key is pressed   : Go UP
 			{
+				sChar.openFromFile("./SE/Arrow.ogg");
+				sChar.play();
 				p1Pos -= 1;
 				if (p1Pos < 1) p1Pos = 5;
 				p1.setPosition(sf::Vector2f(p1.getPosition().x, newCharactor(p1Pos, selectedChar[0])));
 			}
 		}
 		if (GetAsyncKeyState('Q') & 0x0001) {   // Q는 캐릭터 선택
+			sChar.openFromFile("./SE/Select.ogg");
+			sChar.play();
 			isPlayer1Selected = !isPlayer1Selected;
 			selectedP1 = selectedChar[0];
 			setPlayerSelect(player1_Rect, selectedP1);
@@ -87,18 +93,24 @@ int Char_Select::selectRun()
 		if(!isPlayer2Selected){
 			if (GetAsyncKeyState(VK_DOWN) & 0x0001)      // if "DOWN" key is pressed   : Go Down
 			{
+				sChar.openFromFile("./SE/Arrow.ogg");
+				sChar.play();
 				p2Pos += 1;
 				if (p2Pos > 5) p2Pos = 1;
 				p2.setPosition(sf::Vector2f(p2.getPosition().x, newCharactor(p2Pos, selectedChar[1])));
 			}
 			if (GetAsyncKeyState(VK_UP) & 0x0001)      // if "UP" key is pressed   : Go UP
 			{
+				sChar.openFromFile("./SE/Arrow.ogg");
+				sChar.play();
 				p2Pos -= 1;
 				if (p2Pos < 1) p2Pos = 5;
 				p2.setPosition(sf::Vector2f(p2.getPosition().x, newCharactor(p2Pos, selectedChar[1])));
 			}
 		}
 		if (GetAsyncKeyState('8') & 0x0001) {   //Num8을 누르면 캐릭터 선택
+			sChar.openFromFile("./SE/Select.ogg");
+			sChar.play();
 			isPlayer2Selected = !isPlayer2Selected;
 			selectedP2 = selectedChar[1];
 			setPlayerSelect(player2_Rect, selectedP2);

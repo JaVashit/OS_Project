@@ -1,12 +1,16 @@
 #include <iostream>
 #include <sstream>
 #include <SFML/Graphics.hpp>
-#include<Windows.h>
+#include <SFML/Audio.hpp>
+#include <Windows.h>
 
 class Char_Select
 {
 public:
 	Char_Select(sf::RenderWindow*window);
+
+	sf::Music sChar;
+
 	sf::Texture backgroundTexture;
 	sf::RectangleShape background;
 	sf::Texture p1Pointer;
