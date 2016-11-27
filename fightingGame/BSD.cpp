@@ -305,7 +305,9 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					hitList.push_back(hit);
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
-					else {
+					else {						
+						mBSD.openFromFile("./SE/Attack1.ogg");
+						mBSD.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -320,6 +322,8 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
+						mBSD.openFromFile("./SE/Shock.ogg");
+						mBSD.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -335,12 +339,18 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					}
 					if (champion.isBarrier())
 					{
-						if ((*ao)->hitcount == 0) 	(*ao)->check = true;				// 정해진 횟수만큼 HIT했을 경우 투사체 소멸
+						if ((*ao)->hitcount == 0)
+						{
+							(*ao)->check = true;				// 정해진 횟수만큼 HIT했을 경우 투사체 소멸
+							
+						}
 						else {
 							if (enemyFrameCount > 1) {									// FrameCount가 1을 넘어가면 한 번 피격 체크
 								(*ao)->hitcount--;										// 정해진 HIT 횟수 감소
 								champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 								enemyFrameCount = 0;									// FrameCount 초기화
+								mBSD.openFromFile("./SE/Attack2.ogg");
+								mBSD.play();
 							}
 							else	enemyFrameCount += 0.02;							// FrameCount 증가
 
@@ -353,6 +363,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 							champion.vx = (*ao)->enemyDirect.x;
 							champion.vy = (*ao)->enemyDirect.y;
 							(*ao)->check = true;
+							
 						}
 						else {
 							if (enemyFrameCount > 2) {									// FrameCount가 2를 넘어가면 한 번 피격 체크
@@ -362,7 +373,8 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 								champion.vx = (*ao)->enemyDirect.x / 7.0;
 								champion.vy = (*ao)->enemyDirect.y / 7.0;
 								enemyFrameCount = 0;									// FrameCount 초기화
-
+								mBSD.openFromFile("./SE/Attack2.ogg");
+								mBSD.play();
 							}
 							else	champion.isStun = true;								// FrameCount 도는 동안 스턴 상태
 						}
@@ -380,7 +392,12 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 							if ((*ao)->hitcount >= 0 && enemyFrameCount > 2)			// FrameCount가 2 이상이며 Hit 횟수가 남아있을 경우
 							{
 								enemyFrameCount = 0;									// FrameCount 초기화
-								if ((*ao)->hitcount % 10 == 0)	champion.setHp(champion.getHp() - (*ao)->damage*0.2);
+								if ((*ao)->hitcount % 10 == 0)
+								{
+									champion.setHp(champion.getHp() - (*ao)->damage*0.2);
+									mBSD.openFromFile("./SE/BigDamage.ogg");
+									mBSD.play();
+								}
 								(*ao)->hitcount--;										// Hit 횟수 감소
 							}
 							else enemyFrameCount += 0.02;
@@ -392,6 +409,8 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 									champion.setHp(champion.getHp() - (*ao)->damage);
 									champion.vx = (*ao)->enemyDirect.x / 10.0;
 									champion.vy = (*ao)->enemyDirect.y / 10.0;
+									mBSD.openFromFile("./SE/BigDamage.ogg");
+									mBSD.play();
 								}
 								(*ao)->hitcount--;										// Hit 횟수 감소
 							}
