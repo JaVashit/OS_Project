@@ -39,6 +39,7 @@ int Char_Select::newCharactor(int flag, int &selectChar)
 }
 int Char_Select::selectRun()
 {
+
 	int tmpArr[2] = {1};
 	setObject();
 	background.setTexture(&backgroundTexture);
@@ -106,6 +107,7 @@ int Char_Select::selectRun()
 		}
 		if (isPlayer1Selected && isPlayer2Selected && player1FrameCount > MAX_P1_FC-1 && player2FrameCount > MAX_P2_FC-1)
 		{
+
 			Game game(_windows, tmpArr[0],  tmpArr[1]);
 			int gameRun = game.Run();
 			selectedP1 = 0;
