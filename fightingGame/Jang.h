@@ -26,12 +26,13 @@ public:
 	int canUseSkillCount[4];			// 스킬 사용 횟수 제한
 	void useSkill(int skillnumber, int frameCount, class Champion &c);				// 스킬 사용 시 스킬 번호 넘겨주는 함수
 	void updateAOList(class Champion &c);										// 리스트를 계속 업데이트 해주는 함수 - 투사체의 포지션을 업데이트
-	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, float &enemyFrameCount);	// 충돌처리
+	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time);	// 충돌처리
 
 	void setSkillNumber(int skillNumber);						// 스킬번호 설정 함수
 	int getSkillNumber();										// 스킬번호 반환 함수
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
 	int getCanUseSkillCount(int skillNumber);
+	void setCanUseSkillCount(int skillNumber, int maxCount);
 	////////////////////////////////////////////////////////// Jang skill begin
 	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (넉백)
 	void skill_RotateKick(int frameCount, class Champion &c);						// 특수 공격 '1' - B 돌려차기

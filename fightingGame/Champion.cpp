@@ -47,6 +47,35 @@ Champion::Champion(int player, int m_number, int width, int height){  // champio
 	apache	= new Apache();
 	jang	= new Jang();
 	lgpl	= new LGPL();
+
+	hitList.clear();
+	attackObjList.clear();
+
+	if(modelNumber == 0){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = gpl->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 1){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = lgpl->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 2){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = apache->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 3){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = bsd->getCanUseSkillCount(x);
+		}
+	}
+	else if(modelNumber == 4){
+		for(int x=0; x<4; x++){
+			max_SkillCount[x] = jang->getCanUseSkillCount(x);
+		}
+	}
 }
 
 Champion::~Champion(){};
@@ -304,6 +333,7 @@ void Champion::insertAOList(int skillNumber){
 		}
 	}
 	else if(modelNumber == 1){ // LGPL
+		lgpl->canUseSkillCount[skillNumber]--;
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 2.0);
 
@@ -904,24 +934,44 @@ void Champion::calculateSpritePos(){					// calculate sprite pos
 	}
 }
 
-void Champion::detectCollision(Champion &c, float &enemyFrameCount){
+void Champion::detectCollision(Champion &c, float &enemyFrameCount, int time){
 	if(modelNumber == 0){ // GPL
-		gpl->detectCollision(c, this->attackObjList, enemyFrameCount);
+		gpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber == 1){ // LGPL
-		lgpl->detectCollision(c, this->attackObjList, enemyFrameCount);
+		lgpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber == 2){ // Apache
-		apache->detectCollision(c, this->attackObjList, enemyFrameCount);
+		apache->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber == 3){ // BSD
-		bsd->detectCollision(c, this->attackObjList, enemyFrameCount);
+		bsd->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 	else if(modelNumber ==4){ // P.Jang
-		jang->detectCollision(c, this->attackObjList, enemyFrameCount);
+		jang->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
 	}
 }
 
 int Champion::getModelNumber(){
 	return modelNumber;
+}
+
+void Champion::setCanUseSkillCount(){
+	for(int x=0; x<4; x++){
+		if(modelNumber == 0){ // GPL
+			gpl->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber == 1){ // LGPL
+			lgpl->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber == 2){ // Apache
+			apache->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber == 3){ // BSD
+			bsd->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+		else if(modelNumber ==4){ // P.Jang
+			jang->setCanUseSkillCount(x, max_SkillCount[x]);
+		}
+	}
 }

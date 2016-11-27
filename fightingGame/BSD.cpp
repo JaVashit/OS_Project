@@ -291,7 +291,7 @@ void BSD::updateAOList(Champion &c) {
 	}
 }
 
-void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, float &enemyFrameCount) { // 여러분이 좋아하는 디텍트컬리젼
+void BSD::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time) { // 여러분이 좋아하는 디텍트컬리젼
 	float left = champion.getPosition().x - PIC_SIZE_X;
 	float right = champion.getPosition().x;
 	float top = champion.getPosition().y - PIC_SIZE_Y*2.0 / 8.0*7.0;
@@ -301,6 +301,8 @@ void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, 
 			if (((*ao)->range_s.y < top && (*ao)->range_e.y > top) || ((*ao)->range_s.y < bottom && (*ao)->range_e.y > bottom)) {
 				// 맞았음
 				if ((*ao)->skillNumber == 0) {	// 평타 맞으면 다음과 같이 됨
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
@@ -314,6 +316,8 @@ void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, 
 				}
 				else if ((*ao)->skillNumber == 1) {  // 에너지 공격 맞으면 다음과 같이됨
 					(*ao)->check = true;
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
 						champion.isStun = true;
@@ -325,6 +329,10 @@ void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, 
 					if (champion.getHp() < 0) champion.setHp(0);
 				}
 				else if ((*ao)->skillNumber == 2) { // BSD 머리 맞으면 다음과 같이 됨
+					if(time%80==0){
+						hitImage* hit = new hitImage(champion.getPosition());
+						hitList.push_back(hit);
+					}
 					if (champion.isBarrier())
 					{
 						if ((*ao)->hitcount == 0) 	(*ao)->check = true;				// 정해진 횟수만큼 HIT했을 경우 투사체 소멸
@@ -362,6 +370,10 @@ void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, 
 					if (champion.getHp() < 0) champion.setHp(0);
 				}
 				else if ((*ao)->skillNumber == 3) {  // BSD 펀치 다음과 같이 됨
+					if(time%80==0){
+						hitImage* hit = new hitImage(champion.getPosition());
+						hitList.push_back(hit);
+					}
 					if ((*ao)->range_e.x - (*ao)->range_s.x < PIC_SIZE_X * 2.5)			// 피격 범위가 최대 범위를 초과하지 않을 시
 					{
 						if (champion.isBarrier()) {
@@ -403,3 +415,7 @@ void BSD::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, 
 		}
 	}
 };
+
+void BSD::setCanUseSkillCount(int skillNumber, int maxCount) {
+	canUseSkillCount[skillNumber] = maxCount;
+}

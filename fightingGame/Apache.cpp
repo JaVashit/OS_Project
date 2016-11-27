@@ -235,6 +235,10 @@ int Apache::getCanUseSkillCount(int skillNumber) {
 	return canUseSkillCount[skillNumber];
 }
 
+void Apache::setCanUseSkillCount(int skillNumber, int maxCount) {
+	canUseSkillCount[skillNumber] = maxCount;
+}
+
 void Apache::updateAOList(Champion &c) {
 	for (auto ao = c.attackObjList.begin(); ao != c.attackObjList.end(); ao++) {
 		if ((*ao)->isthrow == false) {								// 투사체가 아닌 것들
@@ -290,7 +294,7 @@ void Apache::updateAOList(Champion &c) {
 	}
 }
 
-void Apache::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, float &enemyFrameCount) { // 여러분이 좋아하는 디텍트컬리젼
+void Apache::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time) { // 여러분이 좋아하는 디텍트컬리젼
 	float left = champion.getPosition().x - PIC_SIZE_X / 4.0*3.0;
 	float right = champion.getPosition().x;
 	float top = champion.getPosition().y - PIC_SIZE_Y*2.0 / 8.0*7.0;
@@ -300,6 +304,8 @@ void Apache::detectCollision(Champion &champion, std::list<AttackObject*> &aoLis
 			if (((*ao)->range_s.y < top && (*ao)->range_e.y > top) || ((*ao)->range_s.y < bottom && (*ao)->range_e.y > bottom)) {
 				// 맞았음
 				if ((*ao)->skillNumber == 0) {	// 평타 맞으면 다음과 같이 됨
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
@@ -313,6 +319,8 @@ void Apache::detectCollision(Champion &champion, std::list<AttackObject*> &aoLis
 				}
 				else if ((*ao)->skillNumber == 1) {  // 최후의일격 맞으면 다음과 같이됨
 					(*ao)->check = true;
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
 						champion.isKnockBack = true;
@@ -325,6 +333,8 @@ void Apache::detectCollision(Champion &champion, std::list<AttackObject*> &aoLis
 				}
 				else if ((*ao)->skillNumber == 3) { // 바람의 상처 맞으면 다음과 같이 됨
 					(*ao)->check = true;
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
 						champion.isKnockBack = true;

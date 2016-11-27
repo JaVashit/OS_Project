@@ -377,7 +377,7 @@ void Jang::updateAOList(Champion &c){
 }
 
 // 충돌처리
-void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, float &enemyFrameCount){ 
+void Jang::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time){ 
 	float left		= champion.getPosition().x - PIC_SIZE_X/4.0*3.0;
 	float right		= champion.getPosition().x;
 	float top		= champion.getPosition().y - PIC_SIZE_Y*2.0/8.0*7.0;
@@ -387,6 +387,8 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 			if(((*ao)->range_s.y < top && (*ao)->range_e.y > top) || ((*ao)->range_s.y < bottom && (*ao)->range_e.y > bottom)){
 				// 맞았음
 				if((*ao)->skillNumber == 0){	// 평타 맞으면 다음과 같이 됨
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					(*ao)->check = true;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
@@ -400,6 +402,8 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 				}
 				else if((*ao)->skillNumber == 1){  // 최후의일격 맞으면 다음과 같이됨
 					(*ao)->check = true;
+					hitImage* hit = new hitImage(champion.getPosition());
+					hitList.push_back(hit);
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
 						champion.isKnockBack = true;
@@ -412,6 +416,10 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 				}
 				else if((*ao)->skillNumber == 2){ // 바람의 상처 맞으면 다음과 같이 됨
 					(*ao)->check = false;
+					if(time%80==0){
+						hitImage* hit = new hitImage(champion.getPosition());
+						hitList.push_back(hit);
+					}
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{ 
 						champion.isStun = true;
@@ -423,6 +431,10 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 				else if((*ao)->skillNumber == 3){  // 궁맞으면 다음과 같이 됨 (벗어날 곳이 없지)
 					int ran = rand()%30;
 					int ran2 = rand()%30;
+					if(time%80==0){
+						hitImage* hit = new hitImage(champion.getPosition());
+						hitList.push_back(hit);
+					}
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{ 
 						champion.isStun = true;
@@ -438,3 +450,7 @@ void Jang::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 	}
 
 };
+
+void Jang::setCanUseSkillCount(int skillNumber, int maxCount) {
+	canUseSkillCount[skillNumber] = maxCount;
+}

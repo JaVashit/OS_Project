@@ -1,4 +1,6 @@
 #include "Champion.hpp"
+#include <iostream>
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -37,27 +39,46 @@ public:
 	sf::CircleShape p1_WS[2], p2_WS[2]; 
 	sf::CircleShape bp1_WS[2], bp2_WS[2]; 
 
-	sf::RectangleShape p1_SImage[4];
-	sf::RectangleShape p2_SImage[4];
+	sf::Texture p1_sIcon[3];
+	sf::Texture p2_sIcon[3];
+	sf::RectangleShape p1_SImage[3];
+	sf::RectangleShape p2_SImage[3];
+	sf::RectangleShape p1_SImageBackground[3];
+	sf::RectangleShape p2_SImageBackground[3];
 
+	std::string p1_skillCountstr[3];
+	std::string p2_skillCountstr[3];
+
+	sf::Font font;
+	sf::Text p1_skillCount[3];
+	sf::Text p2_skillCount[3];
+	sf::RectangleShape p1_skillCountBackground[3];
+	sf::RectangleShape p2_skillCountBackground[3];
+
+	sf::Texture hitTexture;
+	sf::RectangleShape hit;
 
 	void loadCharacterImage(int pNumber, sf::Texture& texture);
+	void setSkillIcon(int pNumber, sf::Texture *sIcon, sf::RectangleShape *p_sIcon, sf::RectangleShape *p_sIconB, 
+		sf::Text *p_skillCount, sf::RectangleShape *p_skillCountBackground, std::string* p_skillCountstr, class Champion & c, bool player1);
+	void updateSkillCount(class Champion &player, std::string* p_skillCountstr, sf::Text *p_skillCount);
 	void drawWindow();
 	void drawRound();
-	void resetGame(Champion &player1, Champion &player2, int &time, float &frameCount, float &frameCount2);
+	void resetGame(class Champion &player1, class Champion &player2, int &time, float &frameCount, float &frameCount2);
 	void setObject();
 	void setRoundPanel();
 	void setWinPanel();
 	void setGameOver(class Champion& winChamp);
 	void moveCharacter(class Champion &c, sf::Keyboard::Key left, sf::Keyboard::Key right, sf::Keyboard::Key jump, sf::Keyboard::Key barrier);
-    void attackCharacter(class Champion &c,  sf::Keyboard::Key normal,  sf::Keyboard::Key skill1,  sf::Keyboard::Key skill2,  sf::Keyboard::Key skill3, float &frameCount);
-	void operationSkill(class Champion &c, int skillNumber, float &frameCount);
+    void attackCharacter(class Champion &c,  sf::Keyboard::Key normal,  sf::Keyboard::Key skill1,  sf::Keyboard::Key skill2,  sf::Keyboard::Key skill3, float &frameCount, std::string* p_skillCountstr, sf::Text *p_skillCount);
+	void operationSkill(class Champion &c, int skillNumber, float &frameCount, std::string* p_skillCountstr, sf::Text *p_skillCount);
 	void setChampionsFacing(class Champion &p1, class Champion &p2); 
 	void setChampionSprite(class Champion &c, sf::Sprite &s);
 	void updateHpBar(class Champion p1, class Champion p2);
 	void checkDeath(class Champion &p1, class Champion &p2, int &time, float &frameCount, float &frameCount2);
-	void detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2);
+	void detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2, int time);
 	void drawAttackObject(class Champion &p1, class Champion &p2);
+	void drawHit(class Champion &p1, class Champion &p2);
 
 private:
 	int w_width;
