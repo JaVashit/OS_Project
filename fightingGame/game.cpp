@@ -25,7 +25,7 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
     if (!backgroundTexture.loadFromFile("./images/stage/stage01.png")) std::cout << "Error loading citybg" << std::endl;
 
 	//music
-	if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
+	//if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
 
 	player1Number = p1Number;
 	player2Number = p2Number;
