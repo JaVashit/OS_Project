@@ -210,7 +210,7 @@ void LGPL::updateAOList(Champion &c) {
 	}
 }
 
-void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time) { // 여러분이 좋아하는 디텍트컬리젼
+void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time, bool sound) { // 여러분이 좋아하는 디텍트컬리젼
 	float left = champion.getPosition().x - PIC_SIZE_X;
 	float right = champion.getPosition().x;
 	float top = champion.getPosition().y - PIC_SIZE_Y*2.0 / 8.0*7.0;
@@ -226,7 +226,7 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
 						mLGPL.openFromFile("./SE/Shock.ogg");
-						mLGPL.play();
+						if(sound) mLGPL.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -242,7 +242,7 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
 						mLGPL.openFromFile("./SE/Swip2.ogg");
-						mLGPL.play();
+						if(sound) mLGPL.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -268,7 +268,7 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 								champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 								enemyFrameCount = 0;									// FrameCount 초기화
 								mLGPL.openFromFile("./SE/Critical.ogg");
-								mLGPL.play();
+								if(sound) mLGPL.play();
 							}
 							else	enemyFrameCount += 0.02;							// FrameCount 증가
 
@@ -291,7 +291,7 @@ void LGPL::detectCollision(Champion &champion, std::list<AttackObject*> &aoList,
 								champion.vy = (*ao)->enemyDirect.y / 7.0;
 								enemyFrameCount = 0;									// FrameCount 초기화
 								mLGPL.openFromFile("./SE/Critical.ogg");
-								mLGPL.play();
+								if(sound) mLGPL.play();
 							}
 							else	champion.isStun = true;								// FrameCount 도는 동안 스턴 상태
 						}

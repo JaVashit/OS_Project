@@ -11,7 +11,7 @@ class Game
 {
 public:
     Game(sf::RenderWindow* window, int p1Number, int p2Number);  // window, player's select model number
-    int Run();											// game running
+    void Run(bool sound);											// game running
 
 	sf::Music music;
 

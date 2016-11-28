@@ -109,7 +109,6 @@ void GPL::calculateSpriteFinalAttack(int frameCount, Champion &c){
 void GPL::calculateSpriteWindofSword(int frameCount, Champion &c){
 	if(frameCount == 0){
 		c.setSpr(PIC_SIZE_X * 0, PIC_SIZE_Y * 5);
-		arrowGPL.play();
 	}
 	else if(frameCount == 1){
 		c.setSpr(PIC_SIZE_X * 1, PIC_SIZE_Y * 4);
@@ -268,7 +267,6 @@ void GPL::updateAOList(Champion &c){
 			if((*ao)->skillNumber == 3){			// 궁은 멋지기 때문에 일부로 쪼개놓음
 				if((*ao)->frameCount < 2){
 					(*ao)->objSpr = sf::Vector2f(PIC_SIZE_X * 0, PIC_SIZE_Y * 6);
-					steadyGPL.play();
 				}
 				else if((*ao)->frameCount < 4){
 					(*ao)->objSpr = sf::Vector2f(PIC_SIZE_X * 1, PIC_SIZE_Y * 6);
@@ -372,7 +370,7 @@ void GPL::updateAOList(Champion &c){
 	}
 }
 
-void GPL::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time){ // 여러분이 좋아하는 디텍트컬리젼
+void GPL::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time, bool sound){ // 여러분이 좋아하는 디텍트컬리젼
 	float left		= champion.getPosition().x - PIC_SIZE_X/4.0*3.0;
 	float right		= champion.getPosition().x;
 	float top		= champion.getPosition().y - PIC_SIZE_Y*2.0/8.0*7.0;
@@ -387,7 +385,7 @@ void GPL::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					(*ao)->check = true;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
-						mGPL.play();
+						if(sound) mGPL.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);
@@ -402,7 +400,7 @@ void GPL::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					hitList.push_back(hit);
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
-						arrowGPL.play();	
+						if(sound) arrowGPL.play();	
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);
@@ -415,7 +413,7 @@ void GPL::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					if(time%80 == 0){
 						hitImage* hit = new hitImage(champion.getPosition());
 						hitList.push_back(hit);
-						arrowGPL.play();
+						if(sound) arrowGPL.play();
 					}
 					(*ao)->check = false;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);

@@ -125,7 +125,6 @@ void Apache::calculateSpriteTeleport(int frameCount, Champion &c) {
 
 	if (frameCount == 0 || frameCount == 1) {
 		c.setSpr(PIC_SIZE_X * 0, PIC_SIZE_Y * 8);
-		mApache.play();
 	}
 	else if (frameCount == 2 || frameCount == 3) {
 		c.setSpr(PIC_SIZE_X * 1, PIC_SIZE_Y * 8);
@@ -295,7 +294,7 @@ void Apache::updateAOList(Champion &c) {
 	}
 }
 
-void Apache::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time) { // 여러분이 좋아하는 디텍트컬리젼
+void Apache::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time, bool sound) { // 여러분이 좋아하는 디텍트컬리젼
 	float left = champion.getPosition().x - PIC_SIZE_X / 4.0*3.0;
 	float right = champion.getPosition().x;
 	float top = champion.getPosition().y - PIC_SIZE_Y*2.0 / 8.0*7.0;
@@ -310,7 +309,7 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
-						attackApache.play();
+						if(sound) attackApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -325,7 +324,7 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
-						attack2Apache.play();
+						if(sound) attack2Apache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -340,7 +339,7 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
-						finalApache.play();
+						if(sound) finalApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);

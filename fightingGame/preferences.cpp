@@ -14,6 +14,10 @@ Preferences::Preferences(sf::RenderWindow *tywindow):_tywindows(tywindow)
 }
 bool Preferences:: keyboard(bool on)
 {
+
+}
+
+bool Preferences::run(bool s, sf::Music &music){
 	sf::Texture option_img;
 	if (!option_img.loadFromFile("./images/option/option_bg.png")) std::cout << "Error loading keyboard" << std::endl;
 	sf::Texture sound_on;
@@ -29,14 +33,15 @@ bool Preferences:: keyboard(bool on)
 	option.setTexture(&option_img);
 
 	sf::RectangleShape sound(sf::Vector2f(120.f, 58.f));
-	sound.setTexture(&sound_on);
+	if(s) sound.setTexture(&sound_on);
+	else sound.setTexture(&sound_off);
+	
 	sound.setPosition(340, 110);
 	sf::RectangleShape exit(sf::Vector2f(150.f, 40.f));
 	exit.setTexture(&exit_Button);
 	exit.setPosition(625, 440);
 
-
-	bool soundOn = true;
+	bool soundOn = s;
 	bool fxtime = false;
 	sf::Vector2u getWindowSize;
 	int culPos_x ;
@@ -61,32 +66,30 @@ bool Preferences:: keyboard(bool on)
 				_tywindows->close();
 			if (event.type == sf::Event::MouseButtonPressed) {				//왼쪽버튼 눌러지면
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					if (mousepos.x >= 400 && mousepos.x <= 460 ) {			//스피커 on x_자리
-
-						if (mousepos.y >=110 && mousepos.y <= 168)			//스피커 on y_자리
-						{
-							sound.setTexture(&sound_off);
-							soundOn = false;
-						}
-					}
-					else{
-						sound.setTexture(&sound_on);
-						soundOn = true;
-					}
-
 					if(mousepos.x > 625 && mousepos.x <= 775 && mousepos.y > 440 && mousepos.y < 480)		//스피커 off x_자리
 					{
-						if(soundOn == true)
+						if(soundOn == true){
 							return true;
-						else
+						}
+						else{
 							return false;
+						}
+					}
+					else {
+						if (mousepos.x >= 400 && mousepos.x <= 460  && mousepos.y >=110 && mousepos.y <= 168) {			//스피커 off
+							sound.setTexture(&sound_off);
+							soundOn = false;
+							music.stop();
+						}
+						else if (mousepos.x >= 340 && mousepos.x <= 400 && mousepos.y >=110 && mousepos.y <= 168){
+							sound.setTexture(&sound_on);
+							soundOn = true;
+							music.play();
+						}
 					}
 				}
 			}
 		}
-
-
-
 
 		_tywindows->clear();
 		_tywindows->draw(option);
@@ -96,6 +99,5 @@ bool Preferences:: keyboard(bool on)
 
 	}
 }
-
 
 

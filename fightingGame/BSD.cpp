@@ -291,7 +291,7 @@ void BSD::updateAOList(Champion &c) {
 	}
 }
 
-void BSD::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time) { // 여러분이 좋아하는 디텍트컬리젼
+void BSD::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time, bool sound) { // 여러분이 좋아하는 디텍트컬리젼
 	float left = champion.getPosition().x - PIC_SIZE_X;
 	float right = champion.getPosition().x;
 	float top = champion.getPosition().y - PIC_SIZE_Y*2.0 / 8.0*7.0;
@@ -307,7 +307,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {						
 						mBSD.openFromFile("./SE/Attack1.ogg");
-						mBSD.play();
+						if(sound) mBSD.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -323,7 +323,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
 						mBSD.openFromFile("./SE/Shock.ogg");
-						mBSD.play();
+						if(sound) mBSD.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -350,7 +350,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 								champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 								enemyFrameCount = 0;									// FrameCount 초기화
 								mBSD.openFromFile("./SE/Attack2.ogg");
-								mBSD.play();
+								if(sound) mBSD.play();
 							}
 							else	enemyFrameCount += 0.02;							// FrameCount 증가
 
@@ -374,7 +374,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 								champion.vy = (*ao)->enemyDirect.y / 7.0;
 								enemyFrameCount = 0;									// FrameCount 초기화
 								mBSD.openFromFile("./SE/Attack2.ogg");
-								mBSD.play();
+								if(sound) mBSD.play();
 							}
 							else	champion.isStun = true;								// FrameCount 도는 동안 스턴 상태
 						}
@@ -396,7 +396,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 								{
 									champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 									mBSD.openFromFile("./SE/BigDamage.ogg");
-									mBSD.play();
+									if(sound) mBSD.play();
 								}
 								(*ao)->hitcount--;										// Hit 횟수 감소
 							}
@@ -410,7 +410,7 @@ void BSD::detectCollision(class Champion &champion, std::list<struct AttackObjec
 									champion.vx = (*ao)->enemyDirect.x / 10.0;
 									champion.vy = (*ao)->enemyDirect.y / 10.0;
 									mBSD.openFromFile("./SE/BigDamage.ogg");
-									mBSD.play();
+									if(sound) mBSD.play();
 								}
 								(*ao)->hitcount--;										// Hit 횟수 감소
 							}

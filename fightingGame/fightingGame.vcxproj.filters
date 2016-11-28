@@ -65,6 +65,7 @@
       <Filter>Char_Select</Filter>
     </ClCompile>
     <ClCompile Include="AboutChamion.cpp" />
+    <ClCompile Include="preferences.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.hpp">
@@ -98,6 +99,7 @@
       <Filter>Char_Select</Filter>
     </ClInclude>
     <ClInclude Include="AboutChampion.hpp" />
+    <ClInclude Include="preferences.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\FightGameBG.png">

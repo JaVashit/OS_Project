@@ -5,6 +5,8 @@ class Preferences
 {
 public:
 	Preferences(sf::RenderWindow *tywindow);
+
+	bool run(bool sound, sf::Music &music);
 	bool keyboard(bool on);
 
 private:

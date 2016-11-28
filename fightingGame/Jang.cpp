@@ -118,8 +118,6 @@ void Jang::calculateSpritedoubleComboAttack(int frameCount, Champion &c){
 		c.setPosition(c.getPosition().x, c.getPosition().y-0.6);
 	}
 	else if(frameCount == 6){
-		mJang.openFromFile("./SE/AttackDamage.ogg");
-		mJang.play();
 		c.setSpr(PIC_SIZE_X * 5, PIC_SIZE_Y * 4);
 		c.setPosition(c.getPosition().x, c.getPosition().y-0.4);
 	}
@@ -233,7 +231,7 @@ int Jang::getCanUseSkillCount(int skillNumber){
 }
 
 // 리스트를 계속 업데이트 해주는 함수
-void Jang::updateAOList(Champion &c){
+void Jang::updateAOList(Champion &c, bool sound){
 	for(auto ao = c.attackObjList.begin(); ao != c.attackObjList.end(); ao++){
 		if((*ao)->isthrow == false){								// 투사체가 아닌 것들
 			if((*ao)->skillNumber == 0){							// 0,1,2번 스킬은 다음과 같이 설정 (캐릭터 따라서 움직여야 하기 때문에)
@@ -275,7 +273,7 @@ void Jang::updateAOList(Champion &c){
 			if((*ao)->skillNumber == 3){			// 특수 공격 스프라이트
 				if((*ao)->frameCount < 2){
 					mJang.openFromFile("./SE/SteadyDamage.ogg");
-					mJang.play();
+					if(sound) mJang.play();
 					(*ao)->objSpr = sf::Vector2f(PIC_SIZE_X * 1, PIC_SIZE_Y * 6);
 				}
 				else if((*ao)->frameCount < 4){
@@ -381,7 +379,7 @@ void Jang::updateAOList(Champion &c){
 }
 
 // 충돌처리
-void Jang::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time){ 
+void Jang::detectCollision(class Champion &champion, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time, bool sound){ 
 	float left		= champion.getPosition().x - PIC_SIZE_X/4.0*3.0;
 	float right		= champion.getPosition().x;
 	float top		= champion.getPosition().y - PIC_SIZE_Y*2.0/8.0*7.0;
@@ -397,7 +395,7 @@ void Jang::detectCollision(class Champion &champion, std::list<struct AttackObje
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
 						mJang.openFromFile("./SE/Attack1.ogg");
-						mJang.play();
+						if(sound) mJang.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);
@@ -413,7 +411,7 @@ void Jang::detectCollision(class Champion &champion, std::list<struct AttackObje
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
 						mJang.openFromFile("./SE/Attack2.ogg");
-						mJang.play();
+						if(sound) mJang.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);

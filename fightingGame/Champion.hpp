@@ -44,9 +44,6 @@ struct hitImage{
 		int random2 = rand()%50 - 25;
 		pos = sf::Vector2f(position.x-50+random1, position.y-50+random2);
 		frameCount = 100;
-		//hit = sf::RectangleShape(sf::Vector2f(50,50));
-		//hit.setTexture(&hitTexture);
-		//hit.setPosition(position);
 	}
 };
 
@@ -127,7 +124,7 @@ public:
 	std::list <AttackObject*> attackObjList;					// 스킬을 사용하면 공격 오브젝트 생성
 	std::list <hitImage*> hitList;								// 적 스킬에 맞으면 hit 오브젝트 생성
 	void insertAOList(int skillNumber);							// 공격을 했을 때, attackObject를 생성하는 함수 (이거는 각 캐릭터의 스킬마다 설정해주어야 함)
-	void updateAOList();										// attackobject를 저장할 리스트
+	void updateAOList(bool sound);								// attackobject를 저장할 리스트
 	void useSkill(int frameCount);								// 스킬을 사용하면 스킬 모션을 출력하도록 sprite position을 설정
 	void deleteAOList();										// attackobject 리스트에서 check가 true인 원소들을 삭제
 
@@ -138,5 +135,5 @@ public:
 	void setCanUseSkillCount();									// 게임이 다시 시작 될 때 최대 스킬 사용 횟수로 다시 설정
 	void setSkillNumber(int skillNumber);						// 스킬을 사용하면 스킬 번호를 저장
 	int getSkillFrameTotal();									// 해당 스킬의 총 프레임 수를 반환
-	void detectCollision(Champion& champion, float &enemyFrameCount, int time);	// 충돌검사
+	void detectCollision(Champion& champion, float &enemyFrameCount, int time, bool Sound);	// 충돌검사
 };

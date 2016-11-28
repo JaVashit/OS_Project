@@ -12,6 +12,7 @@ public:
 private:
 	int butPos_x, butPos_y;
 	int butSize_x, butSize_y;
+	bool soundOn;
 	sf::RenderWindow *_windows;
 
 };

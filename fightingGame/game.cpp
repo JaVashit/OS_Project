@@ -38,8 +38,9 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
 	player2Number = p2Number;
 }
 
-int Game::Run()
+void Game::Run(bool sound)
 {
+	soundOn = sound;
 	roundCount = 1;
     setObject();
 	//round
@@ -80,7 +81,7 @@ int Game::Run()
 				_myWindow->close();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){		// pressed escape
-			return -1;
+			return;
 		}
 
 		if(!round_start && !fight_start && !gameOver){ // in Game
@@ -113,11 +114,11 @@ int Game::Run()
 			if(soundOn){
 				music.stop();
 			}
-			return 0;
+			return;
 		}
     }
 	
-	return 0;
+	return;
 }
 
 void Game::loadCharacterImage(int pNumber, sf::Texture& texture){		
@@ -344,7 +345,7 @@ void Game::attackCharacter(Champion& c,  sf::Keyboard::Key normal,  sf::Keyboard
 
 void Game::checkDeath(Champion &p1, Champion &p2, int &time, float &frameCount, float &frameCount2){
 	if (p1.isDeath()) {										// player1 is death
-		finSound.play();
+		if(soundOn) finSound.play();
 		p2.playerWin();
 		p2.isKnockBack = true;
 		if(p2.getWinScore() >= 2){							// player2 win two round
@@ -359,7 +360,7 @@ void Game::checkDeath(Champion &p1, Champion &p2, int &time, float &frameCount, 
 		p2.attackObjList.clear();
 	}
 	if (p2.isDeath()) {										// player2 is death	
-		finSound.play();
+		if(soundOn) finSound.play();
 		p1.playerWin();	
 		p1.isKnockBack = true;
 		if(p1.getWinScore() >= 2){							// player1 win two round
@@ -387,12 +388,12 @@ void Game::setChampionsFacing(Champion &p1, Champion &p2){
 }
 
 void Game::detectCollision_Champions(class Champion &p1, class Champion &p2, float &frameCount, float &frameCount2, int time){
-	p1.updateAOList();							// update attack object list
+	p1.updateAOList(soundOn);							// update attack object list
 	p1.deleteAOList();
-	p1.detectCollision(p2, frameCount2, time);	// detect collision
-	p2.updateAOList();
+	p1.detectCollision(p2, frameCount2, time, soundOn);	// detect collision
+	p2.updateAOList(soundOn);
 	p2.deleteAOList();
-	p2.detectCollision(p1, frameCount, time);
+	p2.detectCollision(p1, frameCount, time, soundOn);
 }
 
 void Game::setObject(){

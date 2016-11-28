@@ -25,7 +25,7 @@ public:
 	sf::RectangleShape player1_Select_Rect;
 	sf::RectangleShape player2_Select_Rect;
 
-	int selectRun();
+	void selectRun(bool sound);
 	int newCharactor(int flag, int &selectedChar);
 
 	void setPlayerRect();
@@ -42,6 +42,10 @@ private:
 	bool isPlayer2Selected;
 	float player1FrameCount;
 	float player2FrameCount;
+
+	bool soundOn;
+
+	sf::Music selectMusic;
 
 	sf::RenderWindow *_windows;
 

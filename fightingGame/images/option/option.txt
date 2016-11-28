@@ -1,0 +1,5 @@
+soundon, soundoff size: 120 * 58
+위치: x: 340, y: 110
+
+Exit, ExitHover 크기: 150 * 40
+위치: x: 625, y: 440

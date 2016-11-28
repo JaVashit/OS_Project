@@ -774,7 +774,7 @@ void Champion::insertAOList(int skillNumber){
 	}
 }
 
-void Champion::updateAOList(){					// update Attack Objcect List
+void Champion::updateAOList(bool sound){					// update Attack Objcect List
 	if(modelNumber == 0){ // GPL
 		gpl->updateAOList(*s_champion);
 	}
@@ -788,7 +788,7 @@ void Champion::updateAOList(){					// update Attack Objcect List
 		bsd->updateAOList(*s_champion);
 	}
 	else if(modelNumber ==4){ // P.Jang
-		jang->updateAOList(*s_champion);
+		jang->updateAOList(*s_champion, sound);
 	}
 }
 
@@ -821,7 +821,7 @@ void Champion::useSkill(int frameCount){				// champion use skill
 	}
 }
 
-void Champion::calculateSpriteBlock(){					// champion barrier
+void Champion::calculateSpriteBlock(){						// champion barrier
 	if(modelNumber == 0){ // GPL
 		gpl->calculateSpriteBlock(*s_champion);
 	}
@@ -934,21 +934,21 @@ void Champion::calculateSpritePos(){					// calculate sprite pos
 	}
 }
 
-void Champion::detectCollision(Champion &c, float &enemyFrameCount, int time){
+void Champion::detectCollision(Champion &c, float &enemyFrameCount, int time, bool sound){
 	if(modelNumber == 0){ // GPL
-		gpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
+		gpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time, sound);
 	}
 	else if(modelNumber == 1){ // LGPL
-		lgpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
+		lgpl->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time, sound);
 	}
 	else if(modelNumber == 2){ // Apache
-		apache->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
+		apache->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time, sound);
 	}
 	else if(modelNumber == 3){ // BSD
-		bsd->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
+		bsd->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time, sound);
 	}
 	else if(modelNumber ==4){ // P.Jang
-		jang->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time);
+		jang->detectCollision(c, this->attackObjList, this->hitList, enemyFrameCount, time, sound);
 	}
 }
 

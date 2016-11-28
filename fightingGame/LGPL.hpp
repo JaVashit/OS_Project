@@ -24,10 +24,11 @@ public:
 	~LGPL();
 
 	int canUseSkillCount[4];
-	void useSkill(int skillnumber, int frameCount, class Champion &c);				// 스킬을 사용하면 사용하는 함수
-	void updateAOList(class Champion &c);										// attackObject를 상대가 맞았거나 화면 밖으로 나갔을 때 check를 true로 바꿔주고
+	void useSkill(int skillnumber, int frameCount, class Champion &c);// 스킬을 사용하면 사용하는 함수
+	void updateAOList(class Champion &c);						// attackObject를 상대가 맞았거나 화면 밖으로 나갔을 때 check를 true로 바꿔주고
 																// 투사체의 포지션을 업데이트 해줌
-	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time);	// 내 attackObject 리스트에 상대 정보를 비교하여 맞으면 효과가 발동 하도록하는 함수
+	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time, bool sound);	
+																// 내 attackObject 리스트에 상대 정보를 비교하여 맞으면 효과가 발동 하도록하는 함수
 
 	void setSkillNumber(int skillNumber);						// 스킬번호 설정 함수
 	int getSkillNumber();										// 스킬번호 반환 함수
@@ -36,10 +37,10 @@ public:
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
 
 																////////////////////////////////////////////////////////// LGPL skill begin
-	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (근거리, 넉백) - 밀쳐내기용 스킬
-	void skill_Boombaya(int frameCount, class Champion &c);						// 에너지 발사 공격 (투사체)
-	void skill_Magnetic(int frameCount, class Champion &c);						// LGPL 머리 공격 (느린 투사체, 다중 HIT, 넉백)
-	void skill_ResserBim(int frameCount, class Champion &c);						// LGPL 펀치 공격 (넓은 범위, 4회 HIT 후 넉백)
+	void skill_NormalAttack(int frameCount, class Champion &c);	// 기본 공격 (근거리, 넉백) - 밀쳐내기용 스킬
+	void skill_Boombaya(int frameCount, class Champion &c);		// 에너지 발사 공격 (투사체)
+	void skill_Magnetic(int frameCount, class Champion &c);		// LGPL 머리 공격 (느린 투사체, 다중 HIT, 넉백)
+	void skill_ResserBim(int frameCount, class Champion &c);	// LGPL 펀치 공격 (넓은 범위, 4회 HIT 후 넉백)
 																////////////////////////////////////////////////////////// LGPL skill end
 
 																////////////////////////////////////////////////////////// LGPL hit begin
