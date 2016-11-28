@@ -91,7 +91,7 @@ public:
 	bool isStun;											// 스턴이냐
 	bool isKnockBack;										// 넉백이냐
 	float vx;												// x축 속도
-	float vy;												// y축 속도 (사실 이거도 private에 넣어야 하는데 다른애들이 건드려야 되서 귀찮아서 걍 뺌)
+	float vy;												// y축 속도 
 		
 	void setHp(float);										// hp설정 반환
 	float getHp();
@@ -125,18 +125,18 @@ public:
 	void crowdControlHit(float &frameCount);
 
 	std::list <AttackObject*> attackObjList;					// 스킬을 사용하면 공격 오브젝트 생성
-	std::list <hitImage*> hitList;
+	std::list <hitImage*> hitList;								// 적 스킬에 맞으면 hit 오브젝트 생성
 	void insertAOList(int skillNumber);							// 공격을 했을 때, attackObject를 생성하는 함수 (이거는 각 캐릭터의 스킬마다 설정해주어야 함)
-	void updateAOList();
-	void useSkill(int frameCount);
-	void deleteAOList();
+	void updateAOList();										// attackobject를 저장할 리스트
+	void useSkill(int frameCount);								// 스킬을 사용하면 스킬 모션을 출력하도록 sprite position을 설정
+	void deleteAOList();										// attackobject 리스트에서 check가 true인 원소들을 삭제
 
-	void loadCharacter(sf::Sprite&);
-    void calculateSpritePos();
-    void calculateSpriteBlock();
-	int getCanUseSkillCount(int skillNumber);
-	void setCanUseSkillCount();
-	void setSkillNumber(int skillNumber);
-	int getSkillFrameTotal();
-	void detectCollision(Champion& champion, float &enemyFrameCount, int time);
+	void loadCharacter(sf::Sprite&);							// character 이미지 설정
+    void calculateSpritePos();									// sprite position 설정
+    void calculateSpriteBlock();								// 방어할 때 sprite 설정
+	int getCanUseSkillCount(int skillNumber);					// 스킬 사용횟수 반환
+	void setCanUseSkillCount();									// 게임이 다시 시작 될 때 최대 스킬 사용 횟수로 다시 설정
+	void setSkillNumber(int skillNumber);						// 스킬을 사용하면 스킬 번호를 저장
+	int getSkillFrameTotal();									// 해당 스킬의 총 프레임 수를 반환
+	void detectCollision(Champion& champion, float &enemyFrameCount, int time);	// 충돌검사
 };

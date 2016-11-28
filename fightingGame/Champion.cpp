@@ -51,6 +51,7 @@ Champion::Champion(int player, int m_number, int width, int height){  // champio
 	hitList.clear();
 	attackObjList.clear();
 
+	// 최대 스킬 사용 횟수 저장
 	if(modelNumber == 0){
 		for(int x=0; x<4; x++){
 			max_SkillCount[x] = gpl->getCanUseSkillCount(x);
@@ -261,7 +262,7 @@ void Champion::insertAOList(int skillNumber){
 		gpl->canUseSkillCount[skillNumber]--;
 		if(skillNumber == 0){
 			AttackObject* ao = new AttackObject(skillNumber, 10, 1);
-			ao->damage = 10;					// 평타 댐지 10
+			ao->damage = 10;					// 평타 대미지 10
 			ao->check = false;					// 아직 안맞았고
 			ao->direct = sf::Vector2f(0,0);		// 방향 없고(투사체가 아니니까)
 			ao->isthrow = false;				// 투사체 아니고
@@ -270,14 +271,14 @@ void Champion::insertAOList(int skillNumber){
 				ao->range_e = sf::Vector2f(this->getPosition().x+PIC_SIZE_X/2, this->getPosition().y);
 				ao->enemyDirect = sf::Vector2f(0.2, -1);	// 적이 넉백 될때 0.2와 -1로 설정하는게 보기 아름다움
 			}
-			else{
+			else{								// 왼쪽을 바라보고 있으면
 				ao->range_s = sf::Vector2f(this->getPosition().x-PIC_SIZE_X/2-PIC_SIZE_X/4*3, this->getPosition().y-PIC_SIZE_Y*2);
 				ao->range_e = sf::Vector2f(this->getPosition().x+PIC_SIZE_X/4-PIC_SIZE_X/4*3, this->getPosition().y);
 				ao->enemyDirect = sf::Vector2f(-0.2, -1);
 			}
 			attackObjList.push_back(ao);		// 다 설정해주고 리스트에 집어넣음
 		}
-		else if(skillNumber == 1){				// 밑으로 마찬가지로 같이 설정
+		else if(skillNumber == 1){				
 			AttackObject* ao = new AttackObject(skillNumber, 20, 1);
 			ao->damage = 30;
 			ao->check = false;
@@ -328,7 +329,7 @@ void Champion::insertAOList(int skillNumber){
 			ao->isthrow = true;																									// 투사체고
 			ao->range_s = sf::Vector2f(-w_Width, -w_Height);																	// 범위는 맵 전체
 			ao->range_e = sf::Vector2f(w_Width, w_Height);
-			ao->enemyDirect = sf::Vector2f(0, 0);																				// 의미 없고
+			ao->enemyDirect = sf::Vector2f(0, 0);																				
 			attackObjList.push_back(ao);																						// 넣어준다
 		}
 	}
@@ -337,38 +338,38 @@ void Champion::insertAOList(int skillNumber){
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 2.0);
 
-			if (!ao->throwTexture.loadFromFile("./images/character/LGPL_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			if (!ao->throwTexture.loadFromFile("./images/character/LGPL_sprite.png")) printf("Error loading vx_characters\n");		
 
 			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*4, PIC_SIZE_Y * 2);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 100, 50));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*4, PIC_SIZE_Y * 2);														
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 100, 50));											
+				ao->obj.scale(1.5f, 1.5f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
+				ao->direct = sf::Vector2f(1, 0);																					
 
 				ao->enemyDirect = sf::Vector2f(0.1, -0.1);
 			}
 			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*4, PIC_SIZE_Y * 2);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 100, 50));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*4, PIC_SIZE_Y * 2);														
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 100, 50));											
+				ao->obj.scale(1.5f, 1.5f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(-1, 0);																						// 투사체, 왼쪽
+				ao->direct = sf::Vector2f(-1, 0);																						
 
 				ao->enemyDirect = sf::Vector2f(-0.1, -0.1);
 			}
 			// 위치 정해주고
-			ao->damage = 10;																									// 데미지 10
-			ao->check = false;																									// check 초기화
-			ao->isthrow = true;																									// 투사체
+			ao->damage = 10;																								
+			ao->check = false;																									
+			ao->isthrow = true;																									
 
 			attackObjList.push_back(ao);
 		}
@@ -376,39 +377,39 @@ void Champion::insertAOList(int skillNumber){
 		else if (skillNumber == 1) {
 			AttackObject* ao = new AttackObject(skillNumber, 20, 0.7);
 
-			if (!ao->throwTexture.loadFromFile("./images/character/LGPL_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			if (!ao->throwTexture.loadFromFile("./images/character/LGPL_sprite.png")) printf("Error loading vx_characters\n");	
 			//gpl, lgpl, apache 중 한 개의 스프라이트 선택 위한 난수
 			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*1, PIC_SIZE_Y * 7);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*1, PIC_SIZE_Y * 7);														
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											
+				ao->obj.scale(1.5f, 1.5f);																						
 
 				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
+				ao->direct = sf::Vector2f(1, 0);																					
 
 				ao->enemyDirect = sf::Vector2f(0.1, -0.1);
 			}
 			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*1, PIC_SIZE_Y * 6);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*1, PIC_SIZE_Y * 6);														
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											
+				ao->obj.scale(1.5f, 1.5f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(-1, 0);																						// 투사체, 왼쪽
+				ao->direct = sf::Vector2f(-1, 0);																						
 
 				ao->enemyDirect = sf::Vector2f(-0.1, -0.1);
 			}
 
 			// 위치 정해주고
-			ao->damage = 10;																									// 데미지 10
-			ao->check = false;																									// check 초기화
-			ao->isthrow = true;																									// 투사체
+			ao->damage = 10;																									
+			ao->check = false;																									
+			ao->isthrow = true;																									
 
 			attackObjList.push_back(ao);
 		}
@@ -417,34 +418,34 @@ void Champion::insertAOList(int skillNumber){
 		if (skillNumber == 2) {
 			AttackObject* ao = new AttackObject(skillNumber, 3, 0.4);
 
-			if (!ao->throwTexture.loadFromFile("./images/character/GPL_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			if (!ao->throwTexture.loadFromFile("./images/character/GPL_sprite.png")) printf("Error loading vx_characters\n");		
 			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 5, PIC_SIZE_Y * 0);															// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.0, 2.0f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 5, PIC_SIZE_Y * 0);															
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											
+				ao->obj.scale(1.0, 2.0f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x - ENERGY_SIZE_X/2, this->getPosition().y  - ENERGY_SIZE_Y );
 				ao->range_e = sf::Vector2f(this->getPosition().x , this->getPosition().y );
-				ao->direct = sf::Vector2f(1, -2);																					// 투사체, 오른쪽
+				ao->direct = sf::Vector2f(1, -2);																					
 
 				ao->enemyDirect = sf::Vector2f(0.5, -0.4);
 			}
 			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 5, PIC_SIZE_Y * 0);															// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.0f, 2.0f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 5, PIC_SIZE_Y * 0);															
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											
+				ao->obj.scale(1.0f, 2.0f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X/2, this->getPosition().y - ENERGY_SIZE_Y );
 				ao->range_e = sf::Vector2f(this->getPosition().x , this->getPosition().y );
 
-				ao->direct = sf::Vector2f(-1, -2);																					// 투사체, 왼쪽
+				ao->direct = sf::Vector2f(-1, -2);																				
 
 				ao->enemyDirect = sf::Vector2f(-0.5, -0.4);
 			}
 
-			// 위치 정해주고
+			
 			ao->damage = 3;																										// 1 HIT 당 3 데미지
 			ao->check = false;																									// check 초기화
 			ao->isthrow = true;																									// 투사체고
@@ -456,35 +457,34 @@ void Champion::insertAOList(int skillNumber){
 		if (skillNumber == 3) {
 			AttackObject* ao = new AttackObject(skillNumber, 3, 0.4);
 
-			if (!ao->throwTexture.loadFromFile("./images/character/LGPL_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			if (!ao->throwTexture.loadFromFile("./images/character/LGPL_sprite.png")) printf("Error loading vx_characters\n");		
 			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 3, PIC_SIZE_Y * 8);															// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											// 사각형 범위 정하고
-				ao->obj.scale(3.0, 1.0f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 3, PIC_SIZE_Y * 8);															
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											
+				ao->obj.scale(3.0, 1.0f);																						
 
 				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(1, -0.1);																					// 투사체, 오른쪽
+				ao->direct = sf::Vector2f(1, -0.1);																				
 
 				ao->enemyDirect = sf::Vector2f(0.5, -0.4);
 			}
 			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 3, PIC_SIZE_Y * 8);															// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											// 사각형 범위 정하고
-				ao->obj.scale(3.0f, 1.0f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X * 3, PIC_SIZE_Y * 8);															
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 150, 100));											
+				ao->obj.scale(3.0f, 1.0f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(-1, -0.1);																					// 투사체, 왼쪽
+				ao->direct = sf::Vector2f(-1, -0.1);																				
 
 				ao->enemyDirect = sf::Vector2f(-0.5, -0.4);
 			}
 
-			// 위치 정해주고
 			ao->damage = 3;																										// 1 HIT 당 3 데미지
 			ao->check = false;																									// check 초기화
 			ao->isthrow = true;																									// 투사체고
@@ -497,23 +497,23 @@ void Champion::insertAOList(int skillNumber){
 		apache->canUseSkillCount[skillNumber]--;
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 1);
-			ao->damage = 10;					// 평타 댐지 10
-			ao->check = false;					// 아직 안맞았고
-			ao->direct = sf::Vector2f(0, 0);		// 방향 없고(투사체가 아니니까)
-			ao->isthrow = false;				// 투사체 아니고
-			if (this->getFacing()) {				// 오른쪽 바라보고 있으면
-				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4, this->getPosition().y - PIC_SIZE_Y * 2); // 시작점 끝점 설정
+			ao->damage = 10;					
+			ao->check = false;					
+			ao->direct = sf::Vector2f(0, 0);		
+			ao->isthrow = false;				
+			if (this->getFacing()) {
+				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4, this->getPosition().y - PIC_SIZE_Y * 2);
 				ao->range_e = sf::Vector2f(this->getPosition().x + PIC_SIZE_X / 2, this->getPosition().y);
-				ao->enemyDirect = sf::Vector2f(0.2, -1);	// 적이 넉백 될때 0.2와 -1로 설정하는게 보기 아름다움
+				ao->enemyDirect = sf::Vector2f(0.2, -1);	
 			}
 			else {
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 2 - PIC_SIZE_X / 4 * 3, this->getPosition().y - PIC_SIZE_Y * 2);
 				ao->range_e = sf::Vector2f(this->getPosition().x + PIC_SIZE_X / 4 - PIC_SIZE_X / 4 * 3, this->getPosition().y);
 				ao->enemyDirect = sf::Vector2f(-0.2, -1);
 			}
-			attackObjList.push_back(ao);		// 다 설정해주고 리스트에 집어넣음
+			attackObjList.push_back(ao);		
 		}
-		else if (skillNumber == 1) {				// 밑으로 마찬가지로 같이 설정
+		else if (skillNumber == 1) {			
 			AttackObject* ao = new AttackObject(skillNumber, 20, 1);
 			ao->damage = 10;
 			ao->check = false;
@@ -539,13 +539,13 @@ void Champion::insertAOList(int skillNumber){
 			ao->isthrow = false;
 			attackObjList.push_back(ao);
 		}
-		else if (skillNumber == 3) {			// 궁은 따로 이미지를 입혀야 하기 때문에 색다르게 설정
-			AttackObject* ao = new AttackObject(skillNumber, 5, 1);
-			ao->damage = 5;																									//데미지 5
-			ao->check = false;																								//피격 초기화
-			ao->direct = sf::Vector2f(0, 0);																				//투사체 아니므로 방향 X
-			ao->isthrow = false;																							//투사체 아님
-			if (this->getFacing()) {																						//피격 범위 설정
+		else if (skillNumber == 3) {			
+			AttackObject* ao = new AttackObject(skillNumber, 10, 1);
+			ao->damage = 10;																									
+			ao->check = false;																								
+			ao->direct = sf::Vector2f(0, 0);																				
+			ao->isthrow = false;																							
+			if (this->getFacing()) {																						
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4 * 3, this->getPosition().y - PIC_SIZE_Y * 2);
 				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 7, this->getPosition().y);
 				ao->enemyDirect = sf::Vector2f(0.7, -0.3);
@@ -562,11 +562,11 @@ void Champion::insertAOList(int skillNumber){
 		bsd->canUseSkillCount[skillNumber]--;
 		if (skillNumber == 0) {
 			AttackObject* ao = new AttackObject(skillNumber, 5, 1);
-			ao->damage = 5;																									//데미지 5
-			ao->check = false;																								//피격 초기화
-			ao->direct = sf::Vector2f(0, 0);																				//투사체 아니므로 방향 X
-			ao->isthrow = false;																							//투사체 아님
-			if (this->getFacing()) {																						//피격 범위 설정
+			ao->damage = 5;																									
+			ao->check = false;																								
+			ao->direct = sf::Vector2f(0, 0);																				
+			ao->isthrow = false;																							
+			if (this->getFacing()) {																						
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 4 * 3, this->getPosition().y - PIC_SIZE_Y * 2);
 				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X / 7, this->getPosition().y);
 				ao->enemyDirect = sf::Vector2f(0.7, -0.3);
@@ -582,36 +582,36 @@ void Champion::insertAOList(int skillNumber){
 		else if (skillNumber == 1) {
 			AttackObject* ao = new AttackObject(skillNumber, 10, 0.15);
 
-			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");		// 이미지 불러오고
+			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");		
 			int random = rand() % 3;																								//gpl, lgpl, apache 중 한 개의 스프라이트 선택 위한 난수
 			if (this->getFacing()) {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 7);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 7);														
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											
+				ao->obj.scale(1.5f, 1.5f);																						
 
 				ao->range_s = sf::Vector2f(this->getPosition().x, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x + ENERGY_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(1, 0);																					// 투사체, 오른쪽
+				ao->direct = sf::Vector2f(1, 0);																					
 
 				ao->enemyDirect = sf::Vector2f(0.1, -0.1);
 			}
 			else {
-				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 6);														// 스프라이트 찍어주고
-				ao->obj.setTexture(ao->throwTexture);																				// 텍스쳐 넣어주고
-				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											// 사각형 범위 정하고
-				ao->obj.scale(1.5f, 1.5f);																							// 크기 늘려주고
+				ao->objSpr = sf::Vector2f(PIC_SIZE_X*random, PIC_SIZE_Y * 6);														
+				ao->obj.setTexture(ao->throwTexture);																				
+				ao->obj.setTextureRect(sf::IntRect(ao->objSpr.x, ao->objSpr.y, 170, 100));											
+				ao->obj.scale(1.5f, 1.5f);																							
 
 				ao->range_s = sf::Vector2f(this->getPosition().x - PIC_SIZE_X - ENERGY_SIZE_X, this->getPosition().y - ENERGY_SIZE_Y / 2 * 3);
 				ao->range_e = sf::Vector2f(this->getPosition().x - PIC_SIZE_X, this->getPosition().y + ENERGY_SIZE_Y / 2 * 3);
 
-				ao->direct = sf::Vector2f(-1, 0);																						// 투사체, 왼쪽
+				ao->direct = sf::Vector2f(-1, 0);																						
 
 				ao->enemyDirect = sf::Vector2f(-0.1, -0.1);
 			}
 
-			// 위치 정해주고
+			
 			ao->damage = 10;																									// 데미지 10
 			ao->check = false;																									// check 초기화
 			ao->isthrow = true;																									// 투사체
@@ -659,7 +659,7 @@ void Champion::insertAOList(int skillNumber){
 
 			attackObjList.push_back(ao);
 		}
-		else if (skillNumber == 3) {			// 궁은 따로 이미지를 입혀야 하기 때문에 색다르게 설정
+		else if (skillNumber == 3) {			
 			AttackObject* ao = new AttackObject(skillNumber, 15, 0.7);
 
 			if (!ao->throwTexture.loadFromFile("./images/character/bsd_sprite.png")) printf("Error loading vx_characters\n");	// 이미지 불러오고
@@ -792,7 +792,7 @@ void Champion::updateAOList(){					// update Attack Objcect List
 	}
 }
 
-void Champion::deleteAOList(){
+void Champion::deleteAOList(){				// delete attack object 
 	auto iter = attackObjList.begin();
 	auto iter2 = iter;
 	for(iter; iter!=attackObjList.end(); iter = iter2){
@@ -952,7 +952,7 @@ void Champion::detectCollision(Champion &c, float &enemyFrameCount, int time){
 	}
 }
 
-int Champion::getModelNumber(){
+int Champion::getModelNumber(){				// return champion model number
 	return modelNumber;
 }
 
