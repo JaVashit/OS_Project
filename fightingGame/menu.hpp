@@ -11,6 +11,7 @@ public:
 
 private:
 	int butPos_x, butPos_y;
+	int butSize_x, butSize_y;
 	sf::RenderWindow *_windows;
 
 };
