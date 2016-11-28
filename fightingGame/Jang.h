@@ -5,7 +5,7 @@
 
 class Jang{
 private:
-	sf::Music mJang;
+	sf::Music mJang;		// Jang에 관련된 사운드를 관리하는 변수
 	int skillNumber;		// 현재 사용하는 스킬의 번호
 	int skillFrame[4];		// 스킬 스프라이트 횟수
 
@@ -17,11 +17,11 @@ public:
 		skillFrame[1] = 14; // 특수 공격 '1'
 		skillFrame[2] = 22; // 특수 공격 '2'
 		skillFrame[3] = 60;	// 특수 공격 '3'
-		canUseSkillCount[0] = 9999;
-		canUseSkillCount[1] = 3;
-		canUseSkillCount[2] = 2;
-		canUseSkillCount[3] = 1;
-		skillNumber = 0;
+		canUseSkillCount[0] = 9999; // 일반 공격 횟수
+		canUseSkillCount[1] = 3;	// 특수 공격 1 횟수 3회로 제한
+		canUseSkillCount[2] = 2;	// 특수 공격 2 횟수 2회로 제한
+		canUseSkillCount[3] = 1;	// 궁극기 횟수 1회로 제한
+		skillNumber = 0;	// 어떤 스킬을 사용하는 지 알 수 있는 스킬 인덱스
 	};
 	~Jang();
 	int canUseSkillCount[4];			// 스킬 사용 횟수 제한
