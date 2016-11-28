@@ -12,9 +12,13 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
 	Char_Select select(_windows);
 	AboutChampion aboutChampion(_windows);
+	// 첫번째 버튼의 시작점 좌표
 	butPos_x = 250;
-	butPos_y = 135;
+	butPos_y = 100;
+	butSize_x = 300;
+	butSize_y = 85;
 
+	// menu를 창을 띄우기 위한 이미지를 불러옴(배경, 버튼, 활성화 버튼)
 	sf::Texture backgroundTexture;
 	if (!backgroundTexture.loadFromFile("./images/MainScreen/startimage.png")) std::cout << "Error loading citybg" << std::endl;
 	sf::Texture button1H;
@@ -29,37 +33,30 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 	if (!button3H.loadFromFile("./images/MainScreen/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
 	sf::Texture button3NH;
 	if (!button3NH.loadFromFile("./images/MainScreen/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
+	sf::Texture button4H;
+	if (!button3H.loadFromFile("./images/MainScreen/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
+	sf::Texture button4NH;
+	if (!button3NH.loadFromFile("./images/MainScreen/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
 
-	sf::RectangleShape background(sf::Vector2f(800.f, 500.f));
+	sf::RectangleShape background(sf::Vector2f(800.f, 500.f));	// 창의 크기는 800X500
 	background.setTexture(&backgroundTexture);
 
-	sf::RectangleShape button1(sf::Vector2f(300.f, 85.f));
+	// 버튼의 크기는 300X85
+	sf::RectangleShape button1(sf::Vector2f(butSize_x, butSize_y));
 	button1.setTexture(&button1NH);
 	button1.setPosition(butPos_x, butPos_y);
-	sf::RectangleShape button2(sf::Vector2f(300.f, 85.f));
+	sf::RectangleShape button2(sf::Vector2f(butSize_x, butSize_y));
 	button2.setTexture(&button2NH);
 	button2.setPosition(butPos_x, butPos_y * 2);
-	sf::RectangleShape button3(sf::Vector2f(300.f, 85.f));
+	sf::RectangleShape button3(sf::Vector2f(butSize_x, butSize_y));
 	button3.setTexture(&button3NH);
 	button3.setPosition(butPos_x, butPos_y * 3);
+	sf::RectangleShape button4(sf::Vector2f(butSize_x, butSize_y));		
+	button4.setTexture(&button3NH);										// 추가 버튼 이미지 넣어용
+	button4.setPosition(butPos_x, butPos_y * 4);
 
 
-	sf::Font font;
-	if (!font.loadFromFile("./images/OCR_A_Std.ttf")) std::cout << "Error loading font" << std::endl;
-
-	sf::Text score1;
-	score1.setFont(font);
-	score1.setPosition(25, 25);
-	score1.setCharacterSize(50);
-	score1.setColor(sf::Color::Black);
-
-	sf::Text score2;
-	score2.setFont(font);
-	score2.setPosition(725, 25);
-	score2.setCharacterSize(50);
-	score2.setColor(sf::Color::Black);
-
-
+	// 배경 음악과 버튼 선택 시 효과음 불러옴
 	sf::Music music;
 	if (!music.openFromFile("./music/MenuMusic.ogg")) std::cout << "Error loading music" << std::endl;
 	music.play();
@@ -70,85 +67,86 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 	buttonSound.setBuffer(buffer);
 
 	bool fxtime = false;
-	sf::Vector2u getWindowSize;
-	unsigned int a, b, c, d;	// 변수 이름 변경필요
-	int culPos_x, culPos_y, culPos_yy;
-	while (_windows->isOpen()) {
+	sf::Vector2u getWindowSize;		// 프로그램의 윈도우 값을 받아옴
+	int occupyButX, occupyButY;	// 버튼의 가로축, 세로축 비율 계산
+	int culPos_x, culPos_y;		// 현재 버튼들의 위치 좌표(창 비율 대비)
+
+	while (_windows->isOpen()) {		// 게임이 실행 중
+
 		sf::Event event;
+		sf::Vector2i mousepos = sf::Mouse::getPosition(*_windows);	// 현재 마우스 좌표
+
+		// 창의 크기에 상관없이 버튼 이미지가 있는 곳에서 마우스 이벤트가 실행될 수 있도록 계산
 		getWindowSize = _windows->getSize();
-		culPos_x = (butPos_x*getWindowSize.x) / 800;
-		culPos_y = (butPos_y*getWindowSize.y) / 500;
-		culPos_yy = (65 * getWindowSize.y) / 500;
-		sf::Vector2i mousepos = sf::Mouse::getPosition(*_windows);
-		c = (getWindowSize.x - culPos_x * 2);
-		d = (getWindowSize.y - culPos_y * 2);
-		if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
-			if (mousepos.y >= culPos_y && mousepos.y <= (culPos_y + culPos_yy)) {
-				button1.setTexture(&button1H);
 				if (!fxtime) {
 					buttonSound.play();
 					fxtime = true;
 				}
 			}
-			else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
-				button2.setTexture(&button2H);
+			else if ((mousepos.y >= culPos_y * 3) && (mousepos.y <= (culPos_y * 3 + occupyButY))) { // 세번째 버튼의 세로축 내의 범위
+				button3.setTexture(&button3H);		// // 추가 버튼 이미지 활성화
 				if (!fxtime) {
 					buttonSound.play();
 					fxtime = true;
 				}
 			}
-			else if (mousepos.y >= culPos_y * 3 && mousepos.y <= (culPos_y * 3 + culPos_yy)) {
-				button3.setTexture(&button3H);
+			else if ((mousepos.y >= culPos_y * 4) && (mousepos.y <= (culPos_y * 4 + occupyButY))) { // 네번째 버튼의 세로축 내의 범위
+				button4.setTexture(&button3H);		// EXIT 버튼 이미지 활성화
 				if (!fxtime) {
 					buttonSound.play();
 					fxtime = true;
 				}
 			}
-			else {
+			else {								// 아무런 선택이 없을 경우(마우스가 버튼 위에 안 올라와 있을 경우)
 				button1.setTexture(&button1NH);
 				button2.setTexture(&button2NH);
 				button3.setTexture(&button3NH);
+				button4.setTexture(&button3NH);
 				fxtime = false;
 			}
 		}
-		else {
+		else {									// 아무런 선택이 없을 경우(마우스가 버튼 위에 안 올라와 있을 경우)
 			button1.setTexture(&button1NH);
 			button2.setTexture(&button2NH);
 			button3.setTexture(&button3NH);
+			button4.setTexture(&button3NH);
 			fxtime = false;
 		}
 
 		while (_windows->pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed)	// 콘솔창을 종료 시켰을 경우
 				_windows->close();
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
-						if (mousepos.y >= culPos_y  && mousepos.y <= (culPos_y + culPos_yy)) {
+					if ( (mousepos.x > culPos_x) && (mousepos.x < (culPos_x + occupyButX)) ) {
+						if ( (mousepos.y >= culPos_y) && (mousepos.y <= (culPos_y + occupyButY)) ) {
 							music.stop();
-							int run = select.selectRun();
+							int run = select.selectRun();		// 캐릭터 선택 뷰 실행
+							deathsound.play();
 							music.play();
 						}
-						else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
-							/* Option */
-							aboutChampion.run();
+						else if ( (mousepos.y >= culPos_y * 2) && (mousepos.y <= (culPos_y * 2 + occupyButY)) ) {
+																// OPTION 실행
 						}
-						else if (mousepos.y >= culPos_y * 3 && mousepos.y <= (culPos_y * 3 + culPos_yy)) {
-							_windows->close();
+						else if ((mousepos.y >= culPos_y * 3) && (mousepos.y <= (culPos_y * 3 + occupyButY)) ) {
+																// 추가 버튼 기능 삽입
+						}
+						else if ( (mousepos.y >= culPos_y * 4) && (mousepos.y <= (culPos_y * 4+ occupyButY)) ) {
+							_windows->close();					// 콘솔창 종료
 						}
 					}
 				}
 			}
 		}
 
+		// 불러온 이미지를 그리기 위한 메소드들
 		_windows->clear();
-
 		_windows->draw(background);
 		_windows->draw(button1);
 		_windows->draw(button2);
 		_windows->draw(button3);
-
+		_windows->draw(button4);
 		_windows->display();
 
 	}
