@@ -10,22 +10,22 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
 	Char_Select select(_windows);
 	butPos_x = 250;
-	butPos_y = 100;
+	butPos_y = 135;
 
 	sf::Texture backgroundTexture;
-	if (!backgroundTexture.loadFromFile("./images/FightGameMenu.png")) std::cout << "Error loading citybg" << std::endl;
+	if (!backgroundTexture.loadFromFile("./images/MainScreen/startimage.png")) std::cout << "Error loading citybg" << std::endl;
 	sf::Texture button1H;
-	if (!button1H.loadFromFile("./images/MenuButton1Hover.png")) std::cout << "Error loading b1h" << std::endl;
+	if (!button1H.loadFromFile("./images/MainScreen/MenuButton1Hover.png")) std::cout << "Error loading b1h" << std::endl;
 	sf::Texture button1NH;
-	if (!button1NH.loadFromFile("./images/MenuButton1.png")) std::cout << "Error loading b1" << std::endl;
+	if (!button1NH.loadFromFile("./images/MainScreen/MenuButton1.png")) std::cout << "Error loading b1" << std::endl;
 	sf::Texture button2H;
-	if (!button2H.loadFromFile("./images/MenuButton2Hover.png")) std::cout << "Error loading b2h" << std::endl;
+	if (!button2H.loadFromFile("./images/MainScreen/MenuButton2Hover.png")) std::cout << "Error loading b2h" << std::endl;
 	sf::Texture button2NH;
-	if (!button2NH.loadFromFile("./images/MenuButton2.png")) std::cout << "Error loading b2" << std::endl;
+	if (!button2NH.loadFromFile("./images/MainScreen/MenuButton2.png")) std::cout << "Error loading b2" << std::endl;
 	sf::Texture button3H;
-	if (!button3H.loadFromFile("./images/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
+	if (!button3H.loadFromFile("./images/MainScreen/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
 	sf::Texture button3NH;
-	if (!button3NH.loadFromFile("./images/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
+	if (!button3NH.loadFromFile("./images/MainScreen/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
 
 	sf::RectangleShape background(sf::Vector2f(800.f, 500.f));
 	background.setTexture(&backgroundTexture);

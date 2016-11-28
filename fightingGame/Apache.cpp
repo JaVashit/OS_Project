@@ -122,9 +122,11 @@ void Apache::calculateSpriteSpinAttack(int frameCount, Champion &c) {
 }
 
 void Apache::calculateSpriteTeleport(int frameCount, Champion &c) {
-	
+
 	if (frameCount == 0 || frameCount == 1) {
 		c.setSpr(PIC_SIZE_X * 0, PIC_SIZE_Y * 8);
+		mApache.openFromFile("./SE/Swip1.ogg");
+		mApache.play();
 	}
 	else if (frameCount == 2 || frameCount == 3) {
 		c.setSpr(PIC_SIZE_X * 1, PIC_SIZE_Y * 8);
@@ -141,13 +143,13 @@ void Apache::calculateSpriteTeleport(int frameCount, Champion &c) {
 	}
 	else if (frameCount == 8 || frameCount == 9) {
 		c.setSpr(PIC_SIZE_X * 3, PIC_SIZE_Y * 8);
-		
+
 	}
 	else {
 		c.setSpr(PIC_SIZE_X * 0, PIC_SIZE_Y * 0);
 		rangeX = (rand() % 10) - 5;
 	}
-	
+
 }
 
 void Apache::calculateSpriteAssassination(int frameCount, Champion &c) {
@@ -289,7 +291,7 @@ void Apache::updateAOList(Champion &c) {
 			if (!c.isAttacking())						// 투사체가 아니기 때문에 공격이 끝나면 알아서 삭제 시켜야 함
 				(*ao)->check = true;
 		}
-		
+
 		(*ao)->frameCount += 0.02;	// 투사체는 캐릭터의 frameCount와 별개니까 따로 생성했고, 속도는 캐릭터랑 똑같음
 	}
 }
@@ -309,6 +311,8 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
+						mApache.openFromFile("./SE/Attack1.ogg");
+						mApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -323,6 +327,8 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
+						mApache.openFromFile("./SE/Attack2.ogg");
+						mApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -337,6 +343,8 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
+						mApache.openFromFile("./SE/FastAttack.ogg");
+						mApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);

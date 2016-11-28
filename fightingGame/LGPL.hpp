@@ -5,6 +5,7 @@
 
 class LGPL{
 private:
+	sf::Music mLGPL;
 	int skillNumber;										// 현재 사용하는 스킬의 번호
 	int skillFrame[5];										// 스킬이 몇개의 동작으로 이루어 졌는지 
 public:

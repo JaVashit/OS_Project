@@ -5,6 +5,7 @@
 
 class Jang{
 private:
+	sf::Music mJang;
 	int skillNumber;		// 현재 사용하는 스킬의 번호
 	int skillFrame[4];		// 스킬 스프라이트 횟수
 
