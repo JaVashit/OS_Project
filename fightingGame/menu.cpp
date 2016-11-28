@@ -4,29 +4,28 @@
 #include <SFML/Audio.hpp>
 #include "menu.hpp"
 #include "game.hpp"
-#include "preferences.hpp"
+#include "char_select.hpp"
+
 Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
-	Game game(_windows);
-	Preferences preferences(_windows);
-	bool sound_on = true;
+	Char_Select select(_windows);
 	butPos_x = 250;
-	butPos_y = 100;
-	
+	butPos_y = 135;
+
 	sf::Texture backgroundTexture;
-	if (!backgroundTexture.loadFromFile("./images/FightGameMenu.png")) std::cout << "Error loading citybg" << std::endl;
+	if (!backgroundTexture.loadFromFile("./images/MainScreen/startimage.png")) std::cout << "Error loading citybg" << std::endl;
 	sf::Texture button1H;
-	if (!button1H.loadFromFile("./images/MenuButton1Hover.png")) std::cout << "Error loading b1h" << std::endl;
+	if (!button1H.loadFromFile("./images/MainScreen/MenuButton1Hover.png")) std::cout << "Error loading b1h" << std::endl;
 	sf::Texture button1NH;
-	if (!button1NH.loadFromFile("./images/MenuButton1.png")) std::cout << "Error loading b1" << std::endl;
+	if (!button1NH.loadFromFile("./images/MainScreen/MenuButton1.png")) std::cout << "Error loading b1" << std::endl;
 	sf::Texture button2H;
-	if (!button2H.loadFromFile("./images/MenuButton2Hover.png")) std::cout << "Error loading b2h" << std::endl;
+	if (!button2H.loadFromFile("./images/MainScreen/MenuButton2Hover.png")) std::cout << "Error loading b2h" << std::endl;
 	sf::Texture button2NH;
-	if (!button2NH.loadFromFile("./images/MenuButton2.png")) std::cout << "Error loading b2" << std::endl;
+	if (!button2NH.loadFromFile("./images/MainScreen/MenuButton2.png")) std::cout << "Error loading b2" << std::endl;
 	sf::Texture button3H;
-	if (!button3H.loadFromFile("./images/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
+	if (!button3H.loadFromFile("./images/MainScreen/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
 	sf::Texture button3NH;
-	if (!button3NH.loadFromFile("./images/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
+	if (!button3NH.loadFromFile("./images/MainScreen/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
 
 	sf::RectangleShape background(sf::Vector2f(800.f, 500.f));
 	background.setTexture(&backgroundTexture);
@@ -60,11 +59,8 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 
 	sf::Music music;
 	if (!music.openFromFile("./music/MenuMusic.ogg")) std::cout << "Error loading music" << std::endl;
-	if(sound_on ==true)
-		music.play();
-	else 
-		music.stop();
-	
+	music.play();
+
 	sf::SoundBuffer buffer;
 	if (!buffer.loadFromFile("./music/ButtonFX.ogg")) std::cout << "Error loading fx" << std::endl;
 	sf::Sound buttonSound;
@@ -79,7 +75,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 
 	bool fxtime = false;
 	sf::Vector2u getWindowSize;
-	unsigned int a, b, c, d;
+	unsigned int a, b, c, d;	// 변수 이름 변경필요
 	int culPos_x, culPos_y, culPos_yy;
 	while (_windows->isOpen()) {
 		sf::Event event;
@@ -92,13 +88,19 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 		std::stringstream ss2;
 		std::string str1;
 		std::string str2;
-		
+		//ss1 << game.getScore(0);
+		//ss1 >> str1;
+		//        score1.setString(str1);
+		//ss2 << game.getScore(1);
+		//ss2 >> str2;
+		//   score2.setString(str2);
+		//button1.setPosition(tmp_w, 100);
 		c = (getWindowSize.x - culPos_x * 2);
 		d = (getWindowSize.y - culPos_y * 2);
 		if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
 			if (mousepos.y >= culPos_y && mousepos.y <= (culPos_y + culPos_yy)) {
 				button1.setTexture(&button1H);
-				if (!fxtime && sound_on == true) {
+				if (!fxtime) {
 					buttonSound.play();
 					fxtime = true;
 				}
@@ -140,18 +142,13 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 					if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
 						if (mousepos.y >= culPos_y  && mousepos.y <= (culPos_y + culPos_yy)) {
 							music.stop();
-							int run = game.Run();
+							int run = select.selectRun();
 							deathsound.play();
 							music.play();
-
-							if (run == 0 || run == 1) {
-								game.setScore(run, game.getScore(run) + 1 + 1 * 1);
-								if (game.getScore(1) == 10) score2.setPosition(700, 25);
-								std::cout << "player " << run + 1 << " won" << std::endl;
-							}
 						}
 						else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
-							sound_on=preferences.keyboard(sound_on);
+							//game.setScore(0, 0);
+							//game.setScore(1, 0);
 						}
 						else if (mousepos.y >= culPos_y * 3 && mousepos.y <= (culPos_y * 3 + culPos_yy)) {
 							_windows->close();

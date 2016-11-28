@@ -1,68 +1,60 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <list>
 #include "Champion.hpp"
 
-class Jang : public Champion{
+class Jang{
 private:
-	int necessaryMana[5];									// 스킬에 필요한 마나 
-	int skillNumber;										// 현재 사용하는 스킬의 번호
-	int skillFrame[5];										// 스킬이 몇개의 동작으로 이루어 졌는지 
+	sf::Music mJang;
+	int skillNumber;		// 현재 사용하는 스킬의 번호
+	int skillFrame[4];		// 스킬 스프라이트 횟수
+
 public:
 	
-	Jang(int p, int m_number, int width, int height) : Champion(p, m_number,width, height){  
-		necessaryMana[0] = 0;								// Champion class 상속
-		necessaryMana[1] = 0;
-		necessaryMana[2] = 0;
-		necessaryMana[3] = 0;
-		necessaryMana[4] = 0;
-		skillFrame[0] = 12;
-		skillFrame[1] = 12;
-		skillFrame[2] = 24;
-		skillFrame[3] = 0;
-		skillFrame[4] = 0;
+	Jang(){  
+
+		skillFrame[0] = 6;	// 일반 공격
+		skillFrame[1] = 14; // 특수 공격 '1'
+		skillFrame[2] = 22; // 특수 공격 '2'
+		skillFrame[3] = 60;	// 특수 공격 '3'
+		canUseSkillCount[0] = 9999;
+		canUseSkillCount[1] = 3;
+		canUseSkillCount[2] = 2;
+		canUseSkillCount[3] = 1;
 		skillNumber = 0;
-		attackObjList.clear();
 	};
 	~Jang();
-	
-	void useSkill(int skillnumber, int frameCount);				// 스킬을 사용하면 사용하는 함수
-	void crowdControlHit(float &frameCount);					// 스턴이나 넉백을 당했을때를 체크해서 효과를 발동하는 함수
-	void insertAOList(int skillNumber);							// 공격을 했을 때, attackObject를 생성하는 함수 (이거는 각 캐릭터의 스킬마다 설정해주어야 함)
-	void deleteAOList();										// attackObject의 check가 true 인것들을 지우는 함수
-	void updateAOList();										// attackObject를 상대가 맞았거나 화면 밖으로 나갔을 때 check를 true로 바꿔주고
-																// 투사체의 포지션을 업데이트 해줌
-	void detectCollision(Champion &c, float &enemyFrameCount);	// 내 attackObject 리스트에 상대 정보를 비교하여 맞으면 효과가 발동 하도록하는 함수
-	std::list <AttackObject*> attackObjList;					// 스킬을 사용하면 공격 오브젝트 생성
+	int canUseSkillCount[4];			// 스킬 사용 횟수 제한
+	void useSkill(int skillnumber, int frameCount, class Champion &c);				// 스킬 사용 시 스킬 번호 넘겨주는 함수
+	void updateAOList(class Champion &c);										// 리스트를 계속 업데이트 해주는 함수 - 투사체의 포지션을 업데이트
+	void detectCollision(class Champion &c, std::list<struct AttackObject*> &aoList, std::list<struct hitImage*> &hitList, float &enemyFrameCount, int time);	// 충돌처리
 
 	void setSkillNumber(int skillNumber);						// 스킬번호 설정 함수
 	int getSkillNumber();										// 스킬번호 반환 함수
-	int getNecessaryMana(int skillNumber);						// 스킬 필요한 마나 반환 함수
 	int getSkillFrameTotal();									// 스킬에 사용되는 총 프레임 반환
-	
-	////////////////////////////////////////////////////////// GPL skill begin
-	void skill_NormalAttack(int frameCount);					// 기본 공격 (넉백)
-	void skill_FinalAttack(int frameCount);						// 최후의 공격 (무지아픔) - 범위는 적은데 매우 아픔 (넉백)
-	void skill_WindofSword(int frameCount);						// 바람의 상처 (지속딜) - 상대 스턴 (한번 맞으면 골로가는거임)
-	void skill_Ogonpogotovnosti(int frameCount);				// 자이라궁 - 상대 스턴에 맵 중앙으로 모음 (이거 발동되면 끝났다고 보면 됨)
-	void skill_Dash(int frameCount);							// 아직 안함
-	////////////////////////////////////////////////////////// GPL skill end
+	int getCanUseSkillCount(int skillNumber);
+	void setCanUseSkillCount(int skillNumber, int maxCount);
+	////////////////////////////////////////////////////////// Jang skill begin
+	void skill_NormalAttack(int frameCount, class Champion &c);					// 기본 공격 (넉백)
+	void skill_RotateKick(int frameCount, class Champion &c);						// 특수 공격 '1' - B 돌려차기
+	void skill_doubleComboAttack(int frameCount, class Champion &c);				// 특수 공격 '2' - 중간고사는 C 올려치기, 기말고사는 F 지르기
+	void skill_SpecialAttack(int frameCount, class Champion &c);					// 특수 공격 '3' - 벗어날 수 없는 F학점의 늪
+	////////////////////////////////////////////////////////// Jang skill end
 
-	////////////////////////////////////////////////////////// GPL hit begin
-	void hit_KnockBack(int frameCount);							// 넉백
-	void hit_stun(int frameCount);								// 스턴
-	////////////////////////////////////////////////////////// GPL hit end
+	////////////////////////////////////////////////////////// Jang hit begin
+	void hit_KnockBack(int frameCount, class Champion &c);							// 넉백
+	void hit_stun(int frameCount, class Champion &c);								// 스턴
+	////////////////////////////////////////////////////////// Jang hit end
 
 	////////////////////////////////////////////////////////// load Motion begin
-	void loadCharacter(sf::Sprite&);
-    void calculateSpritePos(int step);
-    void calculateSpriteBlock();
-
-	void calculateSpriteNormalAttack(int frameCount);			// 각각 스프라이트 좌표 찍어 주는 함수
-    void calculateSpriteFinalAttack(int frameCount);
-    void calculateSpriteWindofSword(int frameCount);
-    void calculateSpriteOgonpogotovnosti(int frameCount);
-    void calculateSpriteDash(int frameCount);
-	void calculateSpriteStun(int frameCount);
-	void calculateSpriteKnockBack(int frameCount);
+	void loadCharacter(sf::Sprite&, class Champion &c);
+    void calculateSpritePos(class Champion &c);
+    void calculateSpriteBlock(class Champion &c);
+	void calculateSpriteNormalAttack(int frameCount, class Champion &c);			
+    void calculateSpriteRotateKick(int frameCount, class Champion &c);
+    void calculateSpritedoubleComboAttack(int frameCount, class Champion &c);
+    void calculateSpriteSpecialAttack(int frameCount, class Champion &c);
+	void calculateSpriteStun(int frameCount, class Champion &c);
+	void calculateSpriteKnockBack(int frameCount, class Champion &c);
 	////////////////////////////////////////////////////////// load Motion end
 };
