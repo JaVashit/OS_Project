@@ -6,7 +6,7 @@
 class Menu
 {
 public:
-	Menu(sf::RenderWindow *window);
+	Menu(sf::RenderWindow* window);
 
 
 private:
