@@ -11,9 +11,6 @@
     <Filter Include="Main">
       <UniqueIdentifier>{0c375201-d1bb-495c-b08e-cefc4d3960c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Menu">
-      <UniqueIdentifier>{666c8553-4115-433e-860b-f1655657469e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Champion">
       <UniqueIdentifier>{e08d8a43-452f-4247-a45d-ec2c0670bcea}</UniqueIdentifier>
     </Filter>
@@ -26,6 +23,9 @@
     <Filter Include="Char_Select">
       <UniqueIdentifier>{f42c0760-79c7-4241-9473-8c371ef20c7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Menu">
+      <UniqueIdentifier>{666c8553-4115-433e-860b-f1655657469e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -35,7 +35,7 @@
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="menu.cpp">
-      <Filter>Menu</Filter>
+      <Filter>Main\Menu</Filter>
     </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>Champion\Base</Filter>
@@ -64,6 +64,7 @@
     <ClCompile Include="char_select.cpp">
       <Filter>Char_Select</Filter>
     </ClCompile>
+    <ClCompile Include="AboutChamion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.hpp">
@@ -76,7 +77,7 @@
       <Filter>Champion</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
-      <Filter>Menu</Filter>
+      <Filter>Main\Menu</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
       <Filter>Menu</Filter>
@@ -96,6 +97,7 @@
     <ClInclude Include="char_select.hpp">
       <Filter>Char_Select</Filter>
     </ClInclude>
+    <ClInclude Include="AboutChampion.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\FightGameBG.png">

@@ -107,7 +107,11 @@ private:
 	bool isEnd;				// is end
 	int winChampionNumber;	// wining champion model number
 
+	bool soundOn;			// sound
+
     sf::RenderWindow * _myWindow;	// console window
+
+	sf::Music finSound;
 };
 #endif
 

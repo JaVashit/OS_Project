@@ -5,10 +5,13 @@
 #include "menu.hpp"
 #include "game.hpp"
 #include "char_select.hpp"
+#include "AboutChampion.hpp"
+
 
 Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
 	Char_Select select(_windows);
+	AboutChampion aboutChampion(_windows);
 	butPos_x = 250;
 	butPos_y = 135;
 
@@ -66,13 +69,6 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 	sf::Sound buttonSound;
 	buttonSound.setBuffer(buffer);
 
-	sf::SoundBuffer buffer2;
-	if (!buffer2.loadFromFile("./music/death.ogg")) std::cout << "Error loading death sound" << std::endl;
-	sf::Sound deathsound;
-	deathsound.setBuffer(buffer2);
-	deathsound.setVolume(50);
-
-
 	bool fxtime = false;
 	sf::Vector2u getWindowSize;
 	unsigned int a, b, c, d;	// 변수 이름 변경필요
@@ -82,19 +78,8 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 		getWindowSize = _windows->getSize();
 		culPos_x = (butPos_x*getWindowSize.x) / 800;
 		culPos_y = (butPos_y*getWindowSize.y) / 500;
-		culPos_yy = (85 * getWindowSize.y) / 500;
+		culPos_yy = (65 * getWindowSize.y) / 500;
 		sf::Vector2i mousepos = sf::Mouse::getPosition(*_windows);
-		std::stringstream ss1;
-		std::stringstream ss2;
-		std::string str1;
-		std::string str2;
-		//ss1 << game.getScore(0);
-		//ss1 >> str1;
-		//        score1.setString(str1);
-		//ss2 << game.getScore(1);
-		//ss2 >> str2;
-		//   score2.setString(str2);
-		//button1.setPosition(tmp_w, 100);
 		c = (getWindowSize.x - culPos_x * 2);
 		d = (getWindowSize.y - culPos_y * 2);
 		if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
@@ -143,12 +128,11 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 						if (mousepos.y >= culPos_y  && mousepos.y <= (culPos_y + culPos_yy)) {
 							music.stop();
 							int run = select.selectRun();
-							deathsound.play();
 							music.play();
 						}
 						else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
-							//game.setScore(0, 0);
-							//game.setScore(1, 0);
+							/* Option */
+							aboutChampion.run();
 						}
 						else if (mousepos.y >= culPos_y * 3 && mousepos.y <= (culPos_y * 3 + culPos_yy)) {
 							_windows->close();

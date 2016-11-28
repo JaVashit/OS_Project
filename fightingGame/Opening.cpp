@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include "Opening.hpp"
 
+
 const int maxFrame = 400;
 
 Opening::Opening(sf::RenderWindow *window):_windows(window)

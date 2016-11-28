@@ -125,7 +125,6 @@ void Apache::calculateSpriteTeleport(int frameCount, Champion &c) {
 
 	if (frameCount == 0 || frameCount == 1) {
 		c.setSpr(PIC_SIZE_X * 0, PIC_SIZE_Y * 8);
-		mApache.openFromFile("./SE/Swip1.ogg");
 		mApache.play();
 	}
 	else if (frameCount == 2 || frameCount == 3) {
@@ -311,8 +310,7 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					(*ao)->check = true;
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
-						mApache.openFromFile("./SE/Attack1.ogg");
-						mApache.play();
+						attackApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -327,8 +325,7 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
-						mApache.openFromFile("./SE/Attack2.ogg");
-						mApache.play();
+						attack2Apache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);
@@ -343,8 +340,7 @@ void Apache::detectCollision(class Champion &champion, std::list<struct AttackOb
 					hitList.push_back(hit);
 					if (champion.isBarrier()) champion.setHp(champion.getHp() - (*ao)->damage*0.2);
 					else {
-						mApache.openFromFile("./SE/FastAttack.ogg");
-						mApache.play();
+						finalApache.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp() - (*ao)->damage);

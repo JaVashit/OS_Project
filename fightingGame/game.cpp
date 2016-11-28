@@ -24,13 +24,13 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
 	background =  sf::RectangleShape(sf::Vector2f(800.f,500.f));
 	backgroundTexture.loadFromFile("./images/stage/stage01.png");
 
-
-	if(hitTexture.loadFromFile("./images/hit_effect.png")) printf("ok");
+	//hit effect image
+	hitTexture.loadFromFile("./images/hit_effect.png");
 	//music
 	//if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
 
 	music.openFromFile("./music/FightMusic.ogg");
-
+	finSound.openFromFile("./music/death.ogg");
 	//font
 	font.loadFromFile("./images/OCR_A_Std.ttf");
 
@@ -64,8 +64,9 @@ int Game::Run()
 	setSkillIcon(player1Number, p1_sIcon, p1_SImage, p1_SImageBackground, p1_skillCount, p1_skillCountBackground, p1_skillCountstr, c1, true);
 	setSkillIcon(player2Number, p2_sIcon, p2_SImage, p2_SImageBackground, p2_skillCount, p2_skillCountBackground, p2_skillCountstr, c2, false);
 
-    music.play();
-    
+	if(soundOn){
+		music.play();
+	}
     //Other variables
     int time = 0;
 	float frameCount = 0;
@@ -109,7 +110,9 @@ int Game::Run()
 			round_start = true;
 		}
 		if(isEnd){																									// is Game Over
-			music.stop();
+			if(soundOn){
+				music.stop();
+			}
 			return 0;
 		}
     }
@@ -341,6 +344,7 @@ void Game::attackCharacter(Champion& c,  sf::Keyboard::Key normal,  sf::Keyboard
 
 void Game::checkDeath(Champion &p1, Champion &p2, int &time, float &frameCount, float &frameCount2){
 	if (p1.isDeath()) {										// player1 is death
+		finSound.play();
 		p2.playerWin();
 		p2.isKnockBack = true;
 		if(p2.getWinScore() >= 2){							// player2 win two round
@@ -355,6 +359,7 @@ void Game::checkDeath(Champion &p1, Champion &p2, int &time, float &frameCount, 
 		p2.attackObjList.clear();
 	}
 	if (p2.isDeath()) {										// player2 is death	
+		finSound.play();
 		p1.playerWin();	
 		p1.isKnockBack = true;
 		if(p1.getWinScore() >= 2){							// player1 win two round

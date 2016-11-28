@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AboutChamion.cpp" />
     <ClCompile Include="Apache.cpp" />
     <ClCompile Include="BSD.cpp" />
     <ClCompile Include="Champion.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="Opening.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutChampion.hpp" />
     <ClInclude Include="Apache.hpp" />
     <ClInclude Include="BSD.hpp" />
     <ClInclude Include="Champion.hpp" />

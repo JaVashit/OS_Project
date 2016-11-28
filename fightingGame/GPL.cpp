@@ -109,8 +109,7 @@ void GPL::calculateSpriteFinalAttack(int frameCount, Champion &c){
 void GPL::calculateSpriteWindofSword(int frameCount, Champion &c){
 	if(frameCount == 0){
 		c.setSpr(PIC_SIZE_X * 0, PIC_SIZE_Y * 5);
-		mGPL.openFromFile("./SE/Arrow.ogg");
-		mGPL.play();
+		arrowGPL.play();
 	}
 	else if(frameCount == 1){
 		c.setSpr(PIC_SIZE_X * 1, PIC_SIZE_Y * 4);
@@ -269,8 +268,7 @@ void GPL::updateAOList(Champion &c){
 			if((*ao)->skillNumber == 3){			// ±ÃÀº ¸ÚÁö±â ¶§¹®¿¡ ÀÏºÎ·Î ÂÉ°³³õÀ½
 				if((*ao)->frameCount < 2){
 					(*ao)->objSpr = sf::Vector2f(PIC_SIZE_X * 0, PIC_SIZE_Y * 6);
-					mGPL.openFromFile("./SE/SteadyDamage.ogg");
-					mGPL.play();
+					steadyGPL.play();
 				}
 				else if((*ao)->frameCount < 4){
 					(*ao)->objSpr = sf::Vector2f(PIC_SIZE_X * 1, PIC_SIZE_Y * 6);
@@ -389,7 +387,6 @@ void GPL::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					(*ao)->check = true;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
-						mGPL.openFromFile("./SE/Swip1.ogg");
 						mGPL.play();
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
@@ -405,8 +402,7 @@ void GPL::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					hitList.push_back(hit);
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
-						mGPL.openFromFile("./SE/Arrow.ogg");
-						mGPL.play();	
+						arrowGPL.play();	
 						champion.isKnockBack = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);
@@ -419,12 +415,11 @@ void GPL::detectCollision(class Champion &champion, std::list<struct AttackObjec
 					if(time%80 == 0){
 						hitImage* hit = new hitImage(champion.getPosition());
 						hitList.push_back(hit);
+						arrowGPL.play();
 					}
 					(*ao)->check = false;
 					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
 					else{
-						mGPL.openFromFile("./SE/Arrow.ogg");
-						mGPL.play();
 						champion.isStun = true;
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);

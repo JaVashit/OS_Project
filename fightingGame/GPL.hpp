@@ -6,6 +6,8 @@
 class GPL{
 private:
 	sf::Music mGPL;
+	sf::Music arrowGPL;
+	sf::Music steadyGPL;
 	int skillNumber;										// 현재 사용하는 스킬의 번호
 	int skillFrame[4];										// 스킬이 몇개의 동작으로 이루어 졌는지 
 public:
@@ -19,6 +21,9 @@ public:
 		skillFrame[2] = 24;
 		skillFrame[3] = 24;
 		skillNumber = 0;
+		arrowGPL.openFromFile("./SE/Arrow.ogg");
+		mGPL.openFromFile("./SE/Swip1.ogg");
+		steadyGPL.openFromFile("./SE/SteadyDamage.ogg");
 	}
 	~GPL();
 

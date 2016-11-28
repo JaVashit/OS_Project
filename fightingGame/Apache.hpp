@@ -6,6 +6,9 @@
 class Apache{
 private:
 	sf::Music mApache;
+	sf::Music attackApache;
+	sf::Music attack2Apache;
+	sf::Music finalApache;
 	int skillNumber;
 	int skillFrame[4];
 public:
@@ -19,6 +22,10 @@ public:
 		skillFrame[2] = 12;
 		skillFrame[3] = 12;
 		skillNumber = 0;
+		mApache.openFromFile("./SE/Swip1.ogg");
+		attackApache.openFromFile("./SE/Attack1.ogg");
+		attack2Apache.openFromFile("./SE/Attack2.ogg");
+		finalApache.openFromFile("./SE/FastAttack.ogg");
 	};
 
 	~Apache();
