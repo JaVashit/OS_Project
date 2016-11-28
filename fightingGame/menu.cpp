@@ -4,14 +4,15 @@
 #include <SFML/Audio.hpp>
 #include "menu.hpp"
 #include "game.hpp"
-
+#include "preferences.hpp"
 Menu::Menu(sf::RenderWindow *window):_windows(window)
 {
 	Game game(_windows);
-
+	Preferences preferences(_windows);
+	bool sound_on = true;
 	butPos_x = 250;
 	butPos_y = 100;
-
+	
 	sf::Texture backgroundTexture;
 	if (!backgroundTexture.loadFromFile("./images/FightGameMenu.png")) std::cout << "Error loading citybg" << std::endl;
 	sf::Texture button1H;
@@ -59,8 +60,11 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 
 	sf::Music music;
 	if (!music.openFromFile("./music/MenuMusic.ogg")) std::cout << "Error loading music" << std::endl;
-	music.play();
-
+	if(sound_on ==true)
+		music.play();
+	else 
+		music.stop();
+	
 	sf::SoundBuffer buffer;
 	if (!buffer.loadFromFile("./music/ButtonFX.ogg")) std::cout << "Error loading fx" << std::endl;
 	sf::Sound buttonSound;
@@ -88,19 +92,13 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 		std::stringstream ss2;
 		std::string str1;
 		std::string str2;
-		//ss1 << game.getScore(0);
-		//ss1 >> str1;
-		//        score1.setString(str1);
-		//ss2 << game.getScore(1);
-		//ss2 >> str2;
-		//   score2.setString(str2);
-		//button1.setPosition(tmp_w, 100);
+		
 		c = (getWindowSize.x - culPos_x * 2);
 		d = (getWindowSize.y - culPos_y * 2);
 		if (mousepos.x > culPos_x && mousepos.x < culPos_x + c) {
 			if (mousepos.y >= culPos_y && mousepos.y <= (culPos_y + culPos_yy)) {
 				button1.setTexture(&button1H);
-				if (!fxtime) {
+				if (!fxtime && sound_on == true) {
 					buttonSound.play();
 					fxtime = true;
 				}
@@ -145,6 +143,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 							int run = game.Run();
 							deathsound.play();
 							music.play();
+
 							if (run == 0 || run == 1) {
 								game.setScore(run, game.getScore(run) + 1 + 1 * 1);
 								if (game.getScore(1) == 10) score2.setPosition(700, 25);
@@ -152,8 +151,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 							}
 						}
 						else if (mousepos.y >= culPos_y * 2 && mousepos.y <= (culPos_y * 2 + culPos_yy)) {
-							//game.setScore(0, 0);
-							//game.setScore(1, 0);
+							sound_on=preferences.keyboard(sound_on);
 						}
 						else if (mousepos.y >= culPos_y * 3 && mousepos.y <= (culPos_y * 3 + culPos_yy)) {
 							_windows->close();

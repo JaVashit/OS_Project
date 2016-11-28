@@ -4,8 +4,8 @@
 #include <vector>
 #include "game.hpp"
 #include "Champion.hpp"
-#include "GPL.hpp"
-
+#include "LGPL.hpp"
+#include "BSD.hpp"
 Game::Game(sf::RenderWindow *window): _myWindow(window){
     ay = 600;
     damage = 10;
@@ -17,13 +17,15 @@ Game::Game(sf::RenderWindow *window): _myWindow(window){
 
 int Game::Run()
 {
-    
+    bool sound_on = true; 
+
+
     //Characters
     sf::Texture characterTexture;
-    if (!characterTexture.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture.loadFromFile("./images/character/lgpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
 
 	sf::Texture characterTexture2;
-    if (!characterTexture2.loadFromFile("./images/character/gpl_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
+    if (!characterTexture2.loadFromFile("./images/character/bsd_sprite.png")) std::cout << "Error loading vx_characters" << std::endl;
     
     //Background
     sf::Texture backgroundTexture;    
@@ -34,8 +36,8 @@ int Game::Run()
 	ay = 600;
     damage = 10;
     
-	GPL c1 = GPL(1, 0, w_width, w_height);
-	GPL c2 = GPL(0, 0, w_width, w_height);
+	LGPL c1 = LGPL(1, 0, w_width, w_height);
+	BSD c2 = BSD(0, 0, w_width, w_height);
     //Create and load player 1 arguments
     sf::Sprite player1;
     player1.setTexture(characterTexture);                       //Load texture to sprite
@@ -63,8 +65,10 @@ int Game::Run()
     
     sf::Music music;
    if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
-    
-    music.play();
+    if(sound_on == true)
+	 music.play();
+	 
+
     
     //Other variables
     int time = 0;
@@ -105,6 +109,7 @@ int Game::Run()
 				c1.setBarrier(false);
 			}
         }
+		
         //Player 1 actions
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !c1.isAttacking() && !c1.isStun && !c1.isKnockBack) {
 			c1.setAttack(true);
@@ -128,6 +133,7 @@ int Game::Run()
 			c1.insertAOList(2);
         }
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) && !c1.isAttacking()) {
+			c1.setAttack(true);
 			frameCount = 0;
 			c1.setSkillNumber(3);
 			c1.useSkill(c1.getSkillNumber(), (int)frameCount);
