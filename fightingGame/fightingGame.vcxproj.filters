@@ -26,6 +26,12 @@
     <Filter Include="Main\Menu">
       <UniqueIdentifier>{666c8553-4115-433e-860b-f1655657469e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AboutChampion">
+      <UniqueIdentifier>{3004f793-53a9-4776-bbe8-beba1d8eb7b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Option">
+      <UniqueIdentifier>{e1d6c815-7f69-4fbd-995a-3c81b0f1bcc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -64,8 +70,12 @@
     <ClCompile Include="char_select.cpp">
       <Filter>Char_Select</Filter>
     </ClCompile>
-    <ClCompile Include="AboutChamion.cpp" />
-    <ClCompile Include="preferences.cpp" />
+    <ClCompile Include="AboutChamion.cpp">
+      <Filter>AboutChampion</Filter>
+    </ClCompile>
+    <ClCompile Include="preferences.cpp">
+      <Filter>Option</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.hpp">
@@ -98,8 +108,12 @@
     <ClInclude Include="char_select.hpp">
       <Filter>Char_Select</Filter>
     </ClInclude>
-    <ClInclude Include="AboutChampion.hpp" />
-    <ClInclude Include="preferences.hpp" />
+    <ClInclude Include="AboutChampion.hpp">
+      <Filter>AboutChampion</Filter>
+    </ClInclude>
+    <ClInclude Include="preferences.hpp">
+      <Filter>Option</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\FightGameBG.png">

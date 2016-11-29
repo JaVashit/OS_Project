@@ -27,8 +27,6 @@ Game::Game(sf::RenderWindow *window, int p1Number, int p2Number): _myWindow(wind
 	//hit effect image
 	hitTexture.loadFromFile("./images/hit_effect.png");
 	//music
-	//if (!music.openFromFile("./music/FightMusic.ogg")) std::cout << "Error loading normal music" << std:: endl;
-
 	music.openFromFile("./music/FightMusic.ogg");
 	finSound.openFromFile("./music/death.ogg");
 	//font

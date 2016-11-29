@@ -22,6 +22,13 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 	butSize_x = 300;
 	butSize_y = 85;
 
+	titleTexture.loadFromFile("./images/opening_text.png");
+	title.setTexture(&titleTexture);
+	title = sf::RectangleShape(sf::Vector2f(500, 160));
+	title.setTexture(&titleTexture);
+	title.setTextureRect(sf::IntRect(0, 0, 500, 160));
+	title.setPosition((window->getSize().x - 500)/2,-30);
+
 	// menu를 창을 띄우기 위한 이미지를 불러옴(배경, 버튼, 활성화 버튼)
 	sf::Texture backgroundTexture;
 	if (!backgroundTexture.loadFromFile("./images/MainScreen/startimage.png")) std::cout << "Error loading citybg" << std::endl;
@@ -40,7 +47,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 	sf::Texture button4H;
 	if (!button4H.loadFromFile("./images/MainScreen/MenuButton3Hover.png")) std::cout << "Error loading b3h" << std::endl;
 	sf::Texture button4NH;
-	if (!button4H.loadFromFile("./images/MainScreen/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
+	if (!button4NH.loadFromFile("./images/MainScreen/MenuButton3.png")) std::cout << "Error loading b3" << std::endl;
 
 	sf::RectangleShape background(sf::Vector2f(800.f, 500.f));	// 창의 크기는 800X500
 	background.setTexture(&backgroundTexture);
@@ -167,6 +174,7 @@ Menu::Menu(sf::RenderWindow *window):_windows(window)
 		// 불러온 이미지를 그리기 위한 메소드들
 		_windows->clear();
 		_windows->draw(background);
+		_windows->draw(title);
 		_windows->draw(button1);
 		_windows->draw(button2);
 		_windows->draw(button3);

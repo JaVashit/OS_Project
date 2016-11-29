@@ -7,7 +7,8 @@ class Menu
 {
 public:
 	Menu(sf::RenderWindow* window);
-
+	sf::Texture titleTexture;
+	sf::RectangleShape title;
 
 private:
 	int butPos_x, butPos_y;

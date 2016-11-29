@@ -10,12 +10,15 @@ AboutChampion::AboutChampion(sf::RenderWindow *window):_windows(window)
 {
 	nextPageFrame = 0;
 	nextPage = false;
-	
+	// load image
 	ac_Texture[0].loadFromFile("./images/aboutChampion/ac_gpl.png");
 	ac_Texture[1].loadFromFile("./images/aboutChampion/ac_lgpl.png");
 	ac_Texture[2].loadFromFile("./images/aboutChampion/ac_apache.png");
 	ac_Texture[3].loadFromFile("./images/aboutChampion/ac_bsd.png");
-
+	ac_postit[0].loadFromFile("./images/aboutChampion/aboutGPL.png");
+	ac_postit[1].loadFromFile("./images/aboutChampion/aboutLGPL.png");
+	ac_postit[2].loadFromFile("./images/aboutChampion/aboutAPACHE.png");
+	ac_postit[3].loadFromFile("./images/aboutChampion/aboutBSD.png");
 	click_sPos[0] = sf::Vector2f(0,0);
 	click_sPos[1] = sf::Vector2f(650,0);
 	click_sPos[2] = sf::Vector2f(700,0);
@@ -24,15 +27,21 @@ AboutChampion::AboutChampion(sf::RenderWindow *window):_windows(window)
 	click_ePos[1] = sf::Vector2f(700,500);
 	click_ePos[2] = sf::Vector2f(750,500);
 	click_ePos[3] = sf::Vector2f(800,500);
-
+	// spread gpl image
 	spreadOn = 0;
-
+	// set texture
 	for(int x=0; x<4; x++){
 		mouseOn[x] = false;
 		clickOn[x] = false;
 		ac_Rect[x] = sf::RectangleShape(sf::Vector2f(click_ePos[x].x - click_sPos[x].x, click_ePos[x].y - click_sPos[x].y));
-		ac_Rect[x].setTexture(&ac_Texture[x]);
-		ac_Rect[x].setTextureRect(sf::IntRect(0, 0, (click_ePos[x].x- click_sPos[x].x)/650*1500, 839));
+		if(click_ePos[x].x - click_sPos[x].x == 50){
+			ac_Rect[x].setTexture(&ac_postit[x]);
+			ac_Rect[x].setTextureRect(sf::IntRect(0, 0, 50, 500));
+		}
+		else{
+			ac_Rect[x].setTexture(&ac_Texture[x]);
+			ac_Rect[x].setTextureRect(sf::IntRect(0, 0, (click_ePos[x].x- click_sPos[x].x)/650*1500, 839));
+		}
 		ac_Rect[x].setPosition(click_sPos[x].x, click_sPos[x].y);
 	}
 }
@@ -44,19 +53,20 @@ void AboutChampion::run(){
 		
 		getWindowSize = _windows->getSize();
 
-		mousepos = sf::Mouse::getPosition(*_windows);
-		updateMouseOn(mousepos);
+		mousepos = sf::Mouse::getPosition(*_windows);  // get mouse position
+		updateMouseOn(mousepos);						// update mouse on 
 
-		while (_windows->pollEvent(e)){
-			if(e.type == sf::Event::MouseButtonPressed){
-				setClick();
+		while (_windows->pollEvent(e)){						// event
+			if(e.type == sf::Event::MouseButtonPressed){	// mouseButtonPressed
+				setClick();									// setting object
 			}
 		}
-		if(nextPage){
-			updateRectPos();
+		if(nextPage){									// spread next page
+			updateRectPos();							// update rectangle position
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) return;
-		_windows->clear();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) return;
+														// esc, backspace is return
+		_windows->clear();								// draw image
 		setColor();
 		_windows->display();
 	}
@@ -66,23 +76,13 @@ void AboutChampion::setColor(){
 	for(int x=0; x<4; x++){
 		if(mouseOn[x] && !clickOn[x] && !mouseOn[spreadOn]){
 			if(x==0)
-				ac_Rect[x].setFillColor(sf::Color(255,200,100));
+				ac_Rect[x].setFillColor(sf::Color(125,0,0));
 			if(x==1)
-				ac_Rect[x].setFillColor(sf::Color(255,125,125));
+				ac_Rect[x].setFillColor(sf::Color(0,125,0));
 			if(x==2)
-				ac_Rect[x].setFillColor(sf::Color(255,125,255));
+				ac_Rect[x].setFillColor(sf::Color(125,0,125));
 			if(x==3)
-				ac_Rect[x].setFillColor(sf::Color(125,125,255));
-		}
-		else if(x != spreadOn){
-			if(x==0)
-				ac_Rect[x].setFillColor(sf::Color(125,100,50));
-			if(x==1)
-				ac_Rect[x].setFillColor(sf::Color(125,65,65));
-			if(x==2)
-				ac_Rect[x].setFillColor(sf::Color(125,65,125));
-			if(x==3)
-				ac_Rect[x].setFillColor(sf::Color(65,65,125));
+				ac_Rect[x].setFillColor(sf::Color(0,0,255));
 		}
 		else{
 			ac_Rect[x].setFillColor(sf::Color::White);
@@ -135,8 +135,14 @@ void AboutChampion::updateRectPos(){
 			}
 		}
 		ac_Rect[x] = sf::RectangleShape(sf::Vector2f(click_ePos[x].x - click_sPos[x].x, click_ePos[x].y - click_sPos[x].y));
-		ac_Rect[x].setTexture(&ac_Texture[x]);
-		ac_Rect[x].setTextureRect(sf::IntRect(0, 0, (click_ePos[x].x- click_sPos[x].x)/650*1500, 839));
+		if(click_ePos[x].x - click_sPos[x].x == 50){
+			ac_Rect[x].setTexture(&ac_postit[x]);
+			ac_Rect[x].setTextureRect(sf::IntRect(0, 0, 50, 500));
+		}
+		else{
+			ac_Rect[x].setTexture(&ac_Texture[x]);
+			ac_Rect[x].setTextureRect(sf::IntRect(0, 0, (click_ePos[x].x- click_sPos[x].x)/650*1500, 839));
+		}
 		ac_Rect[x].setPosition(click_sPos[x].x, click_sPos[x].y);
 	}
 	nextPageFrame++;
@@ -146,8 +152,14 @@ void AboutChampion::updateRectPos(){
 		for(int x=0; x<4; x++){
 			clickOn[x] = false;
 			ac_Rect[x] = sf::RectangleShape(sf::Vector2f(click_ePos[x].x - click_sPos[x].x, click_ePos[x].y - click_sPos[x].y));
-			ac_Rect[x].setTexture(&ac_Texture[x]);
-			ac_Rect[x].setTextureRect(sf::IntRect(0, 0, (click_ePos[x].x- click_sPos[x].x)/650*1500, 839));
+			if(click_ePos[x].x - click_sPos[x].x == 50){
+				ac_Rect[x].setTexture(&ac_postit[x]);
+				ac_Rect[x].setTextureRect(sf::IntRect(0, 0, 50, 500));
+			}
+			else{
+				ac_Rect[x].setTexture(&ac_Texture[x]);
+				ac_Rect[x].setTextureRect(sf::IntRect(0, 0, (click_ePos[x].x- click_sPos[x].x)/650*1500, 839));
+			}
 			ac_Rect[x].setPosition(click_sPos[x].x, click_sPos[x].y);
 		}
 	}
