@@ -1,7 +1,7 @@
 #include "Jang.h"
 
-const int PIC_SIZE_X = 170;
-const int PIC_SIZE_Y = 100;
+const int PIC_SIZE_X = 170; // 스프라이트 이미지 가로 크기
+const int PIC_SIZE_Y = 100; // 스프라이트 이미지 세로 크기
 
 Jang::~Jang(){ }
 
@@ -23,15 +23,15 @@ void Jang::useSkill(int skillnumber, int frameCount, Champion &c){
 
 /* 공격 리스트 */
 void Jang::skill_NormalAttack(int frameCount, Champion &c){
-	calculateSpriteNormalAttack(frameCount, c);
+	calculateSpriteNormalAttack(frameCount, c);			// 일반 공격 스프라이트 작동
 }
 
 void Jang::skill_RotateKick(int frameCount, Champion &c){
-	calculateSpriteRotateKick(frameCount, c);
+	calculateSpriteRotateKick(frameCount, c);			// 특수 공격 1 스프라이트 작동
 }
 
 void Jang::skill_doubleComboAttack(int frameCount, Champion &c){
-	calculateSpritedoubleComboAttack(frameCount, c);
+	calculateSpritedoubleComboAttack(frameCount, c);	// 특수 공격 2 스프라이트 작동
 }
 
 void Jang::skill_SpecialAttack(int frameCount, Champion &c){
@@ -40,19 +40,19 @@ void Jang::skill_SpecialAttack(int frameCount, Champion &c){
 
 // 공격 판정 시 넉백 효과
 void Jang::hit_KnockBack(int frameCount, Champion &c){
-	calculateSpriteKnockBack(frameCount, c);
+	calculateSpriteKnockBack(frameCount, c);			// 넉백 시 스프라이트 작동
 }
 
 // 공격 판정 시 스턴 효과
 void Jang::hit_stun(int frameCount, Champion &c){
-	calculateSpriteStun(frameCount, c);
+	calculateSpriteStun(frameCount, c);					// 스턴 시 스프라이트 작동
 }
 
 // 캐릭터 스프라이트 불러오는 부분
 void Jang::loadCharacter(sf::Sprite &player, Champion &c){
-	player.setTextureRect(sf::IntRect(c.getSpr().x, c.getSpr().y,PIC_SIZE_X,PIC_SIZE_Y));
-	player.scale(2.0f, 2.0f);
-	player.setOrigin(PIC_SIZE_X/2,PIC_SIZE_Y/2);
+	player.setTextureRect(sf::IntRect(c.getSpr().x, c.getSpr().y,PIC_SIZE_X,PIC_SIZE_Y));	// 텍스쳐를 그려줄 부분의 크기를 지정
+	player.scale(2.0f, 2.0f);	// 플레이어의 크기를 2배 증가
+	player.setOrigin(PIC_SIZE_X/2,PIC_SIZE_Y/2);	// 원점을 스프라이트 중앙으로 지정
 }
 
 // 캐릭터 스프라이트의 위치 계산하는 부분
@@ -226,6 +226,7 @@ int Jang::getSkillFrameTotal(){
 	return skillFrame[skillNumber];
 }
 
+// 사용 가능한 스킬 횟수를 세준다
 int Jang::getCanUseSkillCount(int skillNumber){
 	return canUseSkillCount[skillNumber];
 }
@@ -235,7 +236,7 @@ void Jang::updateAOList(Champion &c, bool sound){
 	for(auto ao = c.attackObjList.begin(); ao != c.attackObjList.end(); ao++){
 		if((*ao)->isthrow == false){								// 투사체가 아닌 것들
 			if((*ao)->skillNumber == 0){							// 0,1,2번 스킬은 다음과 같이 설정 (캐릭터 따라서 움직여야 하기 때문에)
-				if(c.getFacing()){
+				if(c.getFacing()){ // 스프라이트가 바라보는 방향으로 시작 점과 끝점을 정해준다.
 					(*ao)->range_s = sf::Vector2f(c.getPosition().x-PIC_SIZE_X/4, c.getPosition().y-PIC_SIZE_Y*2);
 					(*ao)->range_e = sf::Vector2f(c.getPosition().x+PIC_SIZE_X/2, c.getPosition().y);
 				}
@@ -266,7 +267,7 @@ void Jang::updateAOList(Champion &c, bool sound){
 					(*ao)->enemyDirect = sf::Vector2f(-5, 0);
 				}
 			}
-			if(!c.isAttacking())						// 투사체가 아니기 때문에 공격이 끝나면 알아서 삭제 시켜야 함
+			if(!c.isAttacking())	// 투사체가 아니기 때문에 공격이 끝나면 알아서 삭제 시켜야 함
 				(*ao)->check = true;
 		}
 		else{
@@ -363,11 +364,11 @@ void Jang::updateAOList(Champion &c, bool sound){
 				else{
 					(*ao)->check = true;
 				}
-				(*ao)->obj.setTextureRect(sf::IntRect((*ao)->objSpr.x, (*ao)->objSpr.y,PIC_SIZE_X,PIC_SIZE_Y)); // 성수가 올려놓은 그림 따라서 설정해주셈
+				(*ao)->obj.setTextureRect(sf::IntRect((*ao)->objSpr.x, (*ao)->objSpr.y,PIC_SIZE_X,PIC_SIZE_Y));
 				(*ao)->obj.setPosition(c.w_Width/2, c.w_Height/2+200);
 			}
 			else{
-				(*ao)->range_s += (*ao)->direct * (*ao)->speed;													// 이건 혹시나 필요하면 갖다 쓰셈
+				(*ao)->range_s += (*ao)->direct * (*ao)->speed;	
 				(*ao)->range_e += (*ao)->direct * (*ao)->speed;
 				if((*ao)->range_e.x < 0 || (*ao)->range_s.x > c.w_Width || (*ao)->range_e.y > 400 || (*ao)->range_s.y < 0){
 					(*ao)->check = true;
@@ -385,26 +386,25 @@ void Jang::detectCollision(class Champion &champion, std::list<struct AttackObje
 	float top		= champion.getPosition().y - PIC_SIZE_Y*2.0/8.0*7.0;
 	float bottom	= champion.getPosition().y;
 	for(auto ao = aoList.begin(); ao!=aoList.end(); ao++){
-		if(((*ao)->range_s.x < left && (*ao)->range_e.x > left) || ((*ao)->range_s.x < right && (*ao)->range_e.x > right)){
-			if(((*ao)->range_s.y < top && (*ao)->range_e.y > top) || ((*ao)->range_s.y < bottom && (*ao)->range_e.y > bottom)){
-				// 맞았음
-				if((*ao)->skillNumber == 0){	// 평타 맞으면 다음과 같이 됨
+		if(((*ao)->range_s.x < left && (*ao)->range_e.x > left) || ((*ao)->range_s.x < right && (*ao)->range_e.x > right)){ // 좌우 충돌
+			if(((*ao)->range_s.y < top && (*ao)->range_e.y > top) || ((*ao)->range_s.y < bottom && (*ao)->range_e.y > bottom)){ // 상하 충돌
+				if((*ao)->skillNumber == 0){	// 일반 공격을 맞았을 경우
 					hitImage* hit = new hitImage(champion.getPosition());
 					hitList.push_back(hit);
 					(*ao)->check = true;
-					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
+					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2); // 방어 시 데미지
 					else{
-						mJang.openFromFile("./SE/Attack1.ogg");
-						if(sound) mJang.play();
-						champion.isKnockBack = true;
+						mJang.openFromFile("./SE/Attack1.ogg");	// 효과음 선택
+						if(sound) mJang.play();					// 효과음 재생
+						champion.isKnockBack = true; // 넉백이 된다
 						enemyFrameCount = 0;
 						champion.setHp(champion.getHp()-(*ao)->damage);
-						champion.vx = (*ao)->enemyDirect.x;
+						champion.vx = (*ao)->enemyDirect.x;	// 적의 좌표를 이동 시킨다 -> 넉백 또는 스턴
 						champion.vy = (*ao)->enemyDirect.y;
 					}
 					if(champion.getHp() < 0) champion.setHp(0);
 				}
-				else if((*ao)->skillNumber == 1){  // 최후의일격 맞으면 다음과 같이됨
+				else if((*ao)->skillNumber == 1){  // 특수 공격 1을 맞았을 경우
 					(*ao)->check = true;
 					hitImage* hit = new hitImage(champion.getPosition());
 					hitList.push_back(hit);
@@ -420,7 +420,7 @@ void Jang::detectCollision(class Champion &champion, std::list<struct AttackObje
 					}
 					if(champion.getHp() < 0) champion.setHp(0);
 				}
-				else if((*ao)->skillNumber == 2){ // 바람의 상처 맞으면 다음과 같이 됨
+				else if((*ao)->skillNumber == 2){ // 특수 공격 2를 맞았을 경우
 					(*ao)->check = false;
 					if(time%80==0){
 						hitImage* hit = new hitImage(champion.getPosition());
@@ -434,18 +434,18 @@ void Jang::detectCollision(class Champion &champion, std::list<struct AttackObje
 					}
 					if(champion.getHp() < 0) champion.setHp(0);
 				}
-				else if((*ao)->skillNumber == 3){  // 궁맞으면 다음과 같이 됨 (벗어날 곳이 없지)
+				else if((*ao)->skillNumber == 3){  // 궁극기를 맞았을 경우
 					int ran = rand()%30;
 					int ran2 = rand()%30;
 					if(time%80==0){
 						hitImage* hit = new hitImage(champion.getPosition());
 						hitList.push_back(hit);
 					}
-					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2);
+					if(champion.isBarrier()) champion.setHp(champion.getHp()-(*ao)->damage*0.2); // 데미지를 서서히 감소시킨다
 					else{ 
 						champion.isStun = true;
 						enemyFrameCount = 0;
-						champion.setHp(champion.getHp()-(*ao)->damage);
+						champion.setHp(champion.getHp()-(*ao)->damage);	// 데미지를 서서히 감소시킨다
 					}
 					sf::Vector2f direct = sf::Vector2f(champion.w_Width/2+(ran-15) - champion.getPosition().x, champion.w_Height/2+(ran2-15) - champion.getPosition().y);
 					champion.setPosition(champion.getPosition().x + direct.x * champion.getSpeed()/8, champion.getPosition().y + direct.y * champion.getSpeed());
